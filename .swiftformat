@@ -1,0 +1,32 @@
+# 1. 특정 폴더(예: Pods, Carthage 등)을 포맷팅에서 제외
+--exclude Pods, Carthage, DerivedData, .build
+
+
+# 2. 활성화할 코드 스타일 규칙 (가독성 향상을 위해 적용)
+--enable acronyms, wrapConditionalBodies, wrapMultilineConditionalAssignment
+
+
+# 3. 비활성화할 불필요한 규칙
+--disable wrapSingleLineComments, markTypes
+
+
+# 4. 코드 정리 스타일
+--indent 2                      # 들여쓰기 공백 2칸
+--self init-only                # 초기화 메서드(init)에서만 self.를 강제
+--commas inline                 # 뒤에 , 붙이기
+--trimwhitespace nonblank-lines # 불필요한 공백 제거
+--hexliteralcase lowercase      # 16진수 리터럴을 소문자로 변환
+
+
+# 5. 불필요한 요소 제거
+--stripunusedargs always       # 사용되지 않는 함수 인자를 자동으로 제거
+--self remove                  # 불필요한 `self` 사용 제거
+
+
+# 6. 정렬
+--wraparguments before-first        # 래핑된 함수 인수 정렬
+--wrapcollections before-first      # 컬렉션 요소를 정렬
+
+
+# 7. 연산자 또는 구분 기호 주위에 공백
+--nospaceoperators .            # '.' 연산자 주변에 공백 제거
