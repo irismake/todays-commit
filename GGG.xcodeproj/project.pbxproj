@@ -6,11 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		17EDF4172D800A8600B2CA8E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 17EDF4162D800A8600B2CA8E /* .swiftlint.yml */; };
-		17EDF43B2D8014D900B2CA8E /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = 17EDF43A2D8014D900B2CA8E /* .swiftformat */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		1705EE122D7ECC5400BD96A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -32,8 +27,6 @@
 		1705EE002D7ECC5100BD96A7 /* GGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1705EE112D7ECC5400BD96A7 /* GGGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GGGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1705EE1B2D7ECC5400BD96A7 /* GGGUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GGGUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		17EDF4162D800A8600B2CA8E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		17EDF43A2D8014D900B2CA8E /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -82,8 +75,6 @@
 		1705EDF72D7ECC5100BD96A7 = {
 			isa = PBXGroup;
 			children = (
-				17EDF43A2D8014D900B2CA8E /* .swiftformat */,
-				17EDF4162D800A8600B2CA8E /* .swiftlint.yml */,
 				1705EE022D7ECC5100BD96A7 /* GGG */,
 				1705EE142D7ECC5400BD96A7 /* GGGTests */,
 				1705EE1E2D7ECC5400BD96A7 /* GGGUITests */,
@@ -108,8 +99,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1705EE252D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGG" */;
 			buildPhases = (
-				17EDF4372D8012DE00B2CA8E /* SwiftFormat */,
-				17FE20932D7FFFA60031AEDE /* SwiftLint */,
+				17D7E2E52D8528B100238B7B /* SwiftFormat */,
+				17D7E2E42D85289000238B7B /* SwiftLint */,
 				1705EDFC2D7ECC5100BD96A7 /* Sources */,
 				1705EDFD2D7ECC5100BD96A7 /* Frameworks */,
 				1705EDFE2D7ECC5100BD96A7 /* Resources */,
@@ -223,8 +214,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17EDF43B2D8014D900B2CA8E /* .swiftformat in Resources */,
-				17EDF4172D800A8600B2CA8E /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,26 +234,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		17EDF4372D8012DE00B2CA8E /* SwiftFormat */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftFormat;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat > /dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
-		};
-		17FE20932D7FFFA60031AEDE /* SwiftLint */ = {
+		17D7E2E42D85289000238B7B /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -282,6 +252,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ -x \"/opt/homebrew/bin/swiftlint\" ]; then\n    echo \"Running SwiftLint...\"\n    /opt/homebrew/bin/swiftlint lint --fix --no-cache || true\n    /opt/homebrew/bin/swiftlint lint || true\nelse\n    echo \"warning: SwiftLint not installed, install with 'brew install swiftlint'\"\nfi\n";
+		};
+		17D7E2E52D8528B100238B7B /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat > /dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -360,7 +349,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -421,7 +410,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
