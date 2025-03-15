@@ -9,7 +9,6 @@ struct BottomNavBar: View {
     }
     .frame(height: 60)
     .padding(.horizontal, 100)
-    .padding(.vertical, 10)
     .background(Color(UIColor.systemGray6))
   }
 }

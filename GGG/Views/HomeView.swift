@@ -2,65 +2,64 @@ import SwiftUI
 
 struct HomeView: View {
   @State private var showNavTitle: Bool = false
-
   var body: some View {
-    NavigationView {
-      ScrollView {
-        VStack(alignment: .leading) {
-          HStack {
-            Text("GitGrassGrowing")
-              .font(.largeTitle)
-              .fontWeight(.bold)
-              .padding(.top, 20)
-            Spacer()
-          }
-                  
-          ForEach(1 ... 20, id: \.self) { index in
-            Text("스크롤 아이템 \(index)")
-              .frame(maxWidth: .infinity)
-              .padding()
-              .background(Color.gray.opacity(0.2))
-              .cornerRadius(10)
-              .padding(.horizontal)
-          }
-        }
-        .background(
-          GeometryReader { proxy -> Color in
-            let offsetY = proxy.frame(in: .named("scrollView")).minY
-            DispatchQueue.main.async {
-              if offsetY < -50, !showNavTitle {
-                showNavTitle = true
-              } else if offsetY > -50, showNavTitle {
-                showNavTitle = false
+    NavigationStack {
+      VStack(spacing: 0) {
+        ScrollView {
+          VStack(alignment: .leading) {
+            HStack {
+              Text("GitGrassGrowing")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top, 20)
+            }
+            VStack(spacing: 10) {
+              ForEach(1 ... 20, id: \.self) { index in
+                Text("스크롤 아이템 \(index)")
+                  .frame(maxWidth: .infinity)
+                  .padding()
+                  .background(Color.white)
+                  .cornerRadius(10)
               }
             }
-            return Color.clear
+            .padding(.bottom, 20)
           }
-        )
-      }
-      .coordinateSpace(name: "scrollView")
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationTitle(showNavTitle ? "GitGrassGrowing" : "")
-      .toolbar {
-        ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: {
+          .padding(.horizontal)
+          .background(
+            GeometryReader { proxy -> Color in
+              let offsetY = proxy.frame(in: .named("scrollView")).minY
+              DispatchQueue.main.async {
+                if offsetY < -50, !showNavTitle {
+                  showNavTitle = true
+                } else if offsetY > -50, showNavTitle {
+                  showNavTitle = false
+                }
+              }
+              return Color.clear
+            }
+          )
+        }
+        .coordinateSpace(name: "scrollView")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(showNavTitle ? "GitGrassGrowing" : "")
+        .background(Color(UIColor.systemGray6))
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarItems(trailing: Button(
+          action: {
             print("플러스 버튼 클릭")
-          }, label: {
+          },
+          label: {
             Image(systemName: "plus.circle.fill")
               .resizable()
               .frame(width: 24, height: 24)
               .foregroundColor(.blue)
-          })
-        }
+          }
+        )
+        )
+        BottomNavBar()
+          .ignoresSafeArea(edges: .bottom)
       }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(UIColor.systemGray6))
     }
-    .overlay(
-      BottomNavBar()
-        .edgesIgnoringSafeArea(.bottom),
-      alignment: .bottom
-    )
   }
 }
 
