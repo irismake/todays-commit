@@ -6,23 +6,24 @@ struct HomeView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-          VStack (alignment: .leading){
-          HStack{
-          Text("GitGrassGrowing")
-          .font(.largeTitle)
+        VStack(alignment: .leading) {
+          HStack {
+            Text("GitGrassGrowing")
+              .font(.largeTitle)
               .fontWeight(.bold)
-                      .padding(.top, 20)
-                  Spacer()}
+              .padding(.top, 20)
+            Spacer()
+          }
                   
-                  ForEach(1 ... 20, id: \.self) { index in
-                      Text("스크롤 아이템 \(index)")
-                          .frame(maxWidth: .infinity)
-                          .padding()
-                          .background(Color.gray.opacity(0.2))
-                          .cornerRadius(10)
-                          .padding(.horizontal)
-                  }
-              }
+          ForEach(1 ... 20, id: \.self) { index in
+            Text("스크롤 아이템 \(index)")
+              .frame(maxWidth: .infinity)
+              .padding()
+              .background(Color.gray.opacity(0.2))
+              .cornerRadius(10)
+              .padding(.horizontal)
+          }
+        }
         .background(
           GeometryReader { proxy -> Color in
             let offsetY = proxy.frame(in: .named("scrollView")).minY
@@ -65,6 +66,6 @@ struct HomeView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-      HomeView()
+    HomeView()
   }
 }

@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct BottomNavBar: View {
   var body: some View {
     HStack {

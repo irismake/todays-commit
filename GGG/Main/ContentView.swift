@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        Group {
-            HomeView()
-        }
+  var body: some View {
+    Group {
+      HomeView()
     }
+  }
 }
 
 #Preview {
-    ContentView()
+  ContentView()
 }

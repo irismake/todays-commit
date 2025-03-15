@@ -16,7 +16,6 @@ struct NavBarItem: View {
   }
 }
 
-
 struct NavBarItem_Previews: PreviewProvider {
   static var previews: some View {
     NavBarItem(icon: "house.fill", label: "Home")
