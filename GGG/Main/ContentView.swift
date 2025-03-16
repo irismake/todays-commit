@@ -9,8 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
   var body: some View {
-    Group {
-      HomeView()
+    TabView {
+      GitGrassView()
+        .tabItem {
+          Image(systemName: "square.grid.3x3.fill")
+            .font(.system(size: 24))
+          Text("GitGrass")
+            .font(.caption)
+        }
+      SettingsView()
+        .tabItem {
+          Image(systemName: "gearshape.fill")
+            .font(.system(size: 24))
+          Text("Settings")
+            .font(.caption)
+        }
     }
   }
 }

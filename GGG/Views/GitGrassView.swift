@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HomeView: View {
+struct GitGrassView: View {
   @State private var showNavTitle: Bool = false
   var body: some View {
     NavigationStack {
@@ -8,7 +8,7 @@ struct HomeView: View {
         ScrollView {
           VStack(alignment: .leading) {
             HStack {
-              Text("GitGrassGrowing")
+              Text("🌱 Git Grass")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top, 20)
@@ -39,9 +39,12 @@ struct HomeView: View {
             }
           )
         }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+          Color.clear.frame(height: 90)
+        }
         .coordinateSpace(name: "scrollView")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(showNavTitle ? "GitGrassGrowing" : "")
+        .navigationTitle(showNavTitle ? "🌱 Git Grass" : "")
         .background(Color(UIColor.systemGray6))
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarItems(trailing: Button(
@@ -56,15 +59,13 @@ struct HomeView: View {
           }
         )
         )
-        BottomNavBar()
-          .ignoresSafeArea(edges: .bottom)
       }
     }
   }
 }
-
-struct ContentView_Previews: PreviewProvider {
+    
+struct GitGrassView_Previews: PreviewProvider {
   static var previews: some View {
-    HomeView()
+    GitGrassView()
   }
 }
