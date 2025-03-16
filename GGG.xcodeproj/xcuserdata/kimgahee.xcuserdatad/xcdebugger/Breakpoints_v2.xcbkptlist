@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
+<<<<<<< Updated upstream
    uuid = "0B0DF6F7-18CB-403F-B70E-FCFDE43A26EF"
    type = "1"
    version = "2.0">
@@ -37,4 +38,9 @@
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
+=======
+   uuid = "B60B03DA-E0F3-4A34-ACFD-AE07893C393A"
+   type = "1"
+   version = "2.0">
+>>>>>>> Stashed changes
 </Bucket>
