@@ -1,64 +1,76 @@
 import SwiftUI
 
 struct GitGrassView: View {
-  @State private var showPopup = false
-  @State private var progress: Double = 0.25
+  @State private var selectedOption = 0
+  let options = ["전체", "나의 지도"]
+
   var body: some View {
     NavigationView {
       ScrollView {
         VStack(spacing: 20) {
-          Button(action: {
-            showPopup = true
-          }) {
-            VStack(spacing: 12) {
-              Label("오늘 커밋 완료!", systemImage: "checkmark.circle.fill")
-                .font(.headline)
-                .foregroundColor(.green)
-              Text("🔥 3일 연속 커밋 중")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+          CommitBanner(commitState: false)
+
+          VStack {
+            Picker("선택", selection: $selectedOption) {
+              ForEach(0 ..< options.count, id: \.self) { index in
+                Text(options[index])
+              }
             }
-            .padding()
-            .frame(maxWidth: .infinity)
-            .background(Color.green.opacity(0.1))
-            .cornerRadius(16)
+            .pickerStyle(.segmented)
           }
-          VStack(spacing: 12) {
-            Text("🌱 잔디를 키워보세요")
+
+          HStack(spacing: 12) {
+            ZoomButton(zoomAction: {
+              print("Zoom Out")
+            }, iconName: "minus")
+                        
+            Text("서울")
               .font(.headline)
-            ZStack {
-              Circle()
-                .stroke(Color.gray.opacity(0.2), lineWidth: 12)
-              Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.green, style: StrokeStyle(lineWidth: 12, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-              Model3DView(modelName: "grass_1")
-                .padding(20)
+              .fontWeight(.semibold)
+              .foregroundColor(Color(.black))
+              .padding()
+
+            ZoomButton(zoomAction: {
+              print("Zoom In")
+            }, iconName: "plus")
+          }
+
+          VStack(spacing: 12) {
+            ZStack(alignment: .bottomTrailing) {
+              Image("images/seoul")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+
+              Button(action: {
+                print("현재 위치로 이동")
+              }) {
+                Image(systemName: "location.fill")
+                  .foregroundColor(.blue)
+                  .padding(10)
+                  .background(Color.white)
+                  .clipShape(Circle())
+                  .shadow(radius: 3)
+              }
             }
-            .frame(width: 300, height: 300)
-            .padding(.vertical, 30)
           }
           .padding()
-          .frame(maxWidth: .infinity)
-          .background(Color.orange.opacity(0.1))
-          .cornerRadius(16)
+
+          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color(hue: 0.382, saturation: 0.709, brightness: 0.431))
         }
         .padding()
       }
+     
       .navigationTitle("🌱 Git Grass")
-      .navigationBarItems(trailing: Button(action: {
-        print("플러스 버튼 클릭")
-      }, label: {
-        Image(systemName: "plus.circle.fill")
-          .resizable()
-          .frame(width: 24, height: 24)
-          .foregroundColor(.blue)
-      }))
-      .sheet(isPresented: $showPopup) {
-        CommitSummaryView(
-        )
-      }
+      .navigationBarItems(trailing:
+        Button(action: {
+          print("플러스 버튼 클릭")
+        }) {
+          Image(systemName: "plus.circle.fill")
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(.blue)
+        }
+      )
     }
   }
 }
