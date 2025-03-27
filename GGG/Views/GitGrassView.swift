@@ -1,69 +1,80 @@
 import SwiftUI
 
 struct GitGrassView: View {
-  @State private var showNavTitle: Bool = false
+  @State private var selectedOption = 0
+  let options = ["전체", "나의 지도"]
+
   var body: some View {
-    NavigationStack {
-      VStack(spacing: 0) {
-        ScrollView {
-          VStack(alignment: .leading) {
-            HStack {
-              Text("🌱 Git Grass")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.top, 20)
+    NavigationView {
+      ScrollView {
+        VStack(spacing: 20) {
+          CommitBanner(commitState: false)
+
+          VStack {
+            Picker("선택", selection: $selectedOption) {
+              ForEach(0 ..< options.count, id: \.self) { index in
+                Text(options[index])
+              }
             }
-            VStack(spacing: 10) {
-              ForEach(1 ... 20, id: \.self) { index in
-                Text("스크롤 아이템 \(index)")
-                  .frame(maxWidth: .infinity)
-                  .padding()
+            .pickerStyle(.segmented)
+          }
+
+          HStack(spacing: 12) {
+            ZoomButton(zoomAction: {
+              print("Zoom Out")
+            }, iconName: "minus")
+                        
+            Text("서울")
+              .font(.headline)
+              .fontWeight(.semibold)
+              .foregroundColor(Color(.black))
+              .padding()
+
+            ZoomButton(zoomAction: {
+              print("Zoom In")
+            }, iconName: "plus")
+          }
+
+          VStack(spacing: 12) {
+            ZStack(alignment: .bottomTrailing) {
+              Image("images/seoul")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+
+              Button(action: {
+                print("현재 위치로 이동")
+              }) {
+                Image(systemName: "location.fill")
+                  .foregroundColor(.blue)
+                  .padding(10)
                   .background(Color.white)
-                  .cornerRadius(10)
+                  .clipShape(Circle())
+                  .shadow(radius: 3)
               }
             }
-            .padding(.bottom, 20)
           }
-          .padding(.horizontal)
-          .background(
-            GeometryReader { proxy -> Color in
-              let offsetY = proxy.frame(in: .named("scrollView")).minY
-              DispatchQueue.main.async {
-                if offsetY < -50, !showNavTitle {
-                  showNavTitle = true
-                } else if offsetY > -50, showNavTitle {
-                  showNavTitle = false
-                }
-              }
-              return Color.clear
-            }
-          )
+          .padding()
+
+          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color(hue: 0.382, saturation: 0.709, brightness: 0.431))
         }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-          Color.clear.frame(height: 90)
-        }
-        .coordinateSpace(name: "scrollView")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(showNavTitle ? "🌱 Git Grass" : "")
-        .background(Color(UIColor.systemGray6))
-        .edgesIgnoringSafeArea(.bottom)
-        .navigationBarItems(trailing: Button(
-          action: {
-            print("플러스 버튼 클릭")
-          },
-          label: {
-            Image(systemName: "plus.circle.fill")
-              .resizable()
-              .frame(width: 24, height: 24)
-              .foregroundColor(.blue)
-          }
-        )
-        )
+        .padding()
       }
+     
+      .navigationTitle("🌱 Git Grass")
+      .navigationBarItems(trailing:
+        Button(action: {
+          print("플러스 버튼 클릭")
+        }) {
+          Image(systemName: "plus.circle.fill")
+            .resizable()
+            .frame(width: 24, height: 24)
+            .foregroundColor(.blue)
+        }
+      )
     }
   }
 }
-    
+
 struct GitGrassView_Previews: PreviewProvider {
   static var previews: some View {
     GitGrassView()
