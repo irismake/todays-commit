@@ -11,10 +11,10 @@ struct RankingView: View {
   ]
 
   let locationData = [
-    ("장위 1동", 5, Color(hue: 0.382, saturation: 0.709, brightness: 0.431)),
-    ("장위 2동", 4, Color(hue: 0.383, saturation: 0.695, brightness: 0.631)),
-    ("장위 3동", 3, Color(hue: 0.390, saturation: 0.668, brightness: 0.769)),
-    ("월곡동", 1, Color(hue: 0.387, saturation: 0.335, brightness: 0.914))
+    ("장위 1동", 5, Color.lv_4),
+    ("장위 2동", 4, Color.lv_3),
+    ("장위 3동", 3, Color.lv_2),
+    ("월곡동", 1, Color.lv_1)
   ]
 
   var body: some View {
@@ -67,7 +67,7 @@ struct RankingView: View {
 struct RankingView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      RankingView(isMine: true, grassColor: Color(hue: 0.383, saturation: 0.695, brightness: 0.631))
+      RankingView(isMine: true, grassColor: .lv_2)
       RankingView(isMine: false, grassColor: Color.green)
     }
   }
