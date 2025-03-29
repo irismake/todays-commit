@@ -37,10 +37,7 @@ struct GitGrassView: View {
 
           VStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-              Image("images/seoul")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-
+              GrassMapView()
               Button(action: {
                 print("현재 위치로 이동")
               }) {
@@ -53,9 +50,8 @@ struct GitGrassView: View {
               }
             }
           }
-          .padding()
 
-          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color(hue: 0.382, saturation: 0.709, brightness: 0.431))
+          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color.lv_4)
         }
         .padding()
       }

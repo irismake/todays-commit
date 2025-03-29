@@ -67,7 +67,7 @@ struct RankingView: View {
 struct RankingView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      RankingView(isMine: true, grassColor: .lv_2)
+      RankingView(isMine: true, grassColor: Color.lv_2)
       RankingView(isMine: false, grassColor: Color.green)
     }
   }
