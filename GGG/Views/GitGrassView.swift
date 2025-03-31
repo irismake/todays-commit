@@ -10,14 +10,12 @@ struct GitGrassView: View {
         VStack(spacing: 20) {
           CommitBanner(commitState: false)
 
-          VStack {
-            Picker("선택", selection: $selectedOption) {
-              ForEach(0 ..< options.count, id: \.self) { index in
-                Text(options[index])
-              }
+          Picker("선택", selection: $selectedOption) {
+            ForEach(0 ..< options.count, id: \.self) { index in
+              Text(options[index])
             }
-            .pickerStyle(.segmented)
           }
+          .pickerStyle(.segmented)
 
           HStack(spacing: 12) {
             ZoomButton(zoomAction: {
@@ -51,7 +49,7 @@ struct GitGrassView: View {
             }
           }
 
-          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color.lv_4)
+          RankingView(isMine: selectedOption == 0 ? false : true)
         }
         .padding()
       }

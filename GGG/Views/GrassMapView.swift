@@ -18,14 +18,14 @@ func loadCommitData(from filename: String) -> [Coord: CommitData] {
 }
 
 struct GrassMapView: View {
+  @EnvironmentObject var viewModel: CommitViewModel
   let gridSize = 25
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
-
-  let commitMap: [Coord: CommitData]
+  let commitData: [Coord: CommitData]
 
   init() {
-    commitMap = loadCommitData(from: "MockData")
+    commitData = loadCommitData(from: "MockData")
   }
 
   var body: some View {
@@ -33,7 +33,7 @@ struct GrassMapView: View {
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
 
-      let counts = commitMap.values.map(\.total_commit_count)
+      let counts = commitData.values.map(\.total_commit_count)
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let step = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
@@ -44,12 +44,12 @@ struct GrassMapView: View {
             ForEach(0 ..< gridSize, id: \.self) { x in
               let coord = Coord(x: x, y: y)
 
-              let color: Color = {
+              let grassColor: Color = {
                 guard seoul.contains(coord) else {
                   return Color.clear
                 }
 
-                if let data = commitMap[coord] {
+                if let data = commitData[coord] {
                   let level = Double(data.total_commit_count - minCount)
                   switch level {
                   case 0 ..< step: return Color.lv_1
@@ -58,23 +58,15 @@ struct GrassMapView: View {
                   default: return Color.lv_4
                   }
                 }
-
                 return Color.lv_0
               }()
 
               RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(color)
+                .fill(grassColor)
                 .frame(width: cellSize, height: cellSize)
                 .onTapGesture {
-                  if let data = commitMap[coord] {
-                    print("Coord (\(coord.x), \(coord.y))")
-                    print("Total commits: \(data.total_commit_count)")
-                    for user in data.rank_users {
-                      print("- User \(user.user_name): \(user.commit_count) commits")
-                    }
-                  } else {
-                    print("Coord (\(coord.x), \(coord.y)) - No commit")
-                  }
+                  viewModel.selectedCommitData = commitData[coord]
+                  viewModel.selectedGrassColor = grassColor
                 }
             }
           }

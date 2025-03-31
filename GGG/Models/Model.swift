@@ -16,3 +16,8 @@ struct CommitData: Decodable {
   let total_commit_count: Int
   let rank_users: [RankUser]
 }
+
+class CommitViewModel: ObservableObject {
+  @Published var selectedCommitData: CommitData? = nil
+  @Published var selectedGrassColor: Color = .lv_0
+}
