@@ -7,7 +7,7 @@ struct GitGrassView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(spacing: 20) {
+        VStack {
           CommitBanner(commitState: false)
 
           Picker("선택", selection: $selectedOption) {
@@ -16,6 +16,7 @@ struct GitGrassView: View {
             }
           }
           .pickerStyle(.segmented)
+          .padding(.vertical, 20)
 
           HStack(spacing: 12) {
             ZoomButton(zoomAction: {
@@ -26,8 +27,7 @@ struct GitGrassView: View {
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
-              .padding()
-
+       
             ZoomButton(zoomAction: {
               print("Zoom In")
             }, iconName: "plus")
@@ -71,6 +71,10 @@ struct GitGrassView: View {
 
 struct GitGrassView_Previews: PreviewProvider {
   static var previews: some View {
+    let viewModel = CommitViewModel()
+
     GitGrassView()
+      .environmentObject(viewModel)
+      .previewLayout(.device)
   }
 }

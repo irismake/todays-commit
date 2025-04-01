@@ -36,7 +36,7 @@ struct GrassMapView: View {
       let counts = commitData.values.map(\.total_commit_count)
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
-      let step = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
+      let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
 
       VStack(spacing: spacing) {
         ForEach(0 ..< gridSize, id: \.self) { y in
@@ -45,20 +45,27 @@ struct GrassMapView: View {
               let coord = Coord(x: x, y: y)
 
               let grassColor: Color = {
-                guard seoul.contains(coord) else {
+                guard seoul.contains(where: { $0.x == coord.x && $0.y == coord.y }) else {
                   return Color.clear
                 }
 
                 if let data = commitData[coord] {
                   let level = Double(data.total_commit_count - minCount)
                   switch level {
-                  case 0 ..< step: return Color.lv_1
-                  case step ..< step * 2: return Color.lv_2
-                  case step * 2 ..< step * 3: return Color.lv_3
+                  case 0 ..< commitStep: return Color.lv_1
+                  case commitStep ..< commitStep * 2: return Color.lv_2
+                  case commitStep * 2 ..< commitStep * 3: return Color.lv_3
                   default: return Color.lv_4
                   }
                 }
                 return Color.lv_0
+              }()
+
+              let location: String? = {
+                guard let match = seoul.first(where: { $0.x == coord.x && $0.y == coord.y }) else {
+                  return nil
+                }
+                return match.location
               }()
 
               RoundedRectangle(cornerRadius: cornerRadius)
@@ -67,6 +74,7 @@ struct GrassMapView: View {
                 .onTapGesture {
                   viewModel.selectedCommitData = commitData[coord]
                   viewModel.selectedGrassColor = grassColor
+                  viewModel.selectedLocationData = location
                 }
             }
           }
@@ -80,7 +88,8 @@ struct GrassMapView: View {
 
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
-    GrassMapView()
-      .padding()
+    let viewModel = CommitViewModel()
+    return GrassMapView()
+      .environmentObject(viewModel)
   }
 }

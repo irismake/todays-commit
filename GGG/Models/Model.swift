@@ -3,6 +3,13 @@ import SwiftUI
 struct Coord: Hashable {
   let x: Int
   let y: Int
+  let location: String?
+    
+  init(x: Int, y: Int, location: String? = nil) {
+    self.x = x
+    self.y = y
+    self.location = location
+  }
 }
 
 struct RankUser: Decodable {
@@ -20,4 +27,5 @@ struct CommitData: Decodable {
 class CommitViewModel: ObservableObject {
   @Published var selectedCommitData: CommitData? = nil
   @Published var selectedGrassColor: Color = .lv_0
+  @Published var selectedLocationData: String? = "잔디를 클릭해주세요."
 }

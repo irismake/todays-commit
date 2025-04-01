@@ -18,7 +18,7 @@ struct RankingView: View {
           .font(.headline)
           .foregroundColor(viewModel.selectedGrassColor)
                 
-        Text("성북구")
+        Text(viewModel.selectedLocationData ?? "")
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)
@@ -56,11 +56,11 @@ struct RankingView: View {
               commitCount: commit
             )
           }
-        }     
+        }
       } else {
         VStack(spacing: 12) {
           Text(
-            "아직 잔디가 안 심어졌어요.😅"
+            "아직 잔디가 심어지기 전이에요. 😅"
           )
           .font(.headline)
           .foregroundColor(.secondary)
