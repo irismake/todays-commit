@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+  @StateObject var viewModel = CommitViewModel()
   var body: some View {
     TabView {
       GitGrassView()
@@ -17,6 +18,7 @@ struct ContentView: View {
           Text("GitGrass")
             .font(.caption)
         }
+        .environmentObject(viewModel)
       SettingsView()
         .tabItem {
           Image(systemName: "gearshape.fill")

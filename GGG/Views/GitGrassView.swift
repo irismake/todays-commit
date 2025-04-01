@@ -7,17 +7,16 @@ struct GitGrassView: View {
   var body: some View {
     NavigationView {
       ScrollView {
-        VStack(spacing: 20) {
+        VStack {
           CommitBanner(commitState: false)
 
-          VStack {
-            Picker("선택", selection: $selectedOption) {
-              ForEach(0 ..< options.count, id: \.self) { index in
-                Text(options[index])
-              }
+          Picker("선택", selection: $selectedOption) {
+            ForEach(0 ..< options.count, id: \.self) { index in
+              Text(options[index])
             }
-            .pickerStyle(.segmented)
           }
+          .pickerStyle(.segmented)
+          .padding(.vertical, 20)
 
           HStack(spacing: 12) {
             ZoomButton(zoomAction: {
@@ -28,8 +27,7 @@ struct GitGrassView: View {
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
-              .padding()
-
+       
             ZoomButton(zoomAction: {
               print("Zoom In")
             }, iconName: "plus")
@@ -37,10 +35,7 @@ struct GitGrassView: View {
 
           VStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-              Image("images/seoul")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-
+              GrassMapView()
               Button(action: {
                 print("현재 위치로 이동")
               }) {
@@ -53,9 +48,8 @@ struct GitGrassView: View {
               }
             }
           }
-          .padding()
 
-          RankingView(isMine: selectedOption == 0 ? false : true, grassColor: Color(hue: 0.382, saturation: 0.709, brightness: 0.431))
+          RankingView(isMine: selectedOption == 0 ? false : true)
         }
         .padding()
       }
@@ -77,6 +71,10 @@ struct GitGrassView: View {
 
 struct GitGrassView_Previews: PreviewProvider {
   static var previews: some View {
+    let viewModel = CommitViewModel()
+
     GitGrassView()
+      .environmentObject(viewModel)
+      .previewLayout(.device)
   }
 }
