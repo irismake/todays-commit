@@ -1,31 +1,39 @@
 import SwiftUI
 
-func loadCommitData(from filename: String) -> [Coord: CommitData] {
+func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
   guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-        let data = try? Data(contentsOf: url),
-        let raw = try? JSONDecoder().decode([CommitData].self, from: data)
+        let data = try? Data(contentsOf: url)
   else {
-    return [:]
+    return []
   }
 
-  var map: [Coord: CommitData] = [:]
-  for item in raw {
-    let coord = Coord(x: item.x, y: item.y)
-    map[coord] = item
+  if isMine {
+    if let raw = try? JSONDecoder().decode([UserGrassCommit].self, from: data) {
+      return raw.map { .user($0) }
+    }
+  } else {
+    if let raw = try? JSONDecoder().decode([TotalGrassCommit].self, from: data) {
+      return raw.map { .total($0) }
+    }
   }
 
-  return map
+  return []
 }
 
 struct GrassMapView: View {
+  var isMine: Bool
   @EnvironmentObject var viewModel: CommitViewModel
   let gridSize = 25
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
-  let commitData: [Coord: CommitData]
+  var commitData: [GrassCommit] = [
+    .total(TotalGrassCommit(x: 1, y: 2, total_commit_count: 100, rank_users: [])),
+    .user(UserGrassCommit(x: 3, y: 4, total_commit_count: 50, sub_zone_commit: []))
+  ]
 
-  init() {
-    commitData = loadCommitData(from: "MockData")
+  init(isMine: Bool) {
+    self.isMine = isMine
+    commitData = loadCommitData(from: isMine ? "UserMockData" : "TotalMockData", isMine: isMine)
   }
 
   var body: some View {
@@ -33,7 +41,8 @@ struct GrassMapView: View {
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
 
-      let counts = commitData.values.map(\.total_commit_count)
+      let counts = commitData.map(\.totalCommitCount)
+        
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
@@ -43,38 +52,35 @@ struct GrassMapView: View {
           HStack(spacing: spacing) {
             ForEach(0 ..< gridSize, id: \.self) { x in
               let coord = Coord(x: x, y: y)
+              let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
 
-              let grassColor: Color = {
-                guard seoul.contains(where: { $0.x == coord.x && $0.y == coord.y }) else {
-                  return Color.clear
+              let (grassColor, zoneCode): (Color, Int?) = {
+                guard let match = seoul.first(where: { $0.coord == coord }) else {
+                  return (.clear, nil)
                 }
-
-                if let data = commitData[coord] {
-                  let level = Double(data.total_commit_count - minCount)
+                let code = match.zoneCode
+                if let grassCommitData {
+                  let level = Double(grassCommitData.totalCommitCount - minCount)
+                  let color: Color
                   switch level {
-                  case 0 ..< commitStep: return Color.lv_1
-                  case commitStep ..< commitStep * 2: return Color.lv_2
-                  case commitStep * 2 ..< commitStep * 3: return Color.lv_3
-                  default: return Color.lv_4
+                  case 0 ..< commitStep: color = .lv_1
+                  case commitStep ..< commitStep * 2: color = .lv_2
+                  case commitStep * 2 ..< commitStep * 3: color = .lv_3
+                  default: color = .lv_4
                   }
+                  return (color, code)
+                } else {
+                  return (.lv_0, code)
                 }
-                return Color.lv_0
               }()
-
-              let location: String? = {
-                guard let match = seoul.first(where: { $0.x == coord.x && $0.y == coord.y }) else {
-                  return nil
-                }
-                return match.location
-              }()
-
+                
               RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(grassColor)
                 .frame(width: cellSize, height: cellSize)
                 .onTapGesture {
-                  viewModel.selectedCommitData = commitData[coord]
+                  viewModel.selectedGrassCommit = grassCommitData
                   viewModel.selectedGrassColor = grassColor
-                  viewModel.selectedLocationData = location
+                  viewModel.selectedZoneCode = zoneCode
                 }
             }
           }
@@ -89,7 +95,7 @@ struct GrassMapView: View {
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
     let viewModel = CommitViewModel()
-    return GrassMapView()
+    return GrassMapView(isMine: false)
       .environmentObject(viewModel)
   }
 }
