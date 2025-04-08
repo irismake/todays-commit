@@ -35,7 +35,7 @@ struct GitGrassView: View {
 
           VStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-              GrassMapView()
+              GrassMapView(isMine: selectedOption == 1)
               Button(action: {
                 print("현재 위치로 이동")
               }) {
@@ -48,8 +48,13 @@ struct GitGrassView: View {
               }
             }
           }
-
-          RankingView(isMine: selectedOption == 0 ? false : true)
+          Group {
+            if selectedOption == 0 {
+              TotalRankingView()
+            } else {
+              UserRankingView()
+            }
+          }
         }
         .padding()
       }

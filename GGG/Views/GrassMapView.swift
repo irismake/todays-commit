@@ -1,25 +1,39 @@
 import SwiftUI
 
-func loadCommitData(from filename: String) -> [GrassCommit] {
+func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
   guard let url = Bundle.main.url(forResource: filename, withExtension: "json"),
-        let data = try? Data(contentsOf: url),
-        let raw = try? JSONDecoder().decode([GrassCommit].self, from: data)
+        let data = try? Data(contentsOf: url)
   else {
     return []
   }
 
-  return raw
+  if isMine {
+    if let raw = try? JSONDecoder().decode([UserGrassCommit].self, from: data) {
+      return raw.map { .user($0) }
+    }
+  } else {
+    if let raw = try? JSONDecoder().decode([TotalGrassCommit].self, from: data) {
+      return raw.map { .total($0) }
+    }
+  }
+
+  return []
 }
 
 struct GrassMapView: View {
+  var isMine: Bool
   @EnvironmentObject var viewModel: CommitViewModel
   let gridSize = 25
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
-  let commitData: [GrassCommit]
+  var commitData: [GrassCommit] = [
+    .total(TotalGrassCommit(x: 1, y: 2, total_commit_count: 100, rank_users: [])),
+    .user(UserGrassCommit(x: 3, y: 4, total_commit_count: 50, sub_zone_commit: []))
+  ]
 
-  init() {
-    commitData = loadCommitData(from: "MockData")
+  init(isMine: Bool) {
+    self.isMine = isMine
+    commitData = loadCommitData(from: isMine ? "UserMockData" : "TotalMockData", isMine: isMine)
   }
 
   var body: some View {
@@ -27,7 +41,8 @@ struct GrassMapView: View {
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
 
-      let counts = commitData.map(\.total_commit_count)
+      let counts = commitData.map(\.totalCommitCount)
+        
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
@@ -46,7 +61,7 @@ struct GrassMapView: View {
                     
                 let zoneName = seoulZoneCode[match.zoneCode] ?? ""
                 if let grassCommitData {
-                  let level = Double(grassCommitData.total_commit_count - minCount)
+                  let level = Double(grassCommitData.totalCommitCount - minCount)
                   let color: Color
                   switch level {
                   case 0 ..< commitStep: color = .lv_1
@@ -81,7 +96,7 @@ struct GrassMapView: View {
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
     let viewModel = CommitViewModel()
-    return GrassMapView()
+    return GrassMapView(isMine: false)
       .environmentObject(viewModel)
   }
 }
