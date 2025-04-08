@@ -9,7 +9,7 @@ struct TotalRankingView: View {
           .font(.headline)
           .foregroundColor(viewModel.selectedGrassColor)
                 
-        Text(viewModel.selectedZone)
+        Text(viewModel.selectedZoneName)
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)

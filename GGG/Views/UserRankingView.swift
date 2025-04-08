@@ -1,13 +1,6 @@
 import SwiftUI
 
 struct UserRankingView: View {
-  let locationData = [
-    ("장위 1동", 5, Color.lv_4),
-    ("장위 2동", 4, Color.lv_3),
-    ("장위 3동", 3, Color.lv_2),
-    ("월곡동", 1, Color.lv_1)
-  ]
-    
   @EnvironmentObject var viewModel: CommitViewModel
   var body: some View {
     VStack(spacing: 20) {
@@ -16,7 +9,7 @@ struct UserRankingView: View {
           .font(.headline)
           .foregroundColor(viewModel.selectedGrassColor)
                 
-        Text(viewModel.selectedZone)
+        Text(viewModel.selectedZoneName)
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)
@@ -26,25 +19,27 @@ struct UserRankingView: View {
           .foregroundColor(.secondary)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
-      
+            
       if let data = viewModel.selectedGrassCommit, let subZoneCommit = data.subZoneCommit {
-        let userData = subZoneCommit.map { ($0.zone, $0.commit_count) }
-        ForEach(0 ..< locationData.count, id: \.self) { index in
-          let (location, commit, color) = locationData[index]
+        let subZoneData = subZoneCommit.map { ($0.zone, $0.commit_count) }
+                
+        ForEach(0 ..< subZoneData.count, id: \.self) { index in
+          let (subZoneCode, commitCount) = subZoneData[index]
+          let subZoneName = seoulZoneCode[subZoneCode] ?? ""
           RankingItem(
-            backgroundColor: color.opacity(0.15),
-            user: location,
-            commitCount: commit
+            backgroundColor: viewModel.selectedGrassColor.opacity(0.15),
+            user: subZoneName,
+            commitCount: commitCount
           )
         }
-       
+      } else {
         VStack(spacing: 12) {
           Text(
             "아직 잔디가 심어지기 전이에요. 😅"
           )
           .font(.headline)
           .foregroundColor(.secondary)
-
+   
           Text("다른 곳을 눌러 잔디를 확인해보세요!")
             .font(.subheadline)
             .foregroundColor(.secondary)

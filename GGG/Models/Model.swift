@@ -86,5 +86,12 @@ extension GrassCommit {
 class CommitViewModel: ObservableObject {
   @Published var selectedGrassCommit: GrassCommit? = nil
   @Published var selectedGrassColor: Color = .lv_0
-  @Published var selectedZone: String = "잔디를 클릭해주세요."
+  @Published var selectedZoneCode: Int? = nil
+
+  var selectedZoneName: String {
+    guard let code = selectedZoneCode else {
+      return "잔디를 클릭해주세요."
+    }
+    return seoulZoneCode[code] ?? "N/A"
+  }
 }

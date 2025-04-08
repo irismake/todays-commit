@@ -54,12 +54,11 @@ struct GrassMapView: View {
               let coord = Coord(x: x, y: y)
               let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
 
-              let (grassColor, zone): (Color, String) = {
+              let (grassColor, zoneCode): (Color, Int?) = {
                 guard let match = seoul.first(where: { $0.coord == coord }) else {
-                  return (.clear, "")
+                  return (.clear, nil)
                 }
-                    
-                let zoneName = seoulZoneCode[match.zoneCode] ?? ""
+                let code = match.zoneCode
                 if let grassCommitData {
                   let level = Double(grassCommitData.totalCommitCount - minCount)
                   let color: Color
@@ -69,9 +68,9 @@ struct GrassMapView: View {
                   case commitStep * 2 ..< commitStep * 3: color = .lv_3
                   default: color = .lv_4
                   }
-                  return (color, zoneName)
+                  return (color, code)
                 } else {
-                  return (.lv_0, zoneName)
+                  return (.lv_0, code)
                 }
               }()
                 
@@ -81,7 +80,7 @@ struct GrassMapView: View {
                 .onTapGesture {
                   viewModel.selectedGrassCommit = grassCommitData
                   viewModel.selectedGrassColor = grassColor
-                  viewModel.selectedZone = zone
+                  viewModel.selectedZoneCode = zoneCode
                 }
             }
           }
