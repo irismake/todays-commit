@@ -3,12 +3,15 @@ import SwiftUI
 struct Coord: Hashable {
   let x: Int
   let y: Int
-  let location: String?
-    
-  init(x: Int, y: Int, location: String? = nil) {
-    self.x = x
-    self.y = y
-    self.location = location
+}
+
+struct Zone: Hashable {
+  let coord: Coord
+  let zoneCode: Int
+
+  init(x: Int, y: Int, zoneCode: Int) {
+    coord = Coord(x: x, y: y)
+    self.zoneCode = zoneCode
   }
 }
 
@@ -17,7 +20,7 @@ struct RankUser: Decodable {
   let commit_count: Int
 }
 
-struct CommitData: Decodable {
+struct GrassCommit: Decodable {
   let x: Int
   let y: Int
   let total_commit_count: Int
@@ -25,7 +28,7 @@ struct CommitData: Decodable {
 }
 
 class CommitViewModel: ObservableObject {
-  @Published var selectedCommitData: CommitData? = nil
+  @Published var selectedGrassCommit: GrassCommit? = nil
   @Published var selectedGrassColor: Color = .lv_0
-  @Published var selectedLocationData: String? = "잔디를 클릭해주세요."
+  @Published var selectedZone: String = "잔디를 클릭해주세요."
 }

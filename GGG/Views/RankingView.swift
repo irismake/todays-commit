@@ -18,18 +18,18 @@ struct RankingView: View {
           .font(.headline)
           .foregroundColor(viewModel.selectedGrassColor)
                 
-        Text(viewModel.selectedLocationData ?? "")
+        Text(viewModel.selectedZone)
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)
                 
-        Text("총 커밋 \(viewModel.selectedCommitData?.total_commit_count ?? 0)회")
+        Text("총 커밋 \(viewModel.selectedGrassCommit?.total_commit_count ?? 0)회")
           .font(.subheadline)
           .foregroundColor(.secondary)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
             
-      if let data = viewModel.selectedCommitData {
+      if let data = viewModel.selectedGrassCommit {
         let userData = data.rank_users.map { ($0.user_name, $0.commit_count) }
                 
         if isMine {
@@ -81,7 +81,7 @@ struct RankingView: View {
 struct RankingView_Previews: PreviewProvider {
   static var previews: some View {
     let viewModel = CommitViewModel()
-    viewModel.selectedCommitData = CommitData(
+    viewModel.selectedGrassCommit = GrassCommit(
       x: 20, y: 16,
       total_commit_count: 172, rank_users: [
         .init(user_name: "irismake", commit_count: 125),
