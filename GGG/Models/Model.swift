@@ -87,11 +87,16 @@ class CommitViewModel: ObservableObject {
   @Published var selectedGrassCommit: GrassCommit? = nil
   @Published var selectedGrassColor: Color = .lv_0
   @Published var selectedZoneCode: Int? = nil
+  @Published var currentZoneCode: Int = 1_100_000_000
 
   var selectedZoneName: String {
     guard let code = selectedZoneCode else {
       return "잔디를 클릭해주세요."
     }
     return seoulZoneCode[code] ?? "N/A"
+  }
+    
+  var currentZoneName: String {
+    seoulZoneCode[currentZoneCode] ?? "N/A"
   }
 }

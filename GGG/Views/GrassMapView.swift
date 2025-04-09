@@ -40,13 +40,12 @@ struct GrassMapView: View {
     GeometryReader { geometry in
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
-
       let counts = commitData.map(\.totalCommitCount)
-        
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-
+      let currentZoneCode = viewModel.currentZoneCode
+        
       VStack(spacing: spacing) {
         ForEach(0 ..< gridSize, id: \.self) { y in
           HStack(spacing: spacing) {
@@ -55,7 +54,9 @@ struct GrassMapView: View {
               let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
 
               let (grassColor, zoneCode): (Color, Int?) = {
-                guard let match = seoul.first(where: { $0.coord == coord }) else {
+                guard let mapCoord = mapData[currentZoneCode],
+                      let match = mapCoord.first(where: { $0.coord == coord })
+                else {
                   return (.clear, nil)
                 }
                 let code = match.zoneCode
