@@ -88,6 +88,7 @@ class CommitViewModel: ObservableObject {
   @Published var selectedGrassColor: Color = .lv_0
   @Published var selectedZoneCode: Int? = nil
   @Published var currentZoneCode: Int = 1_100_000_000
+  @Published var currentZoneLevel: Int = 1
 
   var selectedZoneName: String {
     guard let code = selectedZoneCode else {
