@@ -2,7 +2,7 @@ import SwiftUI
 
 func getUpperZoneCode(from code: Int) -> Int? {
   let codeStr = String(code)
-  if codeStr.suffix(6) != "000000" {
+  if codeStr.suffix(5) != "00000" {
     // 동 → 구 (앞 5자리 + 5개 0)
     let upperCodeStr = String(codeStr.prefix(5)) + "00000"
     return Int(upperCodeStr)
@@ -24,7 +24,7 @@ struct ZoomButton: View {
   var body: some View {
     Button(action: {
       if isZoomIn {
-        if let code = viewModel.selectedZoneCode, mapData[code] != nil {
+        if let code = viewModel.selectedZoneCode {
           viewModel.currentZoneCode = code
         }
       } else {
