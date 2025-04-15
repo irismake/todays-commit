@@ -25,7 +25,7 @@ struct UserRankingView: View {
                 
         ForEach(0 ..< subZoneData.count, id: \.self) { index in
           let (subZoneCode, commitCount) = subZoneData[index]
-          let subZoneName = seoulZoneCode[subZoneCode] ?? ""
+          let subZoneName = zoneCode[subZoneCode] ?? ""
           RankingItem(
             backgroundColor: viewModel.selectedGrassColor.opacity(0.15),
             user: subZoneName,

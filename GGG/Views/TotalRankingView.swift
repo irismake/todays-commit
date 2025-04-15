@@ -20,7 +20,7 @@ struct TotalRankingView: View {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
             
-      if let data = viewModel.selectedGrassCommit, let rankUsers = data.rankUsers {
+      if let data = viewModel.selectedGrassCommit, let rankUsers = data.rankUsers, viewModel.selectedZoneCode != nil {
         let userData = rankUsers.map { ($0.user_name, $0.commit_count) }
         let bgColors: [Color] = [
           Color.yellow.opacity(0.1),

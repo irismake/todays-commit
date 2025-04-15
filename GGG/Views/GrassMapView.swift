@@ -30,63 +30,96 @@ struct GrassMapView: View {
     .total(TotalGrassCommit(x: 1, y: 2, total_commit_count: 100, rank_users: [])),
     .user(UserGrassCommit(x: 3, y: 4, total_commit_count: 50, sub_zone_commit: []))
   ]
-
+    
   init(isMine: Bool) {
     self.isMine = isMine
     commitData = loadCommitData(from: isMine ? "UserMockData" : "TotalMockData", isMine: isMine)
   }
-
+    
   var body: some View {
     GeometryReader { geometry in
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
-
       let counts = commitData.map(\.totalCommitCount)
-        
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-
-      VStack(spacing: spacing) {
-        ForEach(0 ..< gridSize, id: \.self) { y in
-          HStack(spacing: spacing) {
-            ForEach(0 ..< gridSize, id: \.self) { x in
-              let coord = Coord(x: x, y: y)
-              let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
-
-              let (grassColor, zoneCode): (Color, Int?) = {
-                guard let match = seoul.first(where: { $0.coord == coord }) else {
-                  return (.clear, nil)
-                }
-                let code = match.zoneCode
-                if let grassCommitData {
-                  let level = Double(grassCommitData.totalCommitCount - minCount)
-                  let color: Color
-                  switch level {
-                  case 0 ..< commitStep: color = .lv_1
-                  case commitStep ..< commitStep * 2: color = .lv_2
-                  case commitStep * 2 ..< commitStep * 3: color = .lv_3
-                  default: color = .lv_4
+      let currentZoneCode = viewModel.currentZoneCode
+            
+      if let mapCoord = mapData[currentZoneCode] {
+        VStack(spacing: spacing) {
+          ForEach(0 ..< gridSize, id: \.self) { y in
+            HStack(spacing: spacing) {
+              ForEach(0 ..< gridSize, id: \.self) { x in
+                let coord = Coord(x: x, y: y)
+                let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
+                                
+                let (grassColor, zoneCode): (Color, Int?) = {
+                  guard let match = mapCoord.first(where: { $0.coord == coord }) else {
+                    return (.clear, nil)
                   }
-                  return (color, code)
-                } else {
-                  return (.lv_0, code)
-                }
-              }()
-                
-              RoundedRectangle(cornerRadius: cornerRadius)
-                .fill(grassColor)
-                .frame(width: cellSize, height: cellSize)
-                .onTapGesture {
-                  viewModel.selectedGrassCommit = grassCommitData
-                  viewModel.selectedGrassColor = grassColor
-                  viewModel.selectedZoneCode = zoneCode
-                }
+                  let code = match.zoneCode
+                  if let grassCommitData {
+                    let level = Double(grassCommitData.totalCommitCount - minCount)
+                    let color: Color
+                    switch level {
+                    case 0 ..< commitStep: color = .lv_1
+                    case commitStep ..< commitStep * 2: color = .lv_2
+                    case commitStep * 2 ..< commitStep * 3: color = .lv_3
+                    default: color = .lv_4
+                    }
+                    return (color, code)
+                  } else {
+                    return (.lv_0, code)
+                  }
+                }()
+                                
+                RoundedRectangle(cornerRadius: cornerRadius)
+                  .fill(grassColor)
+                  .frame(width: cellSize, height: cellSize)
+                  .onTapGesture {
+                    viewModel.selectedGrassCommit = grassCommitData
+                    viewModel.selectedGrassColor = grassColor
+                    viewModel.selectedZoneCode = zoneCode
+                  }
+              }
             }
           }
         }
+      } else {
+        ZStack {
+          RoundedRectangle(cornerRadius: 20)
+            .fill(Color.lv_0.opacity(0.2))
+            .shadow(color: Color.black.opacity(0.04), radius: 15, x: 0, y: 2)
+              
+          VStack(spacing: 12) {
+            Image(systemName: "apple.meditate")
+              .font(.system(size: 30))
+              .foregroundColor(.secondary.opacity(0.7))
+              .padding(.bottom, 4)
+                  
+            Text("아직 지도가 준비되지 않았어요.")
+              .font(.headline)
+              .foregroundColor(.secondary)
+                  
+            Button(action: {}) {
+              HStack(spacing: 6) {
+                Image(systemName: "paperplane.fill")
+                  .font(.system(size: 14))
+                Text("지도 요청하기")
+                  .font(.system(size: 14, weight: .medium))
+              }
+              .foregroundColor(.white)
+              .padding(.horizontal, 18)
+              .padding(.vertical, 8)
+              .background(Color.blue.opacity(0.8))
+              .cornerRadius(8)
+            }
+            .padding(.top, 20)
+          }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
-      .frame(width: geometry.size.width, height: geometry.size.height)
     }
     .aspectRatio(1, contentMode: .fit)
   }

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct GitGrassView: View {
+  @EnvironmentObject var viewModel: CommitViewModel
   @State private var selectedOption = 0
   let options = ["전체", "나의 지도"]
 
@@ -19,18 +20,14 @@ struct GitGrassView: View {
           .padding(.vertical, 20)
 
           HStack(spacing: 12) {
-            ZoomButton(zoomAction: {
-              print("Zoom Out")
-            }, iconName: "minus")
+            ZoomButton(isZoomIn: false)
                         
-            Text("서울")
+            Text(viewModel.currentZoneName)
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
        
-            ZoomButton(zoomAction: {
-              print("Zoom In")
-            }, iconName: "plus")
+            ZoomButton(isZoomIn: true)
           }
 
           VStack(spacing: 12) {
