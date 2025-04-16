@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-<<<<<<< Updated upstream
-   uuid = "0B0DF6F7-18CB-403F-B70E-FCFDE43A26EF"
+   uuid = "AF8E47BD-8B7C-48C0-9326-3F8DAF6145F7"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8635BA88-4940-4E4C-AE8A-5DE1369F2091"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GGG/Views/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "10"
-            endingLineNumber = "10"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A06AD437-E7F6-49B9-BF46-62A09CEA0696"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "GGG/Views/ContentView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
-=======
-   uuid = "B60B03DA-E0F3-4A34-ACFD-AE07893C393A"
-   type = "1"
-   version = "2.0">
->>>>>>> Stashed changes
 </Bucket>

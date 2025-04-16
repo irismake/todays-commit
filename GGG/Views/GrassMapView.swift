@@ -23,13 +23,13 @@ func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
 struct GrassMapView: View {
   var isMine: Bool
   @EnvironmentObject var viewModel: CommitViewModel
+  @State private var showDefaultMailView = false
+  @StateObject private var mailHandler = MailHandler()
+    
   let gridSize = 25
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
-  var commitData: [GrassCommit] = [
-    .total(TotalGrassCommit(x: 1, y: 2, total_commit_count: 100, rank_users: [])),
-    .user(UserGrassCommit(x: 3, y: 4, total_commit_count: 50, sub_zone_commit: []))
-  ]
+  var commitData: [GrassCommit] = []
     
   init(isMine: Bool) {
     self.isMine = isMine
@@ -45,7 +45,7 @@ struct GrassMapView: View {
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
       let currentZoneCode = viewModel.currentZoneCode
-            
+
       if let mapCoord = mapData[currentZoneCode] {
         VStack(spacing: spacing) {
           ForEach(0 ..< gridSize, id: \.self) { y in
@@ -91,18 +91,24 @@ struct GrassMapView: View {
           RoundedRectangle(cornerRadius: 20)
             .fill(Color.lv_0.opacity(0.2))
             .shadow(color: Color.black.opacity(0.04), radius: 15, x: 0, y: 2)
-              
+                    
           VStack(spacing: 12) {
             Image(systemName: "apple.meditate")
               .font(.system(size: 30))
               .foregroundColor(.secondary.opacity(0.7))
               .padding(.bottom, 4)
-                  
+                        
             Text("아직 지도가 준비되지 않았어요.")
               .font(.headline)
               .foregroundColor(.secondary)
-                  
-            Button(action: {}) {
+                        
+            Button(action: {
+              let mailData = MailData(
+                subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
+                content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
+              )
+              mailHandler.showMailOptions(for: mailData)
+            }) {
               HStack(spacing: 6) {
                 Image(systemName: "paperplane.fill")
                   .font(.system(size: 14))
@@ -122,6 +128,13 @@ struct GrassMapView: View {
       }
     }
     .aspectRatio(1, contentMode: .fit)
+    .sheet(isPresented: $mailHandler.showDefaultMailView) {
+      let mailData = MailData(
+        subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
+        content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
+      )
+      MailView(mailData: mailData)
+    }
   }
 }
 
