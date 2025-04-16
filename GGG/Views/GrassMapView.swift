@@ -25,7 +25,7 @@ struct GrassMapView: View {
   @EnvironmentObject var viewModel: CommitViewModel
   @State private var showDefaultMailView = false
   @StateObject private var mailHandler = MailHandler()
-    
+      
   let gridSize = 25
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
@@ -107,7 +107,8 @@ struct GrassMapView: View {
                 subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
                 content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
               )
-              mailHandler.showMailOptions(for: mailData)
+              mailHandler.saveMailData(for: mailData)
+              mailHandler.showMailOptions()
             }) {
               HStack(spacing: 6) {
                 Image(systemName: "paperplane.fill")
@@ -129,11 +130,7 @@ struct GrassMapView: View {
     }
     .aspectRatio(1, contentMode: .fit)
     .sheet(isPresented: $mailHandler.showDefaultMailView) {
-      let mailData = MailData(
-        subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
-        content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
-      )
-      MailView(mailData: mailData)
+      MailView(mailHandler: mailHandler)
     }
   }
 }

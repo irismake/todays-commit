@@ -2,9 +2,14 @@ import MessageUI
 import SwiftUI
 
 class MailHandler: ObservableObject {
+  @Published var mailData: MailData = .init(subject: "", content: "")
   @Published var showDefaultMailView = false
+  
+  func saveMailData(for mailData: MailData) {
+    self.mailData = mailData
+  }
     
-  func showMailOptions(for mailData: MailData) {
+  func showMailOptions() {
     let alertController = UIAlertController(
       title: "메일 보내기",
       message: "메일을 보낼 앱을 선택해주세요",
@@ -20,7 +25,7 @@ class MailHandler: ObservableObject {
     })
         
     alertController.addAction(UIAlertAction(title: "다른 메일 앱", style: .default) { _ in
-      if let mailtoURL = mailData.mailtoURL, UIApplication.shared.canOpenURL(mailtoURL) {
+      if let mailtoURL = self.mailData.mailtoURL, UIApplication.shared.canOpenURL(mailtoURL) {
         UIApplication.shared.open(mailtoURL, options: [:], completionHandler: nil)
       } else {
         self.showMailErrorAlert()
@@ -55,14 +60,14 @@ class MailHandler: ObservableObject {
 
 struct MailView: UIViewControllerRepresentable {
   @Environment(\.presentationMode) var presentationMode
-  var mailData: MailData
-    
+  @ObservedObject var mailHandler: MailHandler
+      
   func makeUIViewController(context: Context) -> MFMailComposeViewController {
     let viewController = MFMailComposeViewController()
     viewController.mailComposeDelegate = context.coordinator
-    viewController.setToRecipients([mailData.recipient])
-    viewController.setSubject(mailData.subject)
-    viewController.setMessageBody(mailData.formattedBody, isHTML: false)
+    viewController.setToRecipients([mailHandler.mailData.recipient])
+    viewController.setSubject(mailHandler.mailData.subject)
+    viewController.setMessageBody(mailHandler.mailData.formattedBody, isHTML: false)
     return viewController
   }
     
