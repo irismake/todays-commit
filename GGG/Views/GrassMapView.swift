@@ -23,7 +23,6 @@ func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
 struct GrassMapView: View {
   var isMine: Bool
   @EnvironmentObject var viewModel: CommitViewModel
-  @State private var showDefaultMailView = false
   @StateObject private var mailHandler = MailHandler()
       
   let gridSize = 25
