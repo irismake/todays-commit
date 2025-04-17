@@ -29,6 +29,7 @@ struct GrassMapView: View {
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
   var commitData: [GrassCommit] = []
+  @State private var selectedCoord: Coord? = nil
     
   init(isMine: Bool) {
     self.isMine = isMine
@@ -52,6 +53,9 @@ struct GrassMapView: View {
               ForEach(0 ..< gridSize, id: \.self) { x in
                 let coord = Coord(x: x, y: y)
                 let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
+                
+                // Check if this is the selected cell
+                let isSelected = selectedCoord == coord
                                 
                 let (grassColor, zoneCode): (Color, Int?) = {
                   guard let match = mapCoord.first(where: { $0.coord == coord }) else {
@@ -75,8 +79,23 @@ struct GrassMapView: View {
                                 
                 RoundedRectangle(cornerRadius: cornerRadius)
                   .fill(grassColor)
+                  // Add a stroke when selected
+                  .overlay(
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                      .stroke(isSelected ? Color.red : Color.clear, lineWidth: 2)
+                  )
+                  // Add a glow effect when selected
+                  .shadow(color: isSelected ? Color.white.opacity(0.7) : Color.clear, radius: 3, x: 0, y: 0)
                   .frame(width: cellSize, height: cellSize)
+                  // Add a subtle scale effect when selected
+                  .scaleEffect(isSelected ? 1.1 : 1.0)
+                  // Add animation for smooth transitions
+                  .animation(.spring(response: 0.3), value: isSelected)
                   .onTapGesture {
+                    // Update the selected coordinate
+                    selectedCoord = coord
+                    
+                    // Update the view model properties
                     viewModel.selectedGrassCommit = grassCommitData
                     viewModel.selectedGrassColor = grassColor
                     viewModel.selectedZoneCode = zoneCode
