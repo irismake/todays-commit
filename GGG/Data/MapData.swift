@@ -277,6 +277,7 @@ let mapData: [Int: [Zone]] = [
   ],
 
   1_100_000_000: [
+    // 종로구
     Zone(x: 11, y: 8, zoneCode: 1_111_000_000),
     Zone(x: 11, y: 9, zoneCode: 1_111_000_000),
     Zone(x: 11, y: 11, zoneCode: 1_111_000_000),
@@ -285,6 +286,7 @@ let mapData: [Int: [Zone]] = [
     Zone(x: 12, y: 9, zoneCode: 1_111_000_000),
     Zone(x: 12, y: 10, zoneCode: 1_111_000_000),
     Zone(x: 12, y: 11, zoneCode: 1_111_000_000),
+    Zone(x: 13, y: 10, zoneCode: 1_111_000_000),
     Zone(x: 13, y: 11, zoneCode: 1_111_000_000),
     Zone(x: 14, y: 11, zoneCode: 1_111_000_000),
     Zone(x: 15, y: 11, zoneCode: 1_111_000_000),
@@ -507,7 +509,6 @@ let mapData: [Int: [Zone]] = [
     Zone(x: 13, y: 7, zoneCode: 1_129_000_000),
     Zone(x: 13, y: 8, zoneCode: 1_129_000_000),
     Zone(x: 13, y: 9, zoneCode: 1_129_000_000),
-    Zone(x: 13, y: 10, zoneCode: 1_129_000_000),
     Zone(x: 14, y: 8, zoneCode: 1_129_000_000),
     Zone(x: 14, y: 9, zoneCode: 1_129_000_000),
     Zone(x: 14, y: 10, zoneCode: 1_129_000_000),
