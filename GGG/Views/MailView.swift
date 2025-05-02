@@ -24,11 +24,11 @@ class MailHandler: ObservableObject {
       }
     })
         
-    alertController.addAction(UIAlertAction(title: "다른 메일 앱", style: .default) { _ in
-      if let mailtoURL = self.mailData.mailtoURL, UIApplication.shared.canOpenURL(mailtoURL) {
+    alertController.addAction(UIAlertAction(title: "다른 메일 앱", style: .default) { [weak self] _ in
+      if let mailtoURL = self?.mailData.mailtoURL, UIApplication.shared.canOpenURL(mailtoURL) {
         UIApplication.shared.open(mailtoURL, options: [:], completionHandler: nil)
       } else {
-        self.showMailErrorAlert()
+        self?.showMailErrorAlert()
       }
     })
         
