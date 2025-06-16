@@ -21,16 +21,18 @@ struct ZoomButton: View {
       
     Button(action: {
       if isZoomIn {
-        if let code = viewModel.selectedZoneCode {
-          viewModel.mapZoneCode = code
-          viewModel.mapLevel -= 1
+        guard let code = viewModel.selectedZoneCode else {
+          return
         }
+        viewModel.mapZoneCode = code
+        viewModel.mapLevel -= 1
       } else {
         let code = viewModel.mapZoneCode
-        if let upperCode = getUpperZoneCode(from: code) {
-          viewModel.mapZoneCode = upperCode
-          viewModel.mapLevel += 1
+        guard let upperCode = getUpperZoneCode(from: code) else {
+          return
         }
+        viewModel.mapZoneCode = upperCode
+        viewModel.mapLevel += 1
       }
       viewModel.resetToDefault()
 
