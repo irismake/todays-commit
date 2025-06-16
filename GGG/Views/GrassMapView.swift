@@ -44,9 +44,9 @@ struct GrassMapView: View {
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-      let currentZoneCode = viewModel.currentZoneCode
+      let mapZoneCode = viewModel.mapZoneCode
 
-      if let mapCoord = mapData[currentZoneCode] {
+      if let mapCoord = mapData[mapZoneCode] {
         VStack(spacing: spacing) {
           ForEach(0 ..< gridSize, id: \.self) { y in
             HStack(spacing: spacing) {
@@ -122,8 +122,8 @@ struct GrassMapView: View {
                         
             Button(action: {
               let mailData = MailData(
-                subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
-                content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
+                subject: "[\(viewModel.mapName)] 지도 추가 요청",
+                content: "지역 코드 \(viewModel.mapZoneCode)에 해당하는 \(viewModel.mapName)의 지도 추가를 요청합니다."
               )
               mailHandler.saveMailData(for: mailData)
               mailHandler.showMailOptions()
