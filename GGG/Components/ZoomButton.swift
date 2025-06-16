@@ -24,19 +24,14 @@ struct ZoomButton: View {
         if let code = viewModel.selectedZoneCode {
           viewModel.mapZoneCode = code
           viewModel.mapLevel -= 1
-          viewModel.selectedZoneCode = nil
         }
       } else {
         let code = viewModel.mapZoneCode
         if let upperCode = getUpperZoneCode(from: code) {
-          print(upperCode)
           viewModel.mapZoneCode = upperCode
           viewModel.mapLevel += 1
-          viewModel.selectedZoneCode = code
         }
       }
-      print(viewModel.mapLevel)
-      print(actionDisable)
       viewModel.resetToDefault()
 
     }) {

@@ -29,7 +29,6 @@ struct GrassMapView: View {
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
   var commitData: [GrassCommit] = []
-  @State private var selectedCoord: Coord? = nil
     
   init(isMine: Bool) {
     self.isMine = isMine
@@ -45,6 +44,7 @@ struct GrassMapView: View {
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
       let mapZoneCode = viewModel.mapZoneCode
+      var selectedCoord = viewModel.coords[viewModel.mapLevel]
 
       if let mapCoord = mapData[mapZoneCode] {
         VStack(spacing: spacing) {
@@ -57,11 +57,11 @@ struct GrassMapView: View {
                 // Check if this is the selected cell
                 let isSelected = selectedCoord == coord
                                 
-                let (grassColor, zoneCode): (Color, Int?) = {
-                  guard let match = mapCoord.first(where: { $0.coord == coord }) else {
-                    return (.clear, nil)
+                let grassColor: Color = {
+                  guard mapCoord.contains(where: { $0.coord == coord }) else {
+                    return .clear
                   }
-                  let code = match.zoneCode
+
                   if let grassCommitData {
                     let level = Double(grassCommitData.totalCommitCount - minCount)
                     let color: Color
@@ -71,9 +71,9 @@ struct GrassMapView: View {
                     case commitStep * 2 ..< commitStep * 3: color = .lv_3
                     default: color = .lv_4
                     }
-                    return (color, code)
+                    return color
                   } else {
-                    return (.lv_0, code)
+                    return .lv_0
                   }
                 }()
                                 
@@ -94,11 +94,9 @@ struct GrassMapView: View {
                   .onTapGesture {
                     // Update the selected coordinate
                     selectedCoord = coord
-                    
-                    // Update the view model properties
+                    viewModel.saveCoord(coord: coord)
                     viewModel.selectedGrassCommit = grassCommitData
                     viewModel.selectedGrassColor = grassColor
-                    viewModel.selectedZoneCode = zoneCode
                   }
               }
             }
