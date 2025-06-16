@@ -9,11 +9,15 @@ struct Zone: Hashable {
   let coord: Coord
   let zoneCode: Int
   let subZoneCodes: [Int]?
+  let minPnu: Int?
+  let maxPnu: Int?
 
-  init(x: Int, y: Int, zoneCode: Int, subZoneCodes: [Int]? = nil) {
+  init(x: Int, y: Int, zoneCode: Int, subZoneCodes: [Int]? = nil, minPnu: Int? = nil, maxPnu: Int? = nil) {
     coord = Coord(x: x, y: y)
     self.zoneCode = zoneCode
     self.subZoneCodes = subZoneCodes
+    self.minPnu = minPnu
+    self.maxPnu = maxPnu
   }
 }
 
