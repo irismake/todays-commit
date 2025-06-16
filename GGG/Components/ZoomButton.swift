@@ -2,19 +2,11 @@ import SwiftUI
 
 func getUpperZoneCode(from code: Int) -> Int? {
   let codeStr = String(code)
-  if codeStr.suffix(5) != "00000" {
-    // 동 -> 구
-    let upperCodeStr = String(codeStr.prefix(5)) + "00000"
-    return Int(upperCodeStr)
-  } else if codeStr.suffix(8) != "00000000" {
-    // 구 -> 시
-    let upperCodeStr = String(codeStr.prefix(2)) + "00000000"
-    return Int(upperCodeStr)
-  } else if codeStr.count != 3 {
-    // 시 -> 나라
+  if codeStr.count == 2 {
     return 410
   } else {
-    return nil
+    let upperCodeStr = codeStr.dropLast(3)
+    return Int(upperCodeStr)
   }
 }
 
