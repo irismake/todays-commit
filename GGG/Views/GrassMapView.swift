@@ -29,7 +29,6 @@ struct GrassMapView: View {
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
   var commitData: [GrassCommit] = []
-  @State private var selectedCoord: Coord? = nil
     
   init(isMine: Bool) {
     self.isMine = isMine
@@ -44,9 +43,10 @@ struct GrassMapView: View {
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-      let currentZoneCode = viewModel.currentZoneCode
+      let mapZoneCode = viewModel.mapZoneCode
+      var selectedCoord = viewModel.coords[viewModel.mapLevel]
 
-      if let mapCoord = mapData[currentZoneCode] {
+      if let mapCoord = mapData[mapZoneCode] {
         VStack(spacing: spacing) {
           ForEach(0 ..< gridSize, id: \.self) { y in
             HStack(spacing: spacing) {
@@ -57,11 +57,11 @@ struct GrassMapView: View {
                 // Check if this is the selected cell
                 let isSelected = selectedCoord == coord
                                 
-                let (grassColor, zoneCode): (Color, Int?) = {
-                  guard let match = mapCoord.first(where: { $0.coord == coord }) else {
-                    return (.clear, nil)
+                let grassColor: Color = {
+                  guard mapCoord.contains(where: { $0.coord == coord }) else {
+                    return .clear
                   }
-                  let code = match.zoneCode
+
                   if let grassCommitData {
                     let level = Double(grassCommitData.totalCommitCount - minCount)
                     let color: Color
@@ -71,9 +71,9 @@ struct GrassMapView: View {
                     case commitStep * 2 ..< commitStep * 3: color = .lv_3
                     default: color = .lv_4
                     }
-                    return (color, code)
+                    return color
                   } else {
-                    return (.lv_0, code)
+                    return .lv_0
                   }
                 }()
                                 
@@ -94,11 +94,9 @@ struct GrassMapView: View {
                   .onTapGesture {
                     // Update the selected coordinate
                     selectedCoord = coord
-                    
-                    // Update the view model properties
+                    viewModel.saveCoord(coord: coord)
                     viewModel.selectedGrassCommit = grassCommitData
                     viewModel.selectedGrassColor = grassColor
-                    viewModel.selectedZoneCode = zoneCode
                   }
               }
             }
@@ -122,8 +120,8 @@ struct GrassMapView: View {
                         
             Button(action: {
               let mailData = MailData(
-                subject: "[\(viewModel.currentZoneName)] 지도 추가 요청",
-                content: "지역 코드 \(viewModel.currentZoneCode)에 해당하는 \(viewModel.currentZoneName)의 지도 추가를 요청합니다."
+                subject: "[\(viewModel.mapName)] 지도 추가 요청",
+                content: "지역 코드 \(viewModel.mapZoneCode)에 해당하는 \(viewModel.mapName)의 지도 추가를 요청합니다."
               )
               mailHandler.saveMailData(for: mailData)
               mailHandler.showMailOptions()

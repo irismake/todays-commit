@@ -15,28 +15,25 @@ struct ZoomButton: View {
   @EnvironmentObject var viewModel: CommitViewModel
     
   var body: some View {
-    let zoomOutDisable = (viewModel.currentZoneLevel == 2)
-    let zoomInDisable = (viewModel.currentZoneLevel == 0 || mapData[viewModel.currentZoneCode] == nil)
+    let zoomOutDisable = (viewModel.mapLevel == 2)
+    let zoomInDisable = (viewModel.mapLevel == 0 || mapData[viewModel.mapZoneCode] == nil)
     let actionDisable = isZoomIn ? zoomInDisable : zoomOutDisable
       
     Button(action: {
       if isZoomIn {
-        if let code = viewModel.selectedZoneCode {
-          viewModel.currentZoneCode = code
-          viewModel.currentZoneLevel -= 1
-          viewModel.selectedZoneCode = nil
+        guard let code = viewModel.selectedZoneCode else {
+          return
         }
+        viewModel.mapZoneCode = code
+        viewModel.mapLevel -= 1
       } else {
-        let code = viewModel.currentZoneCode
-        if let upperCode = getUpperZoneCode(from: code) {
-          print(upperCode)
-          viewModel.currentZoneCode = upperCode
-          viewModel.currentZoneLevel += 1
-          viewModel.selectedZoneCode = code
+        let code = viewModel.mapZoneCode
+        guard let upperCode = getUpperZoneCode(from: code) else {
+          return
         }
+        viewModel.mapZoneCode = upperCode
+        viewModel.mapLevel += 1
       }
-      print(viewModel.currentZoneLevel)
-      print(actionDisable)
       viewModel.resetToDefault()
 
     }) {

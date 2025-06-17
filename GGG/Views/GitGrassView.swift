@@ -22,7 +22,7 @@ struct GitGrassView: View {
           HStack(spacing: 12) {
             ZoomButton(isZoomIn: false)
                         
-            Text(viewModel.currentZoneName)
+            Text(viewModel.mapName)
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
