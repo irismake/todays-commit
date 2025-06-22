@@ -10,7 +10,7 @@ struct CommitBanner: View {
     }) {
       VStack(spacing: 12) {
         Label(
-          commitState ? "오늘 커밋 완료!" : "오늘 커밋을 시작해보세요!",
+          commitState ? "오늘의 커밋 완료!" : "오늘의 커밋을 시작해보세요!",
           systemImage: commitState ? "checkmark.circle.fill" : "bolt.fill"
         )
         .font(.headline)
@@ -25,7 +25,7 @@ struct CommitBanner: View {
       .background(commitState ? Color.green.opacity(0.1) : Color.orange.opacity(0.1))
       .cornerRadius(16)
     }
-    .sheet(isPresented: $showSheet) {
+    .fullScreenCover(isPresented: $showSheet) {
       CommitView()
     }
   }
