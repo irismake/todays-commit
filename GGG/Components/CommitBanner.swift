@@ -2,9 +2,12 @@ import SwiftUI
 
 struct CommitBanner: View {
   var commitState: Bool
+  @State private var showSheet = false
 
   var body: some View {
-    Button(action: {}) {
+    Button(action: {
+      showSheet = true
+    }) {
       VStack(spacing: 12) {
         Label(
           commitState ? "오늘 커밋 완료!" : "오늘 커밋을 시작해보세요!",
@@ -21,6 +24,9 @@ struct CommitBanner: View {
       .frame(maxWidth: .infinity)
       .background(commitState ? Color.green.opacity(0.1) : Color.orange.opacity(0.1))
       .cornerRadius(16)
+    }
+    .sheet(isPresented: $showSheet) {
+      CommitView()
     }
   }
 }
