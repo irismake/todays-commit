@@ -32,18 +32,9 @@ struct GitGrassView: View {
 
           ZStack(alignment: .bottomTrailing) {
             GrassMapView(isMine: selectedOption == 1)
-            Button(action: {
-              print("현재 위치로 이동")
-            }) {
-              Image(systemName: "location.fill")
-                .foregroundColor(.blue)
-                .padding(10)
-                .background(Color.white)
-                .clipShape(Circle())
-                .shadow(radius: 3)
-            }
+            locationButton()
           }
-          
+
           Group {
             if selectedOption == 0 {
               TotalRankingView()
