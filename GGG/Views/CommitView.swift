@@ -4,7 +4,7 @@ struct CommitView: View {
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
-    VStack{
+    VStack {
       ZStack {
         Text("오늘의 커밋 완료")
           .font(.headline)
