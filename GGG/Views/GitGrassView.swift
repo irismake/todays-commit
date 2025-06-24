@@ -30,21 +30,11 @@ struct GitGrassView: View {
             ZoomButton(isZoomIn: true)
           }
 
-          VStack(spacing: 12) {
-            ZStack(alignment: .bottomTrailing) {
-              GrassMapView(isMine: selectedOption == 1)
-              Button(action: {
-                print("현재 위치로 이동")
-              }) {
-                Image(systemName: "location.fill")
-                  .foregroundColor(.blue)
-                  .padding(10)
-                  .background(Color.white)
-                  .clipShape(Circle())
-                  .shadow(radius: 3)
-              }
-            }
+          ZStack(alignment: .bottomTrailing) {
+            GrassMapView(isMine: selectedOption == 1)
+            locationButton()
           }
+
           Group {
             if selectedOption == 0 {
               TotalRankingView()
@@ -55,7 +45,6 @@ struct GitGrassView: View {
         }
         .padding()
       }
-     
       .navigationTitle("🌱 Git Grass")
       .navigationBarItems(trailing:
         Button(action: {
