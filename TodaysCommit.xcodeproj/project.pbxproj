@@ -12,37 +12,30 @@
 			containerPortal = 1705EDF82D7ECC5100BD96A7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1705EDFF2D7ECC5100BD96A7;
-			remoteInfo = GGG;
+			remoteInfo = TodaysCommit;
 		};
 		1705EE1C2D7ECC5400BD96A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1705EDF82D7ECC5100BD96A7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1705EDFF2D7ECC5100BD96A7;
-			remoteInfo = GGG;
+			remoteInfo = TodaysCommit;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1705EE002D7ECC5100BD96A7 /* GGG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GGG.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1705EE112D7ECC5400BD96A7 /* GGGTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GGGTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1705EE1B2D7ECC5400BD96A7 /* GGGUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GGGUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1705EE002D7ECC5100BD96A7 /* TodaysCommit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaysCommit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1705EE112D7ECC5400BD96A7 /* TodaysCommitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysCommitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1705EE1B2D7ECC5400BD96A7 /* TodaysCommitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysCommitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		17EC455B2E2F4EA500E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
+		17EC46352E2F4EF600E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
+		17EC47472E2F51D200E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		1705EE022D7ECC5100BD96A7 /* GGG */ = {
+		1705EE022D7ECC5100BD96A7 /* TodaysCommit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = GGG;
-			sourceTree = "<group>";
-		};
-		1705EE142D7ECC5400BD96A7 /* GGGTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = GGGTests;
-			sourceTree = "<group>";
-		};
-		1705EE1E2D7ECC5400BD96A7 /* GGGUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = GGGUITests;
+			name = TodaysCommit;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +68,7 @@
 		1705EDF72D7ECC5100BD96A7 = {
 			isa = PBXGroup;
 			children = (
-				1705EE022D7ECC5100BD96A7 /* GGG */,
-				1705EE142D7ECC5400BD96A7 /* GGGTests */,
-				1705EE1E2D7ECC5400BD96A7 /* GGGUITests */,
+				1705EE022D7ECC5100BD96A7 /* TodaysCommit */,
 				1705EE012D7ECC5100BD96A7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,19 +76,34 @@
 		1705EE012D7ECC5100BD96A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1705EE002D7ECC5100BD96A7 /* GGG.app */,
-				1705EE112D7ECC5400BD96A7 /* GGGTests.xctest */,
-				1705EE1B2D7ECC5400BD96A7 /* GGGUITests.xctest */,
+				1705EE002D7ECC5100BD96A7 /* TodaysCommit.app */,
+				1705EE112D7ECC5400BD96A7 /* TodaysCommitTests.xctest */,
+				1705EE1B2D7ECC5400BD96A7 /* TodaysCommitUITests.xctest */,
 			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17EC455C2E2F4EA500E1A51D /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17EC46362E2F4EF600E1A51D /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17EC47482E2F51D200E1A51D /* Products */ = {
+			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1705EDFF2D7ECC5100BD96A7 /* GGG */ = {
+		1705EDFF2D7ECC5100BD96A7 /* TodaysCommit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1705EE252D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGG" */;
+			buildConfigurationList = 1705EE252D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommit" */;
 			buildPhases = (
 				17D7E2E52D8528B100238B7B /* SwiftFormat */,
 				17D7E2E42D85289000238B7B /* SwiftLint */,
@@ -110,18 +116,18 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				1705EE022D7ECC5100BD96A7 /* GGG */,
+				1705EE022D7ECC5100BD96A7 /* TodaysCommit */,
 			);
-			name = GGG;
+			name = TodaysCommit;
 			packageProductDependencies = (
 			);
-			productName = GGG;
-			productReference = 1705EE002D7ECC5100BD96A7 /* GGG.app */;
+			productName = TodaysCommit;
+			productReference = 1705EE002D7ECC5100BD96A7 /* TodaysCommit.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1705EE102D7ECC5400BD96A7 /* GGGTests */ = {
+		1705EE102D7ECC5400BD96A7 /* TodaysCommitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1705EE282D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGGTests" */;
+			buildConfigurationList = 1705EE282D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommitTests" */;
 			buildPhases = (
 				1705EE0D2D7ECC5400BD96A7 /* Sources */,
 				1705EE0E2D7ECC5400BD96A7 /* Frameworks */,
@@ -132,19 +138,16 @@
 			dependencies = (
 				1705EE132D7ECC5400BD96A7 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				1705EE142D7ECC5400BD96A7 /* GGGTests */,
-			);
-			name = GGGTests;
+			name = TodaysCommitTests;
 			packageProductDependencies = (
 			);
-			productName = GGGTests;
-			productReference = 1705EE112D7ECC5400BD96A7 /* GGGTests.xctest */;
+			productName = TodaysCommitTests;
+			productReference = 1705EE112D7ECC5400BD96A7 /* TodaysCommitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		1705EE1A2D7ECC5400BD96A7 /* GGGUITests */ = {
+		1705EE1A2D7ECC5400BD96A7 /* TodaysCommitUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1705EE2B2D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGGUITests" */;
+			buildConfigurationList = 1705EE2B2D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommitUITests" */;
 			buildPhases = (
 				1705EE172D7ECC5400BD96A7 /* Sources */,
 				1705EE182D7ECC5400BD96A7 /* Frameworks */,
@@ -155,14 +158,11 @@
 			dependencies = (
 				1705EE1D2D7ECC5400BD96A7 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				1705EE1E2D7ECC5400BD96A7 /* GGGUITests */,
-			);
-			name = GGGUITests;
+			name = TodaysCommitUITests;
 			packageProductDependencies = (
 			);
-			productName = GGGUITests;
-			productReference = 1705EE1B2D7ECC5400BD96A7 /* GGGUITests.xctest */;
+			productName = TodaysCommitUITests;
+			productReference = 1705EE1B2D7ECC5400BD96A7 /* TodaysCommitUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -188,7 +188,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1705EDFB2D7ECC5100BD96A7 /* Build configuration list for PBXProject "GGG" */;
+			buildConfigurationList = 1705EDFB2D7ECC5100BD96A7 /* Build configuration list for PBXProject "TodaysCommit" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -200,11 +200,25 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 1705EE012D7ECC5100BD96A7 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 17EC47482E2F51D200E1A51D /* Products */;
+					ProjectRef = 17EC47472E2F51D200E1A51D /* TodaysCommit.xcodeproj */;
+				},
+				{
+					ProductGroup = 17EC46362E2F4EF600E1A51D /* Products */;
+					ProjectRef = 17EC46352E2F4EF600E1A51D /* TodaysCommit.xcodeproj */;
+				},
+				{
+					ProductGroup = 17EC455C2E2F4EA500E1A51D /* Products */;
+					ProjectRef = 17EC455B2E2F4EA500E1A51D /* TodaysCommit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
-				1705EDFF2D7ECC5100BD96A7 /* GGG */,
-				1705EE102D7ECC5400BD96A7 /* GGGTests */,
-				1705EE1A2D7ECC5400BD96A7 /* GGGUITests */,
+				1705EDFF2D7ECC5100BD96A7 /* TodaysCommit */,
+				1705EE102D7ECC5400BD96A7 /* TodaysCommitTests */,
+				1705EE1A2D7ECC5400BD96A7 /* TodaysCommitUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -301,12 +315,12 @@
 /* Begin PBXTargetDependency section */
 		1705EE132D7ECC5400BD96A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1705EDFF2D7ECC5100BD96A7 /* GGG */;
+			target = 1705EDFF2D7ECC5100BD96A7 /* TodaysCommit */;
 			targetProxy = 1705EE122D7ECC5400BD96A7 /* PBXContainerItemProxy */;
 		};
 		1705EE1D2D7ECC5400BD96A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1705EDFF2D7ECC5100BD96A7 /* GGG */;
+			target = 1705EDFF2D7ECC5100BD96A7 /* TodaysCommit */;
 			targetProxy = 1705EE1C2D7ECC5400BD96A7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -431,10 +445,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GGG/GGG.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TodaysCommit/TodaysCommit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"GGG/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TodaysCommit/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AW4DY5F93;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -454,7 +468,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGG;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -470,10 +484,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GGG/GGG.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TodaysCommit/TodaysCommit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"GGG/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TodaysCommit/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AW4DY5F93;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -493,7 +507,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGG;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -515,14 +529,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGGTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GGG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GGG";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodaysCommit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodaysCommit";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -538,14 +552,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGGTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GGG.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/GGG";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodaysCommit.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodaysCommit";
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -560,14 +574,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGGUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = GGG;
+				TEST_TARGET_NAME = TodaysCommit;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -582,14 +596,14 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gitgrassgrowing.GGGUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = GGG;
+				TEST_TARGET_NAME = TodaysCommit;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -597,7 +611,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1705EDFB2D7ECC5100BD96A7 /* Build configuration list for PBXProject "GGG" */ = {
+		1705EDFB2D7ECC5100BD96A7 /* Build configuration list for PBXProject "TodaysCommit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1705EE232D7ECC5400BD96A7 /* Debug */,
@@ -606,7 +620,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1705EE252D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGG" */ = {
+		1705EE252D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1705EE262D7ECC5400BD96A7 /* Debug */,
@@ -615,7 +629,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1705EE282D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGGTests" */ = {
+		1705EE282D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1705EE292D7ECC5400BD96A7 /* Debug */,
@@ -624,7 +638,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1705EE2B2D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "GGGUITests" */ = {
+		1705EE2B2D7ECC5400BD96A7 /* Build configuration list for PBXNativeTarget "TodaysCommitUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1705EE2C2D7ECC5400BD96A7 /* Debug */,

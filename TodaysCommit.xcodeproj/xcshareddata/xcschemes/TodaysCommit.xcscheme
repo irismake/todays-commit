@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
-               BuildableName = "GGG.app"
-               BlueprintName = "GGG"
-               ReferencedContainer = "container:GGG.xcodeproj">
+               BuildableName = "TodaysCommit.app"
+               BlueprintName = "TodaysCommit"
+               ReferencedContainer = "container:TodaysCommit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,9 +36,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1705EE102D7ECC5400BD96A7"
-               BuildableName = "GGGTests.xctest"
-               BlueprintName = "GGGTests"
-               ReferencedContainer = "container:GGG.xcodeproj">
+               BuildableName = "TodaysCommitTests.xctest"
+               BlueprintName = "TodaysCommitTests"
+               ReferencedContainer = "container:TodaysCommit.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1705EE1A2D7ECC5400BD96A7"
-               BuildableName = "GGGUITests.xctest"
-               BlueprintName = "GGGUITests"
-               ReferencedContainer = "container:GGG.xcodeproj">
+               BuildableName = "TodaysCommitUITests.xctest"
+               BlueprintName = "TodaysCommitUITests"
+               ReferencedContainer = "container:TodaysCommit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
-            BuildableName = "GGG.app"
-            BlueprintName = "GGG"
-            ReferencedContainer = "container:GGG.xcodeproj">
+            BuildableName = "TodaysCommit.app"
+            BlueprintName = "TodaysCommit"
+            ReferencedContainer = "container:TodaysCommit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -86,9 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
-            BuildableName = "GGG.app"
-            BlueprintName = "GGG"
-            ReferencedContainer = "container:GGG.xcodeproj">
+            BuildableName = "TodaysCommit.app"
+            BlueprintName = "TodaysCommit"
+            ReferencedContainer = "container:TodaysCommit.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
