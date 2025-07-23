@@ -32,7 +32,6 @@
 /* Begin PBXFileReference section */
 		04D22C9DC0DB13B3EBE498F3 /* Pods_TodaysCommitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodaysCommitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14B053A76EFC18361B3CBA81 /* Pods_TodaysCommit_TodaysCommitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodaysCommit_TodaysCommitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		175D7BAB2E30B8B6001A9116 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
 		17762F5F2E30A957003F2E53 /* TodaysCommit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodaysCommit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		17762F702E30A958003F2E53 /* TodaysCommitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysCommitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17762F7A2E30A958003F2E53 /* TodaysCommitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodaysCommitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,9 +44,22 @@
 		E6A4767EC4A7F754909AD069 /* Pods-TodaysCommit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodaysCommit.debug.xcconfig"; path = "Target Support Files/Pods-TodaysCommit/Pods-TodaysCommit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		175D7BF62E30F6D2001A9116 /* Exceptions for "TodaysCommit" folder in "TodaysCommit" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				info.plist,
+			);
+			target = 17762F5E2E30A957003F2E53 /* TodaysCommit */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		17762F612E30A957003F2E53 /* TodaysCommit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				175D7BF62E30F6D2001A9116 /* Exceptions for "TodaysCommit" folder in "TodaysCommit" target */,
+			);
 			path = TodaysCommit;
 			sourceTree = "<group>";
 		};
@@ -104,7 +116,6 @@
 		17762F562E30A957003F2E53 = {
 			isa = PBXGroup;
 			children = (
-				175D7BAB2E30B8B6001A9116 /* info.plist */,
 				17762F612E30A957003F2E53 /* TodaysCommit */,
 				17762F732E30A958003F2E53 /* TodaysCommitTests */,
 				17762F7D2E30A958003F2E53 /* TodaysCommitUITests */,
@@ -494,6 +505,8 @@
 /* Begin XCBuildConfiguration section */
 		17762F822E30A959003F2E53 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 17762F612E30A957003F2E53 /* TodaysCommit */;
+			baseConfigurationReferenceRelativePath = Configurations/Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -555,6 +568,8 @@
 		};
 		17762F832E30A959003F2E53 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 17762F612E30A957003F2E53 /* TodaysCommit */;
+			baseConfigurationReferenceRelativePath = Configurations/Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -621,7 +636,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/kimgahee/Desktop/todays_commit/info.plist;
+				INFOPLIST_FILE = /Users/kimgahee/Desktop/todays_commit/TodaysCommit/info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -670,7 +685,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = /Users/kimgahee/Desktop/todays_commit/info.plist;
+				INFOPLIST_FILE = /Users/kimgahee/Desktop/todays_commit/TodaysCommit/info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
