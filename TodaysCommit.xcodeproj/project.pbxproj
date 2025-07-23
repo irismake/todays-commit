@@ -30,6 +30,7 @@
 		17EC455B2E2F4EA500E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
 		17EC46352E2F4EF600E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
 		17EC47472E2F51D200E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
+		17EC488D2E2F6FE200E1A51D /* TodaysCommit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = TodaysCommit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -94,6 +95,11 @@
 			sourceTree = "<group>";
 		};
 		17EC47482E2F51D200E1A51D /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		17EC488E2E2F6FE200E1A51D /* Products */ = {
 			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
@@ -201,6 +207,10 @@
 			productRefGroup = 1705EE012D7ECC5100BD96A7 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 17EC488E2E2F6FE200E1A51D /* Products */;
+					ProjectRef = 17EC488D2E2F6FE200E1A51D /* TodaysCommit.xcodeproj */;
+				},
 				{
 					ProductGroup = 17EC47482E2F51D200E1A51D /* Products */;
 					ProjectRef = 17EC47472E2F51D200E1A51D /* TodaysCommit.xcodeproj */;
@@ -468,7 +478,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
@@ -507,7 +517,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
