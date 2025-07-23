@@ -7,25 +7,7 @@
 		<key>TodaysCommit.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
-	</dict>
-	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>1705EDFF2D7ECC5100BD96A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1705EE102D7ECC5400BD96A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>1705EE1A2D7ECC5400BD96A7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
+			<integer>3</integer>
 		</dict>
 	</dict>
 </dict>

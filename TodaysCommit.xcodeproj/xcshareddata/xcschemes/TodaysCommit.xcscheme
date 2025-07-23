@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
+               BlueprintIdentifier = "17762F5E2E30A957003F2E53"
                BuildableName = "TodaysCommit.app"
                BlueprintName = "TodaysCommit"
                ReferencedContainer = "container:TodaysCommit.xcodeproj">
@@ -35,7 +35,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1705EE102D7ECC5400BD96A7"
+               BlueprintIdentifier = "17762F6F2E30A958003F2E53"
                BuildableName = "TodaysCommitTests.xctest"
                BlueprintName = "TodaysCommitTests"
                ReferencedContainer = "container:TodaysCommit.xcodeproj">
@@ -46,7 +46,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1705EE1A2D7ECC5400BD96A7"
+               BlueprintIdentifier = "17762F792E30A958003F2E53"
                BuildableName = "TodaysCommitUITests.xctest"
                BlueprintName = "TodaysCommitUITests"
                ReferencedContainer = "container:TodaysCommit.xcodeproj">
@@ -68,7 +68,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
+            BlueprintIdentifier = "17762F5E2E30A957003F2E53"
             BuildableName = "TodaysCommit.app"
             BlueprintName = "TodaysCommit"
             ReferencedContainer = "container:TodaysCommit.xcodeproj">
@@ -85,7 +85,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1705EDFF2D7ECC5100BD96A7"
+            BlueprintIdentifier = "17762F5E2E30A957003F2E53"
             BuildableName = "TodaysCommit.app"
             BlueprintName = "TodaysCommit"
             ReferencedContainer = "container:TodaysCommit.xcodeproj">

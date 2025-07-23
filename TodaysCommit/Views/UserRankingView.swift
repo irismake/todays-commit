@@ -59,7 +59,7 @@ struct UserRankingView_Previews: PreviewProvider {
     viewModel.selectedGrassCommit = .user(UserGrassCommit(
       x: 14, y: 10,
       total_commit_count: 10, sub_zone_commit: [
-        .init(zone: 1_129_061_000, commit_count: 10)
+        .init(zone: 1129061000, commit_count: 10)
       ]
     ))
     viewModel.selectedGrassColor = .lv_2

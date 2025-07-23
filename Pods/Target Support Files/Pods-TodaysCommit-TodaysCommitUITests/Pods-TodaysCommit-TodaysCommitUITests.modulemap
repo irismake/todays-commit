@@ -1,0 +1,6 @@
+framework module Pods_TodaysCommit_TodaysCommitUITests {
+  umbrella header "Pods-TodaysCommit-TodaysCommitUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
