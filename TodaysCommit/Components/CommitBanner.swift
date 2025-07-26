@@ -26,7 +26,7 @@ struct CommitBanner: View {
       .cornerRadius(16)
     }
     .fullScreenCover(isPresented: $showSheet) {
-      CommitView()
+      CommitLocationView()
     }
   }
 }
