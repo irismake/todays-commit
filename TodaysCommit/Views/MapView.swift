@@ -30,7 +30,7 @@ struct KakaoMapView: UIViewRepresentable {
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
     
-  class KakaoMapCoordinator: NSObject, MapControllerDelegate {
+  class KakaoMapCoordinator: NSObject, MapControllerDelegate, GuiEventDelegate {
     var userMapPoint: MapPoint = .init(longitude: 127.00371914442674, latitude: 37.58360034150261)
     var controller: KMController?
     var first: Bool = true
@@ -66,6 +66,7 @@ struct KakaoMapView: UIViewRepresentable {
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
       createPoi()
+      createSpriteGUI()
     }
     
     func addViewFailed(_: String, viewInfoName _: String) {
@@ -90,6 +91,40 @@ struct KakaoMapView: UIViewRepresentable {
              
       let poi1 = layer?.addPoi(option: poiOption, at: userMapPoint)
       poi1?.show()
+    }
+      
+    func moveCamera() {
+      let mapView: KakaoMap = controller?.getView("mapview") as! KakaoMap
+        
+      mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint, height: 0, rotation: 0, tilt: 0)))
+    }
+      
+    func createSpriteGUI() {
+      let mapView = controller?.getView("mapview") as! KakaoMap
+      let guiManager = mapView.getGuiManager()
+      let spriteGui = SpriteGui("testSprite")
+           
+      spriteGui.arrangement = .horizontal
+      spriteGui.bgColor = UIColor.clear
+      spriteGui.splitLineColor = UIColor.gray
+
+      spriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
+      spriteGui.position = CGPoint(x: 30, y: 240)
+     
+      let gpsButton = GuiButton("gps_button")
+      gpsButton.image = UIImage(named: "gps")
+      spriteGui.addChild(gpsButton)
+
+      let _ = guiManager.spriteGuiLayer.addSpriteGui(spriteGui)
+      spriteGui.delegate = self
+      spriteGui.show()
+    }
+       
+    func guiDidTapped(_ gui: KakaoMapsSDK.GuiBase, componentName: String) {
+      print("Gui: \(gui.name), Component: \(componentName) tapped")
+      if componentName == "gps_button" {
+        moveCamera()
+      }
     }
   }
 }
