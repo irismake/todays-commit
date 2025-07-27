@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "my_position.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

@@ -31,7 +31,7 @@ struct KakaoMapView: UIViewRepresentable {
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
     
   class KakaoMapCoordinator: NSObject, MapControllerDelegate {
-    var userMapPoint: MapPoint? = MapPoint(longitude: 127.00371914442674, latitude: 37.58360034150261)
+    var userMapPoint: MapPoint = .init(longitude: 127.00371914442674, latitude: 37.58360034150261)
     var controller: KMController?
     var first: Bool = true
     var auth: Bool = false
@@ -65,25 +65,31 @@ struct KakaoMapView: UIViewRepresentable {
 
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
+      createPoi()
     }
     
     func addViewFailed(_: String, viewInfoName _: String) {
       print("Failed")
     }
-
-    func containerDidResized(_ size: CGSize) {
-      print("containerDidResized")
-      let mapView: KakaoMap? = controller?.getView("mapview") as? KakaoMap
-      mapView?.viewRect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: size)
-      if first, let userMapPoint {
-        let cameraUpdate = CameraUpdate.make(
-          target: userMapPoint,
-          zoomLevel: 10,
-          mapView: mapView!
-        )
-        mapView?.moveCamera(cameraUpdate)
-        first = false
-      }
+ 
+    func createPoi() {
+      let view = controller?.getView("mapview") as! KakaoMap
+      let manager = view.getLabelManager()
+      let layerOption = LabelLayerOptions(layerID: "PoiLayer", competitionType: .none, competitionUnit: .symbolFirst, orderType: .rank, zOrder: 1000)
+      let _ = manager.addLabelLayer(option: layerOption)
+        
+      let iconStyle = PoiIconStyle(symbol: UIImage(named: "my_position"), anchorPoint: CGPoint(x: 0.5, y: 0.5))
+      let poiStyle = PoiStyle(styleID: "PerLevelStyle", styles: [
+        PerLevelPoiStyle(iconStyle: iconStyle)
+      ])
+      manager.addPoiStyle(poiStyle)
+        
+      let layer = manager.getLabelLayer(layerID: "PoiLayer")
+      let poiOption = PoiOptions(styleID: "PerLevelStyle")
+      poiOption.rank = 0
+             
+      let poi1 = layer?.addPoi(option: poiOption, at: userMapPoint)
+      poi1?.show()
     }
   }
 }
