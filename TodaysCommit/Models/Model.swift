@@ -136,6 +136,11 @@ class CommitViewModel: ObservableObject {
   }
 }
 
+class LayoutMetrics: ObservableObject {
+  @Published var appBarHeight: CGFloat = 0
+  @Published var bottomSafeAreaHeight: CGFloat = 0
+}
+
 struct MailData {
   let recipient: String = "gitgrassgrowing@gmail.com"
   let subject: String

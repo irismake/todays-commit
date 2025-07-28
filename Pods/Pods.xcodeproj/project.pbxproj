@@ -6,20 +6,47 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		985ED89472B93FB310ED5E4DE7CE1E2D /* KakaoMapsSDK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 693D602A8BD8A2EE4C13C432BDE93DB0 /* Build configuration list for PBXAggregateTarget "KakaoMapsSDK" */;
+			buildPhases = (
+				073C38C133623D002C7A8970845DB3EE /* [CP] Copy XCFrameworks */,
+			);
+			dependencies = (
+			);
+			name = KakaoMapsSDK;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		02C19D2D0BF8F4325BA310BC922C2306 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		1DC6FFDFDC7E99A156587FA75F7CC3C0 /* Pods-TodaysCommit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A938AD18C94E10791A84DF2A81BC2D92 /* Pods-TodaysCommit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3685FD14109BD20EEF30FA8CB7933894 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D26EC17320FCCEAB2F02B308A080D67 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */; };
-		4AF50E2C212BD67435FD5A279FDB578D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		8C450664CD5E222B477688BE76195D96 /* Pods-TodaysCommit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B2BD4F20D5FF00845E5D41BF463AB6 /* Pods-TodaysCommit-dummy.m */; };
-		92EACFB8D8138FF2325A9B61576E8EDC /* Pods-TodaysCommitTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 12C252DEC6F7FD8F9FFAB35CD3DA254E /* Pods-TodaysCommitTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B79FC1E31E0F8FE806A19CB4334BE695 /* Pods-TodaysCommitTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E2516577E310852C55902D92DAF76AA1 /* Pods-TodaysCommitTests-dummy.m */; };
+		36E313CF2F497DB269B46033BE6ED8E8 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F00CD764B48334115B7FBB64E0F56361 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */; };
+		5519A6C6E6536FE792C7F0A78F1D1A39 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 97DCBD2DEF684870D80F10BF9E4411E2 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B53DED386FF63A05C61F31555D5E0B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		61D4BD27BCD6DC830714523D228B9631 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
+		78BEFB712E364800466B9C55FC43E8F6 /* Pods-TodaysCommit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D3C93B20F510951464B34BFB445E00DA /* Pods-TodaysCommit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7D11A48C6603B122C696A9AD6CABC9EF /* Pods-TodaysCommit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 07CA48BA41BB034B504CD46DAA7A9E01 /* Pods-TodaysCommit-dummy.m */; };
+		92EACFB8D8138FF2325A9B61576E8EDC /* Pods-TodaysCommitTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE360F739296524E2EC451E13E295914 /* Pods-TodaysCommitTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B79FC1E31E0F8FE806A19CB4334BE695 /* Pods-TodaysCommitTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E35ADFAD355E8F4DA8FBE9A6BACFA3D1 /* Pods-TodaysCommitTests-dummy.m */; };
 		F1D8726AB4D8A6EF17609C2DB636BF32 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */; };
-		F26D16D7669EA79A52C53718E69017AF /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A0A80A1746DACDC602A857DB1FABAB1 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0BCF2890A574289DB15FDB9EB3857F32 /* PBXContainerItemProxy */ = {
+		49B6A86B322AE8874EC92817CD2E421B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 985ED89472B93FB310ED5E4DE7CE1E2D;
+			remoteInfo = KakaoMapsSDK;
+		};
+		5E6DF0D72885998BBD207FCE6C5D7B6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 985ED89472B93FB310ED5E4DE7CE1E2D;
+			remoteInfo = KakaoMapsSDK;
+		};
+		FB2D88261D729D58D229749D88FFB7A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -29,51 +56,60 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		017B4DEFE89130535E11909A67E82B37 /* Pods-TodaysCommit-TodaysCommitUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-TodaysCommitUITests-Info.plist"; sourceTree = "<group>"; };
-		09AF382CB8669BAF1EE391079ACF417C /* Pods-TodaysCommitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0C06652409828980F79F0D4785FB4D63 /* Pods-TodaysCommitTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommitTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		12C252DEC6F7FD8F9FFAB35CD3DA254E /* Pods-TodaysCommitTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommitTests-umbrella.h"; sourceTree = "<group>"; };
-		24CF2DD446563964520EF2D7943ECE61 /* Pods-TodaysCommitTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommitTests-Info.plist"; sourceTree = "<group>"; };
-		26EDE78D11D09ECE0B6BDC5C27D17DB7 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		36C0765820C253C0C3BBA66169438AF5 /* Pods-TodaysCommit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit.release.xcconfig"; sourceTree = "<group>"; };
+		07CA48BA41BB034B504CD46DAA7A9E01 /* Pods-TodaysCommit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommit-dummy.m"; sourceTree = "<group>"; };
+		0D13DBCDCD0BCA103A0A53FCC5D9AFEF /* KakaoMapsSDK.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = KakaoMapsSDK.xcframework; sourceTree = "<group>"; };
+		0DC0389D41CE880EC8AC03E3640AE5CD /* Pods-TodaysCommit-TodaysCommitUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommit-TodaysCommitUITests.modulemap"; sourceTree = "<group>"; };
+		15CDD12EB61C4D28FA244A07CAC90D7C /* Pods-TodaysCommit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommit-acknowledgements.markdown"; sourceTree = "<group>"; };
+		1B43056B4AEE15C071D8A3F3E6C1B215 /* Pods-TodaysCommitTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommitTests-Info.plist"; sourceTree = "<group>"; };
+		1FBB68E2E0B85A295D27820B29CF9A7F /* Pods-TodaysCommit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-acknowledgements.plist"; sourceTree = "<group>"; };
+		30E561FF8038A13E43113406E9D7BFE4 /* Pods-TodaysCommit-TodaysCommitUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TodaysCommit-TodaysCommitUITests-frameworks.sh"; sourceTree = "<group>"; };
 		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		3D26EC17320FCCEAB2F02B308A080D67 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommit-TodaysCommitUITests-dummy.m"; sourceTree = "<group>"; };
-		40675D5F0511AACEBE99E4B35F5B5662 /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig"; sourceTree = "<group>"; };
-		50FABFDC00E735C6D94D3E79D89E3318 /* Pods-TodaysCommit-TodaysCommitUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommit-TodaysCommitUITests.modulemap"; sourceTree = "<group>"; };
-		528EA2D7C09EF9B0C2A5F40E4383A0A2 /* Pods-TodaysCommitTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommitTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		5E2298023FBEB01021B145E031A21382 /* Pods-TodaysCommit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-acknowledgements.plist"; sourceTree = "<group>"; };
-		626CB909C10509C691E73048E4A2F69E /* Pods-TodaysCommitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommitTests.release.xcconfig"; sourceTree = "<group>"; };
-		6642C4FCDEA56F7F9274382BD7D34C7C /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		6A0A80A1746DACDC602A857DB1FABAB1 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommit-TodaysCommitUITests-umbrella.h"; sourceTree = "<group>"; };
+		3F6A30E9765197132763C55354ED363A /* Pods-TodaysCommitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommitTests.release.xcconfig"; sourceTree = "<group>"; };
+		40897FA5F66531D7D50FBBAC32CAD144 /* Pods-TodaysCommitTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommitTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		4B102171C2BCE5440483225DD2E9EDC7 /* KakaoMapsSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KakaoMapsSDK.debug.xcconfig; sourceTree = "<group>"; };
+		4DF34994C061513A2ED771E6E3CD486B /* Pods-TodaysCommit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-Info.plist"; sourceTree = "<group>"; };
+		55B28AC3DDF0EAA4E95387CFD51874F9 /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		5F3E1E35BE577547E434B5DED2628893 /* KakaoMapsSDK-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "KakaoMapsSDK-xcframeworks.sh"; sourceTree = "<group>"; };
+		64576B41CA5DBB5608A38896935435A9 /* Pods-TodaysCommitTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommitTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7AEED6684B19DDD80E71A0195570C400 /* Pods-TodaysCommitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7BD8A914A20D5D117D02C3416B2F70EC /* KakaoMapsSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KakaoMapsSDK.release.xcconfig; sourceTree = "<group>"; };
+		7F0319D76088943F65CAFF5FCCC75E4F /* Pods-TodaysCommit-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TodaysCommit-frameworks.sh"; sourceTree = "<group>"; };
+		80C5CCD782A97AF2CE31A94313ED2D69 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		859FB1419DFD38B2D540C9427423F29A /* Pods-TodaysCommit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodaysCommit"; path = Pods_TodaysCommit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CD84CEDD8B5524237BE3B8097634720 /* Pods-TodaysCommitTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommitTests.modulemap"; sourceTree = "<group>"; };
+		89B2865B5D08F55E20E47575594D3338 /* Pods-TodaysCommit-TodaysCommitUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TodaysCommit-TodaysCommitUITests-resources.sh"; sourceTree = "<group>"; };
 		9391AFBB4BDFC9DD4BCCE098033CC4C0 /* Pods-TodaysCommitTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodaysCommitTests"; path = Pods_TodaysCommitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94FBC9104EFA1CA427355C3AA2ED131D /* Pods-TodaysCommit-TodaysCommitUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-TodaysCommitUITests-Info.plist"; sourceTree = "<group>"; };
+		97DCBD2DEF684870D80F10BF9E4411E2 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommit-TodaysCommitUITests-umbrella.h"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A938AD18C94E10791A84DF2A81BC2D92 /* Pods-TodaysCommit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommit-umbrella.h"; sourceTree = "<group>"; };
-		B4883A8C01E0C76B65BDFCC9AC289489 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		AE360F739296524E2EC451E13E295914 /* Pods-TodaysCommitTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommitTests-umbrella.h"; sourceTree = "<group>"; };
+		B30976A9C77CF5A408D575588EAD4F63 /* KakaoMapsSDKBundle.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = KakaoMapsSDKBundle.bundle; sourceTree = "<group>"; };
+		B57A4551992B28D70E84168581CB8B4C /* Pods-TodaysCommitTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommitTests.modulemap"; sourceTree = "<group>"; };
+		B7633093A40EE6F9C66B111125854A48 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		C28E6D2A6524E3A64A499FCEED1C2A6C /* Pods-TodaysCommit-TodaysCommitUITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodaysCommit-TodaysCommitUITests"; path = Pods_TodaysCommit_TodaysCommitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5B2BD4F20D5FF00845E5D41BF463AB6 /* Pods-TodaysCommit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommit-dummy.m"; sourceTree = "<group>"; };
-		E2516577E310852C55902D92DAF76AA1 /* Pods-TodaysCommitTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommitTests-dummy.m"; sourceTree = "<group>"; };
-		E4358FD15C6CFD83E62658D562859973 /* Pods-TodaysCommit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit.debug.xcconfig"; sourceTree = "<group>"; };
-		ECE1D69151F7B21FF4C5416E98F7C27C /* Pods-TodaysCommit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodaysCommit-Info.plist"; sourceTree = "<group>"; };
-		EDB741F81FF4A38958B8CCED7A3ABE16 /* Pods-TodaysCommit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommit.modulemap"; sourceTree = "<group>"; };
-		F624E0639253FCB7E312716818C0199E /* Pods-TodaysCommit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodaysCommit-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D317C4C204B951678E97ADA54501C0EF /* Pods-TodaysCommit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit.release.xcconfig"; sourceTree = "<group>"; };
+		D3C93B20F510951464B34BFB445E00DA /* Pods-TodaysCommit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodaysCommit-umbrella.h"; sourceTree = "<group>"; };
+		D9BE5C118206E61D3A7E118A9DA2C61F /* Pods-TodaysCommit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit.debug.xcconfig"; sourceTree = "<group>"; };
+		E35ADFAD355E8F4DA8FBE9A6BACFA3D1 /* Pods-TodaysCommitTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommitTests-dummy.m"; sourceTree = "<group>"; };
+		EA19CC2717E46C1F71787A4F8A39448B /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		EAA6AF694F6DD55A2B9C6D7A830CD7B8 /* Pods-TodaysCommit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TodaysCommit-resources.sh"; sourceTree = "<group>"; };
+		F00CD764B48334115B7FBB64E0F56361 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodaysCommit-TodaysCommitUITests-dummy.m"; sourceTree = "<group>"; };
+		F3FF30BC63546AD7B169E4EA6B998A02 /* Pods-TodaysCommit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-TodaysCommit.modulemap"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3626ACD0403B57149F8A44F2B57ED3DE /* Frameworks */ = {
+		3D1F91A2C750A8538FE80766F7582A33 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02C19D2D0BF8F4325BA310BC922C2306 /* Foundation.framework in Frameworks */,
+				5B53DED386FF63A05C61F31555D5E0B8 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		475DA32A43322FB09A663312F2E79B44 /* Frameworks */ = {
+		7FB23BFDC417BC33A8E558D701711911 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AF50E2C212BD67435FD5A279FDB578D /* Foundation.framework in Frameworks */,
+				61D4BD27BCD6DC830714523D228B9631 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,52 +134,83 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		713CCB7E0A2561790982418B5E2426C0 /* Pods-TodaysCommit-TodaysCommitUITests */ = {
+		0B306C64DDF8C1FCAE40C4532E581C94 /* KakaoMapsSDK */ = {
 			isa = PBXGroup;
 			children = (
-				50FABFDC00E735C6D94D3E79D89E3318 /* Pods-TodaysCommit-TodaysCommitUITests.modulemap */,
-				26EDE78D11D09ECE0B6BDC5C27D17DB7 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown */,
-				B4883A8C01E0C76B65BDFCC9AC289489 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist */,
-				3D26EC17320FCCEAB2F02B308A080D67 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */,
-				017B4DEFE89130535E11909A67E82B37 /* Pods-TodaysCommit-TodaysCommitUITests-Info.plist */,
-				6A0A80A1746DACDC602A857DB1FABAB1 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */,
-				6642C4FCDEA56F7F9274382BD7D34C7C /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */,
-				40675D5F0511AACEBE99E4B35F5B5662 /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */,
+				3A5933AA89E5EB256F926B5B2DB24E2F /* Frameworks */,
+				CF76BA71EB27D4D7D262E40C63BD9355 /* Resources */,
+				E9FCA6905C6CA97B331E7FF27D7966C0 /* Support Files */,
+			);
+			name = KakaoMapsSDK;
+			path = KakaoMapsSDK;
+			sourceTree = "<group>";
+		};
+		3A5933AA89E5EB256F926B5B2DB24E2F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0D13DBCDCD0BCA103A0A53FCC5D9AFEF /* KakaoMapsSDK.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5C3AFC248088D7A6CF8171755453508E /* Pods-TodaysCommit */ = {
+			isa = PBXGroup;
+			children = (
+				F3FF30BC63546AD7B169E4EA6B998A02 /* Pods-TodaysCommit.modulemap */,
+				15CDD12EB61C4D28FA244A07CAC90D7C /* Pods-TodaysCommit-acknowledgements.markdown */,
+				1FBB68E2E0B85A295D27820B29CF9A7F /* Pods-TodaysCommit-acknowledgements.plist */,
+				07CA48BA41BB034B504CD46DAA7A9E01 /* Pods-TodaysCommit-dummy.m */,
+				7F0319D76088943F65CAFF5FCCC75E4F /* Pods-TodaysCommit-frameworks.sh */,
+				4DF34994C061513A2ED771E6E3CD486B /* Pods-TodaysCommit-Info.plist */,
+				EAA6AF694F6DD55A2B9C6D7A830CD7B8 /* Pods-TodaysCommit-resources.sh */,
+				D3C93B20F510951464B34BFB445E00DA /* Pods-TodaysCommit-umbrella.h */,
+				D9BE5C118206E61D3A7E118A9DA2C61F /* Pods-TodaysCommit.debug.xcconfig */,
+				D317C4C204B951678E97ADA54501C0EF /* Pods-TodaysCommit.release.xcconfig */,
+			);
+			name = "Pods-TodaysCommit";
+			path = "Target Support Files/Pods-TodaysCommit";
+			sourceTree = "<group>";
+		};
+		8D23C29F1E3AB6BEE7F4E93A5A188715 /* Pods-TodaysCommit-TodaysCommitUITests */ = {
+			isa = PBXGroup;
+			children = (
+				0DC0389D41CE880EC8AC03E3640AE5CD /* Pods-TodaysCommit-TodaysCommitUITests.modulemap */,
+				B7633093A40EE6F9C66B111125854A48 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.markdown */,
+				80C5CCD782A97AF2CE31A94313ED2D69 /* Pods-TodaysCommit-TodaysCommitUITests-acknowledgements.plist */,
+				F00CD764B48334115B7FBB64E0F56361 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m */,
+				30E561FF8038A13E43113406E9D7BFE4 /* Pods-TodaysCommit-TodaysCommitUITests-frameworks.sh */,
+				94FBC9104EFA1CA427355C3AA2ED131D /* Pods-TodaysCommit-TodaysCommitUITests-Info.plist */,
+				89B2865B5D08F55E20E47575594D3338 /* Pods-TodaysCommit-TodaysCommitUITests-resources.sh */,
+				97DCBD2DEF684870D80F10BF9E4411E2 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h */,
+				55B28AC3DDF0EAA4E95387CFD51874F9 /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */,
+				EA19CC2717E46C1F71787A4F8A39448B /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */,
 			);
 			name = "Pods-TodaysCommit-TodaysCommitUITests";
 			path = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests";
 			sourceTree = "<group>";
 		};
-		7F9A2AF1E2176191A71DD0A38DCF0DB3 /* Pods-TodaysCommitTests */ = {
+		A2BBF15177A63BB5A9D7B61BA0B9028C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8CD84CEDD8B5524237BE3B8097634720 /* Pods-TodaysCommitTests.modulemap */,
-				528EA2D7C09EF9B0C2A5F40E4383A0A2 /* Pods-TodaysCommitTests-acknowledgements.markdown */,
-				0C06652409828980F79F0D4785FB4D63 /* Pods-TodaysCommitTests-acknowledgements.plist */,
-				E2516577E310852C55902D92DAF76AA1 /* Pods-TodaysCommitTests-dummy.m */,
-				24CF2DD446563964520EF2D7943ECE61 /* Pods-TodaysCommitTests-Info.plist */,
-				12C252DEC6F7FD8F9FFAB35CD3DA254E /* Pods-TodaysCommitTests-umbrella.h */,
-				09AF382CB8669BAF1EE391079ACF417C /* Pods-TodaysCommitTests.debug.xcconfig */,
-				626CB909C10509C691E73048E4A2F69E /* Pods-TodaysCommitTests.release.xcconfig */,
+				0B306C64DDF8C1FCAE40C4532E581C94 /* KakaoMapsSDK */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B9E0DCD04FD8C11EF9980C9CE9E45E06 /* Pods-TodaysCommitTests */ = {
+			isa = PBXGroup;
+			children = (
+				B57A4551992B28D70E84168581CB8B4C /* Pods-TodaysCommitTests.modulemap */,
+				64576B41CA5DBB5608A38896935435A9 /* Pods-TodaysCommitTests-acknowledgements.markdown */,
+				40897FA5F66531D7D50FBBAC32CAD144 /* Pods-TodaysCommitTests-acknowledgements.plist */,
+				E35ADFAD355E8F4DA8FBE9A6BACFA3D1 /* Pods-TodaysCommitTests-dummy.m */,
+				1B43056B4AEE15C071D8A3F3E6C1B215 /* Pods-TodaysCommitTests-Info.plist */,
+				AE360F739296524E2EC451E13E295914 /* Pods-TodaysCommitTests-umbrella.h */,
+				7AEED6684B19DDD80E71A0195570C400 /* Pods-TodaysCommitTests.debug.xcconfig */,
+				3F6A30E9765197132763C55354ED363A /* Pods-TodaysCommitTests.release.xcconfig */,
 			);
 			name = "Pods-TodaysCommitTests";
 			path = "Target Support Files/Pods-TodaysCommitTests";
-			sourceTree = "<group>";
-		};
-		A8C815BA9D87C378833A039170C252DD /* Pods-TodaysCommit */ = {
-			isa = PBXGroup;
-			children = (
-				EDB741F81FF4A38958B8CCED7A3ABE16 /* Pods-TodaysCommit.modulemap */,
-				F624E0639253FCB7E312716818C0199E /* Pods-TodaysCommit-acknowledgements.markdown */,
-				5E2298023FBEB01021B145E031A21382 /* Pods-TodaysCommit-acknowledgements.plist */,
-				C5B2BD4F20D5FF00845E5D41BF463AB6 /* Pods-TodaysCommit-dummy.m */,
-				ECE1D69151F7B21FF4C5416E98F7C27C /* Pods-TodaysCommit-Info.plist */,
-				A938AD18C94E10791A84DF2A81BC2D92 /* Pods-TodaysCommit-umbrella.h */,
-				E4358FD15C6CFD83E62658D562859973 /* Pods-TodaysCommit.debug.xcconfig */,
-				36C0765820C253C0C3BBA66169438AF5 /* Pods-TodaysCommit.release.xcconfig */,
-			);
-			name = "Pods-TodaysCommit";
-			path = "Target Support Files/Pods-TodaysCommit";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -151,9 +218,18 @@
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				A2BBF15177A63BB5A9D7B61BA0B9028C /* Pods */,
 				01B81376BE77B37A6D439389A73D68F0 /* Products */,
-				D88E8431D7302C85E6833F6BA42407EB /* Targets Support Files */,
+				DC7CB6D533B1F02D5CFB616E835E2961 /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		CF76BA71EB27D4D7D262E40C63BD9355 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B30976A9C77CF5A408D575588EAD4F63 /* KakaoMapsSDKBundle.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
@@ -164,12 +240,12 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		D88E8431D7302C85E6833F6BA42407EB /* Targets Support Files */ = {
+		DC7CB6D533B1F02D5CFB616E835E2961 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				A8C815BA9D87C378833A039170C252DD /* Pods-TodaysCommit */,
-				713CCB7E0A2561790982418B5E2426C0 /* Pods-TodaysCommit-TodaysCommitUITests */,
-				7F9A2AF1E2176191A71DD0A38DCF0DB3 /* Pods-TodaysCommitTests */,
+				5C3AFC248088D7A6CF8171755453508E /* Pods-TodaysCommit */,
+				8D23C29F1E3AB6BEE7F4E93A5A188715 /* Pods-TodaysCommit-TodaysCommitUITests */,
+				B9E0DCD04FD8C11EF9980C9CE9E45E06 /* Pods-TodaysCommitTests */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
@@ -182,9 +258,28 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		E9FCA6905C6CA97B331E7FF27D7966C0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				5F3E1E35BE577547E434B5DED2628893 /* KakaoMapsSDK-xcframeworks.sh */,
+				4B102171C2BCE5440483225DD2E9EDC7 /* KakaoMapsSDK.debug.xcconfig */,
+				7BD8A914A20D5D117D02C3416B2F70EC /* KakaoMapsSDK.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/KakaoMapsSDK";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		0E6F4BDF9ED62F4A053A0AFAD72F076E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5519A6C6E6536FE792C7F0A78F1D1A39 /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		553A0CF2DD50C7576EA55271E816449F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,19 +288,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9B03048E43B566771B613A0FE4477995 /* Headers */ = {
+		CF9D2F66C9FB723464E53E11CCE87A34 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F26D16D7669EA79A52C53718E69017AF /* Pods-TodaysCommit-TodaysCommitUITests-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9C0317A860D74B30DE11FC3B069844F6 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1DC6FFDFDC7E99A156587FA75F7CC3C0 /* Pods-TodaysCommit-umbrella.h in Headers */,
+				78BEFB712E364800466B9C55FC43E8F6 /* Pods-TodaysCommit-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,16 +301,17 @@
 /* Begin PBXNativeTarget section */
 		4719C7024A7D1952E7F7AB98CF69A816 /* Pods-TodaysCommit-TodaysCommitUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A4601B6B88648404862AC8A7A9FDC146 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit-TodaysCommitUITests" */;
+			buildConfigurationList = 49CAB41F929270154044E8F0CBF65770 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit-TodaysCommitUITests" */;
 			buildPhases = (
-				9B03048E43B566771B613A0FE4477995 /* Headers */,
-				A8BA6DDFC6347336EC79EFDE899ED1D1 /* Sources */,
-				475DA32A43322FB09A663312F2E79B44 /* Frameworks */,
-				3D1852A55304A4D0FF4B0321FE02D473 /* Resources */,
+				0E6F4BDF9ED62F4A053A0AFAD72F076E /* Headers */,
+				B44E28CD9AC7769E04907EF18B2B49A8 /* Sources */,
+				7FB23BFDC417BC33A8E558D701711911 /* Frameworks */,
+				93291D7E3E1D1B124C0632988150F53A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				50892FF742A7BB3557B777561A4403DD /* PBXTargetDependency */,
 			);
 			name = "Pods-TodaysCommit-TodaysCommitUITests";
 			productName = Pods_TodaysCommit_TodaysCommitUITests;
@@ -242,7 +330,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				03518ED6E23D448C57709A78690AC97D /* PBXTargetDependency */,
+				CF989753E13A15B6A851BE8F6AC493E2 /* PBXTargetDependency */,
 			);
 			name = "Pods-TodaysCommitTests";
 			productName = Pods_TodaysCommitTests;
@@ -251,16 +339,17 @@
 		};
 		FB341C9E333962D93DABE487E0B2F23B /* Pods-TodaysCommit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 876AF15434501B0E12774AADD265EE97 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit" */;
+			buildConfigurationList = 1C121556BEB4DD253A06E00EC102F6E3 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit" */;
 			buildPhases = (
-				9C0317A860D74B30DE11FC3B069844F6 /* Headers */,
-				9A82FA49299EA8E26F0A554161DCC9A5 /* Sources */,
-				3626ACD0403B57149F8A44F2B57ED3DE /* Frameworks */,
-				9692B8D52E217623DA7B881992D3F7AA /* Resources */,
+				CF9D2F66C9FB723464E53E11CCE87A34 /* Headers */,
+				69ACF0D4973D6F8012016EC778CA4965 /* Sources */,
+				3D1F91A2C750A8538FE80766F7582A33 /* Frameworks */,
+				557DE03AAB1F7022B282201F9676FAB9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				EFB3D827CB41269F3F99F256474CF8D4 /* PBXTargetDependency */,
 			);
 			name = "Pods-TodaysCommit";
 			productName = Pods_TodaysCommit;
@@ -291,6 +380,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				985ED89472B93FB310ED5E4DE7CE1E2D /* KakaoMapsSDK */,
 				FB341C9E333962D93DABE487E0B2F23B /* Pods-TodaysCommit */,
 				4719C7024A7D1952E7F7AB98CF69A816 /* Pods-TodaysCommit-TodaysCommitUITests */,
 				50CCAE17BD3E6DD65938E7B8FD8DC173 /* Pods-TodaysCommitTests */,
@@ -299,13 +389,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3D1852A55304A4D0FF4B0321FE02D473 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4C6BBB3F2BCD2297D00F801F8EC7405E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,7 +396,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9692B8D52E217623DA7B881992D3F7AA /* Resources */ = {
+		557DE03AAB1F7022B282201F9676FAB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93291D7E3E1D1B124C0632988150F53A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -322,20 +412,40 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		073C38C133623D002C7A8970845DB3EE /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/KakaoMapsSDK/KakaoMapsSDK-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/KakaoMapsSDK/KakaoMapsSDK-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/KakaoMapsSDK/KakaoMapsSDK-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		9A82FA49299EA8E26F0A554161DCC9A5 /* Sources */ = {
+		69ACF0D4973D6F8012016EC778CA4965 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C450664CD5E222B477688BE76195D96 /* Pods-TodaysCommit-dummy.m in Sources */,
+				7D11A48C6603B122C696A9AD6CABC9EF /* Pods-TodaysCommit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A8BA6DDFC6347336EC79EFDE899ED1D1 /* Sources */ = {
+		B44E28CD9AC7769E04907EF18B2B49A8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3685FD14109BD20EEF30FA8CB7933894 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m in Sources */,
+				36E313CF2F497DB269B46033BE6ED8E8 /* Pods-TodaysCommit-TodaysCommitUITests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,18 +460,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		03518ED6E23D448C57709A78690AC97D /* PBXTargetDependency */ = {
+		50892FF742A7BB3557B777561A4403DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KakaoMapsSDK;
+			target = 985ED89472B93FB310ED5E4DE7CE1E2D /* KakaoMapsSDK */;
+			targetProxy = 5E6DF0D72885998BBD207FCE6C5D7B6A /* PBXContainerItemProxy */;
+		};
+		CF989753E13A15B6A851BE8F6AC493E2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-TodaysCommit";
 			target = FB341C9E333962D93DABE487E0B2F23B /* Pods-TodaysCommit */;
-			targetProxy = 0BCF2890A574289DB15FDB9EB3857F32 /* PBXContainerItemProxy */;
+			targetProxy = FB2D88261D729D58D229749D88FFB7A8 /* PBXContainerItemProxy */;
+		};
+		EFB3D827CB41269F3F99F256474CF8D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KakaoMapsSDK;
+			target = 985ED89472B93FB310ED5E4DE7CE1E2D /* KakaoMapsSDK */;
+			targetProxy = 49B6A86B322AE8874EC92817CD2E421B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0B369C3A07B9481D0C3BCCD32077003F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09AF382CB8669BAF1EE391079ACF417C /* Pods-TodaysCommitTests.debug.xcconfig */;
+			baseConfigurationReference = 7AEED6684B19DDD80E71A0195570C400 /* Pods-TodaysCommitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -398,9 +520,146 @@
 			};
 			name = Debug;
 		};
-		19F93CBB0D7A5AF577D1FC65C7E1D1F1 /* Release */ = {
+		2B7CA549166E50E140BA5939E81DA776 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36C0765820C253C0C3BBA66169438AF5 /* Pods-TodaysCommit.release.xcconfig */;
+			baseConfigurationReference = 3F6A30E9765197132763C55354ED363A /* Pods-TodaysCommitTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommitTests/Pods-TodaysCommitTests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommitTests/Pods-TodaysCommitTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5E336B2488C8B0B17AE47A31527D3A4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EA19CC2717E46C1F71787A4F8A39448B /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		677057429322218238929B656FFC1AC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4B102171C2BCE5440483225DD2E9EDC7 /* KakaoMapsSDK.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		73864CB98617F01EDBF2060F214D96B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9BE5C118206E61D3A7E118A9DA2C61F /* Pods-TodaysCommit.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit/Pods-TodaysCommit-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit/Pods-TodaysCommit.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		86C9C8C379E98A319C7177256F713425 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D317C4C204B951678E97ADA54501C0EF /* Pods-TodaysCommit.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -437,85 +696,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
-		};
-		2B7CA549166E50E140BA5939E81DA776 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 626CB909C10509C691E73048E4A2F69E /* Pods-TodaysCommitTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommitTests/Pods-TodaysCommitTests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommitTests/Pods-TodaysCommitTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		73CDB53DAFDC7BEE2F4C79BDF7796D09 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6642C4FCDEA56F7F9274382BD7D34C7C /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
 		};
 		8DE5143C03248BB6CD542DE3963D6F3A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -583,85 +763,6 @@
 			};
 			name = Debug;
 		};
-		93881063CF16C06D071C9EF941BDD40B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E4358FD15C6CFD83E62658D562859973 /* Pods-TodaysCommit.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit/Pods-TodaysCommit-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit/Pods-TodaysCommit.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		9A485526C38D7EA64C7656F4356F0B5C /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 40675D5F0511AACEBE99E4B35F5B5662 /* Pods-TodaysCommit-TodaysCommitUITests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		9E406C6AAF85E580207CD97B0044DEAB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -724,9 +825,76 @@
 			};
 			name = Release;
 		};
+		ED326632B90C131EBB1F0C72405B2F21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55B28AC3DDF0EAA4E95387CFD51874F9 /* Pods-TodaysCommit-TodaysCommitUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				INFOPLIST_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-TodaysCommit-TodaysCommitUITests/Pods-TodaysCommit-TodaysCommitUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F42163899F37B6A6DE496DA5DE8E9B7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BD8A914A20D5D117D02C3416B2F70EC /* KakaoMapsSDK.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1C121556BEB4DD253A06E00EC102F6E3 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73864CB98617F01EDBF2060F214D96B7 /* Debug */,
+				86C9C8C379E98A319C7177256F713425 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -736,20 +904,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		876AF15434501B0E12774AADD265EE97 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit" */ = {
+		49CAB41F929270154044E8F0CBF65770 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit-TodaysCommitUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				93881063CF16C06D071C9EF941BDD40B /* Debug */,
-				19F93CBB0D7A5AF577D1FC65C7E1D1F1 /* Release */,
+				ED326632B90C131EBB1F0C72405B2F21 /* Debug */,
+				5E336B2488C8B0B17AE47A31527D3A4E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A4601B6B88648404862AC8A7A9FDC146 /* Build configuration list for PBXNativeTarget "Pods-TodaysCommit-TodaysCommitUITests" */ = {
+		693D602A8BD8A2EE4C13C432BDE93DB0 /* Build configuration list for PBXAggregateTarget "KakaoMapsSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				73CDB53DAFDC7BEE2F4C79BDF7796D09 /* Debug */,
-				9A485526C38D7EA64C7656F4356F0B5C /* Release */,
+				677057429322218238929B656FFC1AC7 /* Debug */,
+				F42163899F37B6A6DE496DA5DE8E9B7E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
