@@ -32,6 +32,7 @@ struct KakaoMapView: UIViewRepresentable {
     
   class KakaoMapCoordinator: NSObject, MapControllerDelegate, GuiEventDelegate {
     var userMapPoint: MapPoint = .init(longitude: 127.00371914442674, latitude: 37.58360034150261)
+    var initMapPoint: MapPoint = .init(longitude: 126.97865225946583, latitude: 37.56682195018582)
     var controller: KMController?
     var first: Bool = true
     var auth: Bool = false
@@ -54,7 +55,8 @@ struct KakaoMapView: UIViewRepresentable {
       let mapviewInfo = MapviewInfo(
         viewName: "mapview",
         viewInfoName: "map",
-        defaultPosition: userMapPoint, defaultLevel: zoomLevel
+        defaultPosition: initMapPoint,
+        defaultLevel: zoomLevel
       )
         
       guard let controller else {
@@ -66,8 +68,10 @@ struct KakaoMapView: UIViewRepresentable {
 
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
+      moveCamera()
       createPoi()
-      createSpriteGUI()
+      createGpsSpriteGUI()
+      createMarkerSpriteGUI()
     }
     
     func addViewFailed(_: String, viewInfoName _: String) {
@@ -100,25 +104,43 @@ struct KakaoMapView: UIViewRepresentable {
       mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint, zoomLevel: zoomLevel, rotation: 0, tilt: 0)))
     }
       
-    func createSpriteGUI() {
+    func createGpsSpriteGUI() {
       let mapView = controller?.getView("mapview") as! KakaoMap
       let guiManager = mapView.getGuiManager()
-      let spriteGui = SpriteGui("testSprite")
+      let gpsSpriteGui = SpriteGui("gpsSprite")
            
-      spriteGui.arrangement = .horizontal
-      spriteGui.bgColor = UIColor.clear
-      spriteGui.splitLineColor = UIColor.gray
+      gpsSpriteGui.arrangement = .horizontal
+      gpsSpriteGui.bgColor = UIColor.clear
+      gpsSpriteGui.splitLineColor = UIColor.gray
 
-      spriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
-      spriteGui.position = CGPoint(x: 30, y: 240)
+      gpsSpriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
+      gpsSpriteGui.position = CGPoint(x: 30, y: 240)
      
       let gpsButton = GuiButton("gps_button")
       gpsButton.image = UIImage(named: "gps")
-      spriteGui.addChild(gpsButton)
+      gpsSpriteGui.addChild(gpsButton)
+        
+      let _ = guiManager.spriteGuiLayer.addSpriteGui(gpsSpriteGui)
+      gpsSpriteGui.delegate = self
+      gpsSpriteGui.show()
+    }
 
-      let _ = guiManager.spriteGuiLayer.addSpriteGui(spriteGui)
-      spriteGui.delegate = self
-      spriteGui.show()
+    func createMarkerSpriteGUI() {
+      let mapView = controller?.getView("mapview") as! KakaoMap
+      let guiManager = mapView.getGuiManager()
+      let markerSpriteGui = SpriteGui("markerSprite")
+             
+      markerSpriteGui.arrangement = .horizontal
+      markerSpriteGui.origin = GuiAlignment(vAlign: .middle, hAlign: .center)
+      markerSpriteGui.position = CGPoint(x: 0, y: -20)
+        
+      let centerMarker = GuiButton("center_marker")
+      centerMarker.image = UIImage(named: "center")
+      markerSpriteGui.addChild(centerMarker)
+
+      let _ = guiManager.spriteGuiLayer.addSpriteGui(markerSpriteGui)
+      markerSpriteGui.delegate = self
+      markerSpriteGui.show()
     }
        
     func guiDidTapped(_ gui: KakaoMapsSDK.GuiBase, componentName: String) {
