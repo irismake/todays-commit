@@ -31,7 +31,7 @@ struct KakaoMapView: UIViewRepresentable {
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
     
-  class KakaoMapCoordinator: NSObject, MapControllerDelegate, GuiEventDelegate {
+  class KakaoMapCoordinator: NSObject, MapControllerDelegate, GuiEventDelegate, KakaoMapEventDelegate {
     var userMapPoint: MapPoint = .init(longitude: 127.00371914442674, latitude: 37.58360034150261)
     var initMapPoint: MapPoint = .init(longitude: 126.97865225946583, latitude: 37.56682195018582)
     var controller: KMController?
@@ -72,6 +72,10 @@ struct KakaoMapView: UIViewRepresentable {
 
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
+      let view = controller?.getView("mapview") as! KakaoMap
+      
+      view.eventDelegate = self
+          
       setMapMargin()
       moveCamera()
       createPoi()
@@ -155,18 +159,18 @@ struct KakaoMapView: UIViewRepresentable {
       markerSpriteGui.show()
     }
        
-    func guiDidTapped(_ gui: KakaoMapsSDK.GuiBase, componentName: String) {
-      print("Gui: \(gui.name), Component: \(componentName) tapped")
+    func guiDidTapped(_: KakaoMapsSDK.GuiBase, componentName: String) {
       if componentName == "gps_button" {
         moveCamera()
       }
-      if componentName == "center_marker" {
-        let mapView = controller?.getView("mapview") as! KakaoMap
-        let size = mapView.viewRect.size
-        let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
-        let centerMapPoint = mapView.getPosition(center)
-        print("위도: \(centerMapPoint.wgsCoord.latitude), 경도: \(centerMapPoint.wgsCoord.longitude)")
-      }
+    }
+      
+    func cameraDidStopped(kakaoMap _: KakaoMapsSDK.KakaoMap, by _: MoveBy) {
+      let mapView = controller?.getView("mapview") as! KakaoMap
+      let size = mapView.viewRect.size
+      let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
+      let centerMapPoint = mapView.getPosition(center)
+      print("위도: \(centerMapPoint.wgsCoord.latitude), 경도: \(centerMapPoint.wgsCoord.longitude)")
     }
   }
 }
