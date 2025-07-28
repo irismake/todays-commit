@@ -39,6 +39,7 @@ struct KakaoMapView: UIViewRepresentable {
     var auth: Bool = false
     let zoomLevel = 18
     let layout: LayoutMetrics
+    var bottomMargin: CGFloat = 0
 
     init(layoutMetrics: LayoutMetrics) {
       layout = layoutMetrics
@@ -84,9 +85,9 @@ struct KakaoMapView: UIViewRepresentable {
  
     func setMapMargin() {
       let screenHeight = UIScreen.main.bounds.height
-      let margin = screenHeight - layout.bottomSafeAreaHeight
+      bottomMargin = screenHeight - layout.bottomSafeAreaHeight
       let mapView = controller?.getView("mapview") as! KakaoMap
-      mapView.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: margin, right: 0))
+      mapView.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: bottomMargin, right: 0))
     }
       
     func createPoi() {
@@ -158,6 +159,13 @@ struct KakaoMapView: UIViewRepresentable {
       print("Gui: \(gui.name), Component: \(componentName) tapped")
       if componentName == "gps_button" {
         moveCamera()
+      }
+      if componentName == "center_marker" {
+        let mapView = controller?.getView("mapview") as! KakaoMap
+        let size = mapView.viewRect.size
+        let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
+        let centerMapPoint = mapView.getPosition(center)
+        print("위도: \(centerMapPoint.wgsCoord.latitude), 경도: \(centerMapPoint.wgsCoord.longitude)")
       }
     }
   }
