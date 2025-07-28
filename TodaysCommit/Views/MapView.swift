@@ -35,6 +35,7 @@ struct KakaoMapView: UIViewRepresentable {
     var controller: KMController?
     var first: Bool = true
     var auth: Bool = false
+    let zoomLevel = 18
          
     override init() {
       super.init()
@@ -53,7 +54,7 @@ struct KakaoMapView: UIViewRepresentable {
       let mapviewInfo = MapviewInfo(
         viewName: "mapview",
         viewInfoName: "map",
-        defaultPosition: userMapPoint
+        defaultPosition: userMapPoint, defaultLevel: zoomLevel
       )
         
       guard let controller else {
@@ -96,7 +97,7 @@ struct KakaoMapView: UIViewRepresentable {
     func moveCamera() {
       let mapView: KakaoMap = controller?.getView("mapview") as! KakaoMap
         
-      mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint, height: 0, rotation: 0, tilt: 0)))
+      mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint, zoomLevel: zoomLevel, rotation: 0, tilt: 0)))
     }
       
     func createSpriteGUI() {
