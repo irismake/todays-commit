@@ -5,6 +5,7 @@ struct CommitLocationView: View {
   @State var draw: Bool = false
   @State private var existPlace: Bool = true
   @State private var showCommitView = false
+  @StateObject private var layout = LayoutMetrics()
 
   var body: some View {
     VStack {
@@ -23,12 +24,18 @@ struct CommitLocationView: View {
       }
       .padding(.horizontal)
       .padding(.vertical)
+      .background(GeometryReader { proxy in
+        Color.clear.onAppear {
+          layout.appBarHeight = proxy.frame(in: .global).minY
+        }
+      })
 
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)
           .onAppear { draw = true }
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
+          .environmentObject(layout)
 
         VStack(alignment: .leading, spacing: 12) {
           if !existPlace {
@@ -58,6 +65,13 @@ struct CommitLocationView: View {
               .background(existPlace ? Color.green : Color.orange)
               .foregroundColor(.white)
               .cornerRadius(12)
+              .background(
+                GeometryReader { proxy in
+                  Color.clear.onAppear {
+                    layout.bottomSafeAreaHeight = proxy.frame(in: .global).minY
+                  }
+                }
+              )
           }
           .sheet(isPresented: $showCommitView) {
             CommitView()

@@ -3,6 +3,7 @@ import SwiftUI
 
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
+  @EnvironmentObject var layout: LayoutMetrics
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
     let view = KMViewContainer()
@@ -25,7 +26,7 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator()
+    KakaoMapCoordinator(layoutMetrics: layout)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
@@ -37,8 +38,10 @@ struct KakaoMapView: UIViewRepresentable {
     var first: Bool = true
     var auth: Bool = false
     let zoomLevel = 18
-         
-    override init() {
+    let layout: LayoutMetrics
+
+    init(layoutMetrics: LayoutMetrics) {
+      layout = layoutMetrics
       super.init()
     }
 
@@ -68,6 +71,7 @@ struct KakaoMapView: UIViewRepresentable {
 
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
+      setMapMargin()
       moveCamera()
       createPoi()
       createGpsSpriteGUI()
@@ -78,6 +82,13 @@ struct KakaoMapView: UIViewRepresentable {
       print("Failed")
     }
  
+    func setMapMargin() {
+      let screenHeight = UIScreen.main.bounds.height
+      let margin = screenHeight - layout.bottomSafeAreaHeight
+      let mapView = controller?.getView("mapview") as! KakaoMap
+      mapView.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: margin, right: 0))
+    }
+      
     func createPoi() {
       let view = controller?.getView("mapview") as! KakaoMap
       let manager = view.getLabelManager()
@@ -114,7 +125,7 @@ struct KakaoMapView: UIViewRepresentable {
       gpsSpriteGui.splitLineColor = UIColor.gray
 
       gpsSpriteGui.origin = GuiAlignment(vAlign: .bottom, hAlign: .right)
-      gpsSpriteGui.position = CGPoint(x: 30, y: 240)
+      gpsSpriteGui.position = CGPoint(x: 30, y: 60)
      
       let gpsButton = GuiButton("gps_button")
       gpsButton.image = UIImage(named: "gps")
@@ -132,7 +143,7 @@ struct KakaoMapView: UIViewRepresentable {
              
       markerSpriteGui.arrangement = .horizontal
       markerSpriteGui.origin = GuiAlignment(vAlign: .middle, hAlign: .center)
-      markerSpriteGui.position = CGPoint(x: 0, y: -20)
+      markerSpriteGui.position = CGPoint(x: 0, y: -30)
         
       let centerMarker = GuiButton("center_marker")
       centerMarker.image = UIImage(named: "center")
