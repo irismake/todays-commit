@@ -5,11 +5,7 @@ import SwiftUI
 @main
 struct TodaysCommitApp: App {
   init() {
-    if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
-      KakaoSDK.initSDK(appKey: kakaoAppKey)
-    } else {
-      assertionFailure("❌ KAKAO_APP_KEY is missing in Info.plist")
-    }
+    KakaoSDK.initSDK(appKey: AppConfig.kakaoAppKey)
   }
     
   var body: some Scene {

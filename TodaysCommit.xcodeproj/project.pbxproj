@@ -515,7 +515,7 @@
 		17762F822E30A959003F2E53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 17762F612E30A957003F2E53 /* TodaysCommit */;
-			baseConfigurationReferenceRelativePath = Configurations/Debug.xcconfig;
+			baseConfigurationReferenceRelativePath = Service/Data/Config/Debug.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -578,7 +578,7 @@
 		17762F832E30A959003F2E53 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 17762F612E30A957003F2E53 /* TodaysCommit */;
-			baseConfigurationReferenceRelativePath = Configurations/Release.xcconfig;
+			baseConfigurationReferenceRelativePath = Service/Data/Config/Release.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

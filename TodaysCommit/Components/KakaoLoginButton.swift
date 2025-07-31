@@ -7,7 +7,14 @@ import SwiftUI
 struct KakaoLoginButton: View {
   var body: some View {
     Button(action: {
-      handleKakaoLogin()
+      AuthService.shared.kakaoAuth { result in
+        switch result {
+        case let .success(user):
+          UserSessionManager.save(user: user)
+        case let .failure(error):
+          print("❌ 로그인 실패: \(error.localizedDescription)")
+        }
+      }
     }) {
       HStack {
         Image("kakao_symbol")
