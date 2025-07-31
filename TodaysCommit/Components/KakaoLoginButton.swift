@@ -35,7 +35,6 @@ struct KakaoLoginButton: View {
       .cornerRadius(12)
     }
   }
- 
 }
 
 struct KakaoLoginButton_Previews: PreviewProvider {

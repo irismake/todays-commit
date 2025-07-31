@@ -1,8 +1,18 @@
+import AuthenticationServices
 import SwiftUI
 
 struct AppleLoginButton: View {
   var body: some View {
-    Button(action: {}) {
+    Button(action: {
+      AuthService.shared.appleAuth { result in
+        switch result {
+        case let .success(user):
+          UserSessionManager.save(user: user)
+        case let .failure(error):
+          print("❌ 로그인 실패: \(error.localizedDescription)")
+        }
+      }
+    }) {
       HStack {
         Image("apple_symbol")
           .resizable()
