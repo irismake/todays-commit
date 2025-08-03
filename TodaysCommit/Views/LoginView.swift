@@ -3,9 +3,32 @@ import SwiftUI
 
 struct LoginView: View {
   var body: some View {
-    VStack(spacing: 20) {
-      KakaoLoginButton()
+    VStack(spacing: 12) {
+      Image("logo_name")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .padding(.horizontal, 120)
+        .padding(.vertical, 80)
+     
+      Image("logo_icon")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .padding(.horizontal, 100)
+        
+      Spacer()
+        
       AppleLoginButton()
+        
+      KakaoLoginButton()
+      Button(action: {
+        print("로그인 없이 둘러보기 탭됨")
+      }) {
+        Text("로그인 없이 둘러보기")
+          .font(.subheadline)
+          .fontWeight(.medium)
+          .foregroundColor(Color.primary)
+          .padding()
+      }
     }.padding()
   }
 }
