@@ -1,7 +1,8 @@
-import AuthenticationServices
 import SwiftUI
 
 struct AppleLoginButton: View {
+  @Environment(\.colorScheme) var colorScheme
+
   var body: some View {
     Button(action: {
       AuthService.shared.appleAuth { result in
@@ -17,18 +18,18 @@ struct AppleLoginButton: View {
         Image("apple_symbol")
           .resizable()
           .renderingMode(.template)
+          .foregroundColor(colorScheme == .dark ? .black : .white)
           .aspectRatio(contentMode: .fit)
           .frame(height: 18)
-          .foregroundColor(.white)
-            
+
         Text("Sign in with Apple")
           .font(.subheadline)
-          .foregroundColor(Color.white)
           .fontWeight(.medium)
+          .foregroundColor(colorScheme == .dark ? .black : .white)
       }
       .frame(height: UIScreen.main.bounds.height * 0.06)
       .frame(maxWidth: .infinity)
-      .background(Color.black)
+      .background(colorScheme == .dark ? Color.white : Color.black)
       .cornerRadius(12)
     }
   }

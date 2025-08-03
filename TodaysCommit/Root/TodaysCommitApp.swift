@@ -1,13 +1,12 @@
+import KakaoMapsSDK
 import KakaoSDKAuth
 import KakaoSDKCommon
 import SwiftUI
 
 @main
 struct TodaysCommitApp: App {
-  init() {
-    KakaoSDK.initSDK(appKey: AppConfig.kakaoAppKey)
-  }
-    
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
   var body: some Scene {
     WindowGroup {
       LoginView()
@@ -16,6 +15,22 @@ struct TodaysCommitApp: App {
             _ = AuthController.handleOpenUrl(url: url)
           }
         }
+    }
+  }
+
+  class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+      _: UIApplication,
+      didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+      if let kakaoAppKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_APP_KEY") as? String {
+        SDKInitializer.InitSDK(appKey: kakaoAppKey)
+        KakaoSDK.initSDK(appKey: kakaoAppKey)
+      } else {
+        assertionFailure("❌ KAKAO_APP_KEY is missing in Info.plist")
+        return false
+      }
+      return true
     }
   }
 }
