@@ -29,65 +29,48 @@ struct CommitLocationView: View {
           layout.appBarHeight = proxy.frame(in: .global).minY
         }
       })
-
+          
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)
           .onAppear { draw = true }
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layout)
-
-        VStack(alignment: .leading, spacing: 12) {
-          if !existPlace {
-            Text("장소 정보를 찾을 수 없어요.")
-              .font(.subheadline)
-              .fontWeight(.semibold)
-              .foregroundColor(.orange)
-
-            Text("위치를 이동해보세요.")
-              .font(.caption)
-              .foregroundColor(.gray)
-          }
-
-          Button(action: {
-            print("커밋 진행")
-      
-            if existPlace == false {
+              
+        VStack {
+          if existPlace {
+            CompleteButton(onComplete: {
+              print("커밋 진행")
+                                       
+              if existPlace == false {
+                showCommitView = true
+              }
+              existPlace = false
+                  
+            }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
+              .padding(.vertical)
+              .padding(.bottom, 20)
+              .padding(.horizontal)
+          } else {
+            PlaceNotFoundOverlay {
               showCommitView = true
             }
-            existPlace = false
-          }) {
-            Text(existPlace ? "커밋하기" : "그래도 이 위치로 커밋하기")
-              .font(.headline)
-              .fontWeight(.bold)
-              .frame(maxWidth: .infinity)
-              .padding()
-              .background(existPlace ? Color.green : Color.orange)
-              .foregroundColor(.white)
-              .cornerRadius(12)
-              .background(
-                GeometryReader { proxy in
-                  Color.clear.onAppear {
-                    layout.bottomSafeAreaHeight = proxy.frame(in: .global).minY
-                  }
-                }
-              )
-          }
-          .sheet(isPresented: $showCommitView) {
-            CommitView()
           }
         }
-        .padding(.vertical)
-        .padding(.horizontal)
-        .frame(maxWidth: .infinity)
         .background(
-          (existPlace ? Color.clear : Color(red: 1.0, green: 0.956, blue: 0.902))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .ignoresSafeArea(edges: .bottom)
+          GeometryReader { proxy in
+            Color.clear.onAppear {
+              layout.bottomSafeAreaHeight = proxy.frame(in: .global).minY
+            }
+          }
         )
+        .sheet(isPresented: $showCommitView) {
+          CommitView()
+        }
       }
     }
-    .background(Color.white)
+    
+    .ignoresSafeArea(edges: .bottom)
   }
 }
 
