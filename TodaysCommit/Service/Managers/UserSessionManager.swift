@@ -28,8 +28,4 @@ enum UserSessionManager {
   static var hasAccessToken: Bool {
     UserDefaults.standard.string(forKey: "access_token") != nil
   }
-
-  static var isLoggedIn: Bool {
-    hasAccessToken || isGuest
-  }
 }
