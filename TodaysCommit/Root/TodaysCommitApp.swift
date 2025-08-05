@@ -5,16 +5,19 @@ import SwiftUI
 
 @main
 struct TodaysCommitApp: App {
+  @StateObject private var locationManager = LocationManager()
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   var body: some Scene {
     WindowGroup {
-      LoginView()
-        .onOpenURL { url in
-          if AuthApi.isKakaoTalkLoginUrl(url) {
-            _ = AuthController.handleOpenUrl(url: url)
-          }
-        }
+//      LoginView()
+//        .onOpenURL { url in
+//          if AuthApi.isKakaoTalkLoginUrl(url) {
+//            _ = AuthController.handleOpenUrl(url: url)
+//          }
+//        }
+      ContentView()
+        .environmentObject(locationManager)
     }
   }
 

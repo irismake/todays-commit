@@ -2,9 +2,10 @@ import CoreLocation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
-    
+   
   @Published var location: CLLocationCoordinate2D?
   @Published var authorizationStatus: CLAuthorizationStatus?
+  @Published var isOverlayActive: Bool = false
 
   override init() {
     super.init()
@@ -23,5 +24,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     authorizationStatus = manager.authorizationStatus
+  }
+    
+  func deactivateOverlay() {
+    isOverlayActive = false
+  }
+
+  func activateOverlay() {
+    isOverlayActive = true
   }
 }
