@@ -8,7 +8,7 @@ struct AppleLoginButton: View {
       AuthService.shared.appleAuth { result in
         switch result {
         case let .success(user):
-          UserSessionManager.save(user: user)
+          UserSessionManager.saveAccessToken(user: user)
         case let .failure(error):
           print("❌ 로그인 실패: \(error.localizedDescription)")
         }

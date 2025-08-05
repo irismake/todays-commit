@@ -21,7 +21,7 @@ struct LoginView: View {
         
       KakaoLoginButton()
       Button(action: {
-        print("로그인 없이 둘러보기 탭됨")
+        UserSessionManager.loginAsGuest()
       }) {
         Text("로그인 없이 둘러보기")
           .font(.subheadline)
