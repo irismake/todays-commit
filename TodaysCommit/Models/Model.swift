@@ -1,5 +1,10 @@
 import SwiftUI
 
+struct Location: Hashable {
+  let lat: Double
+  let lon: Double
+}
+
 struct Coord: Hashable {
   let x: Int
   let y: Int
@@ -88,6 +93,7 @@ extension GrassCommit {
 }
 
 class CommitViewModel: ObservableObject {
+  @Published var currentLocation: Location? = nil
   @Published var selectedGrassCommit: GrassCommit? = nil
   @Published var selectedGrassColor: Color = .lv_0
   @Published var mapZoneCode: Int = 11

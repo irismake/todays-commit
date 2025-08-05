@@ -4,6 +4,7 @@ import SwiftUI
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
   @EnvironmentObject var layout: LayoutMetrics
+  @EnvironmentObject var locationManager: LocationManager
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
     let view = KMViewContainer()
@@ -26,7 +27,7 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator(layoutMetrics: layout)
+    KakaoMapCoordinator(layoutMetrics: layout, locationManager: locationManager)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
@@ -40,9 +41,11 @@ struct KakaoMapView: UIViewRepresentable {
     let zoomLevel = 18
     let layout: LayoutMetrics
     var bottomMargin: CGFloat = 0
-
-    init(layoutMetrics: LayoutMetrics) {
+    let locationManager: LocationManager
+      
+    init(layoutMetrics: LayoutMetrics, locationManager: LocationManager) {
       layout = layoutMetrics
+      self.locationManager = locationManager
       super.init()
     }
 
@@ -171,6 +174,8 @@ struct KakaoMapView: UIViewRepresentable {
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
       print("위도: \(centerMapPoint.wgsCoord.latitude), 경도: \(centerMapPoint.wgsCoord.longitude)")
+      locationManager.deactivateOverlay()
+      print(locationManager.isOverlayActive)
     }
   }
 }
