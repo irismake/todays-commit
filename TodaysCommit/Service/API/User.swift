@@ -9,7 +9,7 @@ enum UserAPI {
 
     let task = URLSession.shared.dataTask(with: url) { data, _, error in
       if let error {
-        return completion(.failure(.networkError(error)))
+        return completion(.failure(.serverError(error)))
       }
 
       guard let data else {
@@ -52,7 +52,7 @@ enum UserAPI {
 
     let task = URLSession.shared.dataTask(with: request) { data, _, error in
       if let error {
-        return completion(.failure(.networkError(error)))
+        return completion(.failure(.serverError(error)))
       }
 
       guard let data else {

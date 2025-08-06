@@ -1,5 +1,6 @@
 import KakaoMapsSDK
-import KakaoSDKAuth
+
+// import KakaoSDKAuth
 import KakaoSDKCommon
 import SwiftUI
 
@@ -8,15 +9,13 @@ struct TodaysCommitApp: App {
   @StateObject private var locationManager = LocationManager()
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
+  init() {
+    UserDefaults.standard.set(false, forKey: "is_guest")
+  }
+
   var body: some Scene {
     WindowGroup {
-//      LoginView()
-//        .onOpenURL { url in
-//          if AuthApi.isKakaoTalkLoginUrl(url) {
-//            _ = AuthController.handleOpenUrl(url: url)
-//          }
-//        }
-      ContentView()
+      RootView()
         .environmentObject(locationManager)
     }
   }

@@ -2,11 +2,16 @@ import SwiftUI
 
 struct CommitBanner: View {
   var commitState: Bool
-  @State private var showSheet = false
+  @State private var activeSheet: Route?
 
   var body: some View {
     Button(action: {
-      showSheet = true
+      if UserSessionManager.isGuest {
+        activeSheet = .login
+        
+      } else {
+        activeSheet = .commit
+      }
     }) {
       VStack(spacing: 12) {
         Label(
@@ -25,8 +30,13 @@ struct CommitBanner: View {
       .background(commitState ? Color.green.opacity(0.1) : Color.orange.opacity(0.1))
       .cornerRadius(16)
     }
-    .fullScreenCover(isPresented: $showSheet) {
-      CommitLocationView()
+    .fullScreenCover(item: $activeSheet) { sheet in
+      switch sheet {
+      case .commit:
+        CommitLocationView()
+      case .login:
+        LoginView(isSheet: true)
+      }
     }
   }
 }
