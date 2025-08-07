@@ -41,14 +41,28 @@ struct RootView: View {
     do {
       let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
       let cellDataResponse = try await MapAPI.getCell(pnuResponse.pnu)
-      let mapIds = cellDataResponse.maps.map(\.mapId)
 
-      for mapId in mapIds {
+      for cellData in cellDataResponse.maps {
         do {
-          let mapData = try await MapAPI.getMap(mapId)
-          print("✅ mapId \(mapId)의 데이터: \(mapData)")
+          let mapId = cellData.mapId
+          let mapLevel = cellData.mapLevel
+          let mapDataResponse = try await MapAPI.getMap(mapId)
+          let mapData = mapDataResponse.mapData
+          let mapCode = mapDataResponse.mapCode
+          let dict = [mapCode: mapData]
+            
+          switch mapLevel {
+          case 0:
+            GlobalStore.shared.mapDataLevel0 = dict
+          case 1:
+            GlobalStore.shared.mapDataLevel1 = dict
+          default:
+            GlobalStore.shared.mapDataLevel2 = dict
+          }
+
+          print("✅ \(mapLevel) mapId \(mapId)의 데이터: \(mapDataResponse)")
         } catch {
-          print("❌ mapId \(mapId) 에서 에러: \(error)")
+          print("❌ loadInitialData 에서 에러: \(error)")
         }
       }
     } catch {
