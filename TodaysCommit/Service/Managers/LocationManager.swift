@@ -22,7 +22,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     let location = loc.coordinate
       
-    currentLocation = Location(lat: location.latitude, lon: location.latitude)
+    currentLocation = Location(lat: location.latitude, lon: location.longitude)
   }
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

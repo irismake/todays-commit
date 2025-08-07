@@ -1,6 +1,4 @@
 import KakaoMapsSDK
-
-// import KakaoSDKAuth
 import KakaoSDKCommon
 import SwiftUI
 
