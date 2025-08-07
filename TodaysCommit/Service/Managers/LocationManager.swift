@@ -3,7 +3,7 @@ import CoreLocation
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
-  @Published var location: CLLocationCoordinate2D?
+  @Published var currentLocation: Location?
   @Published var authorizationStatus: CLAuthorizationStatus?
   @Published var isOverlayActive: Bool = false
 
@@ -19,7 +19,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     guard let loc = locations.last else {
       return
     }
-    location = loc.coordinate
+
+    let location = loc.coordinate
+      
+    currentLocation = Location(lat: location.latitude, lon: location.latitude)
   }
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
