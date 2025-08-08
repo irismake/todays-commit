@@ -5,6 +5,7 @@ import SwiftUI
 @main
 struct TodaysCommitApp: App {
   @StateObject private var locationManager = LocationManager()
+  @StateObject private var mapManager = MapManager()
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   init() {

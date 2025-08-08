@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct ContentView: View {
-  @StateObject var viewModel = CommitViewModel()
-  @StateObject private var locationManager = LocationManager()
+  @EnvironmentObject var viewModel: CommitViewModel
+  @EnvironmentObject var mapManager: MapManager
 
   var body: some View {
     ZStack {
@@ -12,7 +12,6 @@ struct ContentView: View {
             Image(systemName: "square.grid.3x3.fill")
             Text("GitGrass")
           }
-          .environmentObject(viewModel)
 
         SettingsView()
           .tabItem {

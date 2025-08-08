@@ -7,11 +7,15 @@ struct RootView: View {
   @AppStorage("is_guest") var isGuest: Bool = false
   @State private var isLoading = false
   @StateObject private var locationManager = LocationManager()
+  @StateObject private var mapManager = MapManager()
+  @StateObject private var viewModel = CommitViewModel()
 
   var body: some View {
     if accessToken != nil || isGuest {
       ZStack {
         ContentView()
+          .environmentObject(viewModel)
+          .environmentObject(mapManager)
         overlayView(for: locationManager.authorizationStatus ?? .notDetermined)
 
         if isLoading {
@@ -53,14 +57,15 @@ struct RootView: View {
             
           switch mapLevel {
           case 0:
-            GlobalStore.shared.mapDataLevel0 = dict
+            mapManager.mapDataLevel0 = dict
           case 1:
-            GlobalStore.shared.mapDataLevel1 = dict
+            mapManager.mapDataLevel1 = dict
           default:
-            GlobalStore.shared.mapDataLevel2 = dict
+            mapManager.mapDataLevel2 = dict
           }
 
           print("✅ \(mapLevel) mapId \(mapId)의 데이터: \(mapDataResponse)")
+            
         } catch {
           print("❌ loadInitialData 에서 에러: \(error)")
         }
