@@ -1,5 +1,10 @@
 import SwiftUI
 
+struct Coord: Hashable {
+  let x: Int
+  let y: Int
+}
+
 struct CellDataResponse: Decodable {
   let pnu: Int
   let maps: [CellData]
