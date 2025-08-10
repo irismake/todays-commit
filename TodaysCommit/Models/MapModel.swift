@@ -20,3 +20,8 @@ struct MapDataResponse: Decodable {
   let mapCode: Int
   let mapData: [CellData]
 }
+
+struct MapData: Decodable {
+  let mapId: Int
+  let mapLevel: Int
+}

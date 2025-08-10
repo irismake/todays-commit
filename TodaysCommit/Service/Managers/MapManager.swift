@@ -2,15 +2,20 @@ import Combine
 import SwiftUI
 
 final class MapManager: ObservableObject {
-  @Published var mapDataLevel0: [Int: [CellData]]?
-  @Published var mapDataLevel1: [Int: [CellData]]?
-  @Published var mapDataLevel2: [Int: [CellData]]?
+  @Published var currentMapData: [Int: [CellData]]?
+  @Published var currentMapId: Int?
   @Published var mapLevel: Int = 1
-  @Published var mapName: String = "오늘의 커밋"
   @Published var cellDict: [Int: CellData] = [:]
   @Published var selectedCell: CellData?
-  @Published var selectedCoord: Coord = .init(x: 12, y: 12)
+  @Published var selectedCoord: Coord?
   @Published var selectedGrassColor: Color = .lv_0
+
+  var mapName: String {
+    guard let mapCode = getMapCode() else {
+      return "오늘의 커밋"
+    }
+    return nominationData[mapCode] ?? "N/A"
+  }
 
   var selectedZoneName: String {
     guard let zoneCode = selectedCell?.zoneCode else {
@@ -18,114 +23,107 @@ final class MapManager: ObservableObject {
     }
     return nominationData[zoneCode] ?? "잔디를 클릭해주세요."
   }
- 
-  private var cancellables = Set<AnyCancellable>()
 
+  var myCoord: Coord? {
+    guard let cell = cellDict[mapLevel]?.coordId else {
+      return Coord(x: 12, y: 12)
+    }
+    return coordIdToCoord(cell)
+  }
+    
+  var zoomOutDisabled: Bool {
+    !(0 ... 1).contains(mapLevel)
+  }
+
+  var zoomInDisabled: Bool {
+    !(1 ... 2).contains(mapLevel)
+  }
+      
+  func changeMapLevel(_ zoomingIn: Bool) {
+    var mapId: Int?
+
+    if zoomingIn {
+      guard let subZoneCode = selectedCell?.zoneCode else {
+        return
+      }
+      mapId = mapCodeId[subZoneCode]?.mapId
+          
+    } else {
+      guard let mapCode = getMapCode() else {
+        return
+      }
+      let upperZoneCode = getUpperZoneCode(from: mapCode)
+      mapId = mapCodeId[upperZoneCode]?.mapId
+    }
+        
+    guard let mapId else {
+      // 줌 인 버튼 색 비활성화 & 맵 데이터 불러올때 다시 활성화로 변경
+      return
+    }
+    currentMapId = mapId
+
+    guard let coordId = selectedCell?.coordId else {
+      return
+    }
+    let coord = coordIdToCoord(coordId)
+    updateCell(newCoord: coord)
+      
+    if zoomingIn {
+      mapLevel -= 1
+    } else {
+      mapLevel += 1
+    }
+  }
+    
+  private var cancellables = Set<AnyCancellable>()
+    
   init() {
-    print("초기화")
     $mapLevel
       .removeDuplicates()
-      .sink { newLevel in
-        print("📍 mapLevel 변경 감지됨: \(newLevel)")
-        self.updateMapData(forLevel: newLevel)
+      .sink { _ in
+        Task { [weak self] in
+          guard let self else {
+            return
+          }
+          guard let currentMapId else {
+            return
+          }
+          await self.fetchMapData(of: currentMapId)
+        }
       }
       .store(in: &cancellables)
   }
+
+  func getMapCode() -> Int? {
+    currentMapData?.keys.first
+  }
     
   func getMapData() -> [CellData]? {
-    switch mapLevel {
-    case 0:
-      return mapDataLevel0?.values.flatMap { $0 }
-    case 1:
-      return mapDataLevel1?.values.flatMap { $0 }
-    case 2:
-      return mapDataLevel2?.values.flatMap { $0 }
-    default:
-      return nil
-    }
+    currentMapData?
+      .values
+      .flatMap { $0 }
   }
 
-  func getMapCode(ofLevel level: Int) -> Int? {
-    switch level {
-    case 0: return mapDataLevel0?.keys.first
-    case 1: return mapDataLevel1?.keys.first
-    case 2: return mapDataLevel2?.keys.first
-    default: return nil
-    }
-  }
-
-  func updateMapData(forLevel level: Int) {
-    let mapCode = getMapCode(ofLevel: level)
-    updateMapName(for: mapCode ?? 11)
-    initCellData(level: level)
-  }
-
-  func updateMapName(for mapCode: Int) {
-    mapName = nominationData[mapCode] ?? "N/A"
-  }
-
-  func initCellData(level: Int) {
-    guard let cell = cellDict[level] else {
-      return
-    }
-    selectedCell = cell
-    selectedCoord = coordIdToCoord(selectedCell?.coordId ?? 0)
-  }
-    
-  func updateCellData(newCoord: Coord) {
+  func updateCell(newCoord: Coord) {
     selectedCoord = newCoord
     let coordId = coordToCoordId(newCoord)
-
-    let dict: [Int: [CellData]]?
-    switch mapLevel {
-    case 0: dict = mapDataLevel0
-    case 1: dict = mapDataLevel1
-    case 2: dict = mapDataLevel2
-    default: dict = nil
-    }
-
-    selectedCell = dict?
+      
+    selectedCell = currentMapData?
       .values
       .flatMap { $0 }
       .first { $0.coordId == coordId }
   }
 
   @MainActor
-  func fetchInitMapData(_ currentLocation: Location) async {
+  func fetchMapData(of mapId: Int) async {
     do {
-      let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
-      let cells = try await MapAPI.getCell(pnuResponse.pnu)
-
-      for cell in cells {
-        do {
-          let mapId = cell.mapId
-          let mapLevel = cell.mapLevel
-          let cellData = cell.cellData
-          let mapDataResponse = try await MapAPI.getMap(mapId)
-          let mapCode = mapDataResponse.mapCode
-          let mapData = mapDataResponse.mapData
-          let dict = [mapCode: mapData]
-                  
-          switch mapLevel {
-          case 0:
-            mapDataLevel0 = dict
-            cellDict[0] = cellData
-          case 1:
-            mapDataLevel1 = dict
-            cellDict[1] = cellData
-          default:
-            mapDataLevel2 = dict
-            cellDict[2] = cellData
-          }
-          print("데이터 저장")
-                     
-        } catch {
-          print("❌ loadInitialData 에서 에러: \(error)")
-        }
-      }
-      updateMapData(forLevel: 1)
+      let mapDataResponse = try await MapAPI.getMap(mapId)
+      let mapCode = mapDataResponse.mapCode
+      let mapData = mapDataResponse.mapData
+      let dict = [mapCode: mapData]
+      currentMapData = dict
     } catch {
-      print("❌ 초기 데이터 로드 실패: \(error.localizedDescription)")
+      print("❌ fetchMapData : \(error.localizedDescription)")
     }
   }
     
@@ -139,5 +137,19 @@ final class MapManager: ObservableObject {
   func coordToCoordId(_ coord: Coord) -> Int {
     let gridSize = GlobalStore.shared.gridSize
     return coord.y * gridSize + coord.x
+  }
+    
+  func getUpperZoneCode(from code: Int) -> Int {
+    let codeStr = String(code)
+    if codeStr.count == 2 {
+      return 410
+    } else {
+      let upperCodeStr = codeStr.dropLast(3)
+      guard let upperCode = Int(upperCodeStr) else {
+        // 변환 실패 시 기본값 지정
+        return 0
+      }
+      return upperCode
+    }
   }
 }

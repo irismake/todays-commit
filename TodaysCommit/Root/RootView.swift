@@ -15,10 +15,10 @@ struct RootView: View {
         if isInitializing {
           SplashView()
             .task {
-              guard let coord = locationManager.currentLocation else {
+              guard let currentLocation = locationManager.currentLocation else {
                 return
               }
-              await mapManager.fetchInitMapData(coord)
+              await fetchInitMapData(currentLocation)
               isInitializing = false
             }
         } else {
@@ -35,6 +35,32 @@ struct RootView: View {
             _ = AuthController.handleOpenUrl(url: url)
           }
         }
+    }
+  }
+
+  func fetchInitMapData(_ currentLocation: Location) async {
+    do {
+      let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
+      let cells = try await MapAPI.getCell(pnuResponse.pnu)
+
+      for cell in cells {
+        let mapId = cell.mapId
+        let mapLevel = cell.mapLevel
+        let cellData = cell.cellData
+          
+        switch mapLevel {
+        case 0:
+          mapManager.cellDict[0] = cellData
+        case 1:
+          mapManager.cellDict[1] = cellData
+          await mapManager.fetchMapData(of: mapId)
+        default:
+          mapManager.cellDict[2] = cellData
+        }
+        print("데이터 저장")
+      }
+    } catch {
+      print("❌ 초기 데이터 로드 실패: \(error.localizedDescription)")
     }
   }
 

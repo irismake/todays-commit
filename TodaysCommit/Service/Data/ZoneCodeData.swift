@@ -1,3 +1,26 @@
+let mapCodeId: [Int: MapData] = [
+  410: MapData(mapId: 1, mapLevel: 2),
+  51: MapData(mapId: 2, mapLevel: 1),
+  41: MapData(mapId: 3, mapLevel: 1),
+  48: MapData(mapId: 4, mapLevel: 1),
+  47: MapData(mapId: 5, mapLevel: 1),
+  29: MapData(mapId: 6, mapLevel: 1),
+  27: MapData(mapId: 7, mapLevel: 1),
+  30: MapData(mapId: 8, mapLevel: 1),
+  26: MapData(mapId: 9, mapLevel: 1),
+  11: MapData(mapId: 10, mapLevel: 1),
+  36: MapData(mapId: 11, mapLevel: 1),
+  31: MapData(mapId: 12, mapLevel: 1),
+  28: MapData(mapId: 13, mapLevel: 1),
+  46: MapData(mapId: 14, mapLevel: 1),
+  52: MapData(mapId: 15, mapLevel: 1),
+  50: MapData(mapId: 16, mapLevel: 1),
+  44: MapData(mapId: 17, mapLevel: 1),
+  43: MapData(mapId: 18, mapLevel: 1),
+  11350: MapData(mapId: 19, mapLevel: 0),
+  11290: MapData(mapId: 20, mapLevel: 0)
+]
+
 let nominationData: [Int: String] = [
   410: "대한민국",
   11: "서울특별시",
