@@ -44,32 +44,35 @@ struct RootView: View {
   func loadInitialData(_ currentLocation: Location) async {
     do {
       let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
-      let cellDataResponse = try await MapAPI.getCell(pnuResponse.pnu)
+      let cells = try await MapAPI.getCell(pnuResponse.pnu)
 
-      for cellData in cellDataResponse.maps {
+      for cell in cells {
         do {
-          let mapId = cellData.mapId
-          let mapLevel = cellData.mapLevel
+          let mapId = cell.mapId
+          let mapLevel = cell.mapLevel
+          let cellData = cell.cellData
           let mapDataResponse = try await MapAPI.getMap(mapId)
-          let mapData = mapDataResponse.mapData
           let mapCode = mapDataResponse.mapCode
+          let mapData = mapDataResponse.mapData
           let dict = [mapCode: mapData]
-            
+        
           switch mapLevel {
           case 0:
             mapManager.mapDataLevel0 = dict
+            mapManager.cellDict[0] = cellData
           case 1:
             mapManager.mapDataLevel1 = dict
+            mapManager.cellDict[1] = cellData
           default:
             mapManager.mapDataLevel2 = dict
+            mapManager.cellDict[2] = cellData
           }
-
-          print("✅ \(mapLevel) mapId \(mapId)의 데이터: \(mapDataResponse)")
-            
+           
         } catch {
           print("❌ loadInitialData 에서 에러: \(error)")
         }
       }
+      mapManager.updateMapData(forLevel: 1)
     } catch {
       print("❌ 초기 데이터 로드 실패: \(error.localizedDescription)")
     }

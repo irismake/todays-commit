@@ -6,22 +6,17 @@ struct Coord: Hashable {
 }
 
 struct CellDataResponse: Decodable {
-  let pnu: Int
-  let maps: [CellData]
+  let mapLevel: Int
+  let mapId: Int
+  let cellData: CellData
 }
 
 struct CellData: Decodable {
-  let mapLevel: Int
-  let mapId: Int
   let coordId: Int
+  let zoneCode: Int
 }
 
 struct MapDataResponse: Decodable {
   let mapCode: Int
-  let mapData: [MapData]
-}
-
-struct MapData: Decodable {
-  let coordId: Int
-  let zoneCode: Int
+  let mapData: [CellData]
 }

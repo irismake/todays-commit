@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum MapAPI {
-  static func getCell(_ pnu: Int) async throws -> CellDataResponse {
+  static func getCell(_ pnu: Int) async throws -> [CellDataResponse] {
     let baseURL = AppConfig.baseURL
     guard let url = URL(string: "\(baseURL)/map/cell?pnu=\(pnu)") else {
       throw CustomError.networkError(NSError(domain: "URL 생성 실패", code: -1))
@@ -11,7 +11,7 @@ enum MapAPI {
       let (data, _) = try await URLSession.shared.data(from: url)
       let decoder = JSONDecoder()
       decoder.keyDecodingStrategy = .convertFromSnakeCase
-      return try decoder.decode(CellDataResponse.self, from: data)
+      return try decoder.decode([CellDataResponse].self, from: data)
     } catch let error as DecodingError {
       throw CustomError.decodingError(error)
     } catch {
