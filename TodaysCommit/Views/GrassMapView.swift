@@ -22,10 +22,10 @@ func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
 
 struct GrassMapView: View {
   var isMine: Bool
-  @EnvironmentObject var viewModel: CommitViewModel
+  @State private var showToast = false
+  @EnvironmentObject var mapManager: MapManager
   @StateObject private var mailHandler = MailHandler()
-      
-  let gridSize = 25
+  let gridSize = GlobalStore.shared.gridSize
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
   var commitData: [GrassCommit] = []
@@ -35,6 +35,12 @@ struct GrassMapView: View {
     commitData = loadCommitData(from: isMine ? "UserMockData" : "TotalMockData", isMine: isMine)
   }
     
+  func coordIdToCoord(_ id: Int) -> Coord {
+    let x = id % gridSize
+    let y = id / gridSize
+    return Coord(x: x, y: y)
+  }
+
   var body: some View {
     GeometryReader { geometry in
       let totalSpacing = CGFloat(gridSize - 1) * spacing
@@ -43,118 +49,80 @@ struct GrassMapView: View {
       let minCount = counts.min() ?? 0
       let maxCount = counts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-      let mapZoneCode = viewModel.mapZoneCode
-      var selectedCoord = viewModel.coords[viewModel.mapLevel]
+          
+      let mapDatas = mapManager.getMapData()
+      let activeCoords: Set<Coord> = Set((mapDatas ?? []).map { coordIdToCoord($0.coordId) })
+      let selectedCoord = mapManager.selectedCoord
+          
+      VStack(spacing: spacing) {
+        ForEach(0 ..< gridSize, id: \.self) { y in
+          HStack(spacing: spacing) {
+            ForEach(0 ..< gridSize, id: \.self) { x in
+              let coord = Coord(x: x, y: y)
+              let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
+              let isSelected = selectedCoord == coord
+              let grassColor: Color = {
+                guard activeCoords.contains(coord) else {
+                  return .clear
+                }
 
-      if let mapCoord = mapData[mapZoneCode] {
-        VStack(spacing: spacing) {
-          ForEach(0 ..< gridSize, id: \.self) { y in
-            HStack(spacing: spacing) {
-              ForEach(0 ..< gridSize, id: \.self) { x in
-                let coord = Coord(x: x, y: y)
-                let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
-                
-                // Check if this is the selected cell
-                let isSelected = selectedCoord == coord
+                if let grassCommitData {
+                  let level = Double(grassCommitData.totalCommitCount - minCount)
+                  let color: Color
+                  switch level {
+                  case 0 ..< commitStep: color = .lv_1
+                  case commitStep ..< commitStep * 2: color = .lv_2
+                  case commitStep * 2 ..< commitStep * 3: color = .lv_3
+                  default: color = .lv_4
+                  }
+                  return color
+                } else {
+                  return .lv_0
+                }
+              }()
                                 
-                let grassColor: Color = {
-                  guard mapCoord.contains(where: { $0.coord == coord }) else {
-                    return .clear
-                  }
-
-                  if let grassCommitData {
-                    let level = Double(grassCommitData.totalCommitCount - minCount)
-                    let color: Color
-                    switch level {
-                    case 0 ..< commitStep: color = .lv_1
-                    case commitStep ..< commitStep * 2: color = .lv_2
-                    case commitStep * 2 ..< commitStep * 3: color = .lv_3
-                    default: color = .lv_4
-                    }
-                    return color
-                  } else {
-                    return .lv_0
-                  }
-                }()
-                                
-                RoundedRectangle(cornerRadius: cornerRadius)
-                  .fill(grassColor)
-                  // Add a stroke when selected
-                  .overlay(
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                      .stroke(isSelected ? Color.red : Color.clear, lineWidth: 2)
-                  )
-                  // Add a glow effect when selected
-                  .shadow(color: isSelected ? Color.white.opacity(0.7) : Color.clear, radius: 3, x: 0, y: 0)
-                  .frame(width: cellSize, height: cellSize)
-                  // Add a subtle scale effect when selected
-                  .scaleEffect(isSelected ? 1.1 : 1.0)
-                  // Add animation for smooth transitions
-                  .animation(.spring(response: 0.3), value: isSelected)
-                  .onTapGesture {
-                    // Update the selected coordinate
-                    selectedCoord = coord
-                    viewModel.saveCoord(coord: coord)
-                    viewModel.selectedGrassCommit = grassCommitData
-                    viewModel.selectedGrassColor = grassColor
-                  }
-              }
+              RoundedRectangle(cornerRadius: cornerRadius)
+                .fill(grassColor)
+                .overlay(
+                  RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(isSelected ? Color.red : Color.clear, lineWidth: 2)
+                )
+                .shadow(color: isSelected ? Color.white.opacity(0.7) : Color.clear, radius: 3, x: 0, y: 0)
+                .frame(width: cellSize, height: cellSize)
+                .scaleEffect(isSelected ? 1.1 : 1.0)
+                .animation(.spring(response: 0.3), value: isSelected)
+                .onTapGesture {
+                  mapManager.updateCellData(newCoord: coord)
+                }
             }
           }
         }
-      } else {
-        ZStack {
-          RoundedRectangle(cornerRadius: 20)
-            .fill(Color.lv_0.opacity(0.2))
-            .shadow(color: Color.black.opacity(0.04), radius: 15, x: 0, y: 2)
-                    
-          VStack(spacing: 12) {
-            Image(systemName: "apple.meditate")
-              .font(.system(size: 30))
-              .foregroundColor(.secondary.opacity(0.7))
-              .padding(.bottom, 4)
-                        
-            Text("아직 지도가 준비되지 않았어요.")
-              .font(.headline)
-              .foregroundColor(.secondary)
-                        
-            Button(action: {
-              let mailData = MailData(
-                subject: "[\(viewModel.mapName)] 지도 추가 요청",
-                content: "지역 코드 \(viewModel.mapZoneCode)에 해당하는 \(viewModel.mapName)의 지도 추가를 요청합니다."
-              )
-              mailHandler.saveMailData(for: mailData)
-              mailHandler.showMailOptions()
-            }) {
-              HStack(spacing: 6) {
-                Image(systemName: "paperplane.fill")
-                  .font(.system(size: 14))
-                Text("지도 요청하기")
-                  .font(.system(size: 14, weight: .medium))
-              }
-              .foregroundColor(.white)
-              .padding(.horizontal, 18)
-              .padding(.vertical, 8)
-              .background(Color.blue.opacity(0.8))
-              .cornerRadius(8)
-            }
-            .padding(.top, 20)
+      }
+      .overlay(
+        VStack {
+          if showToast {
+            ToastView(message: "지도 데이터를 불러올 수 없습니다.")
+              .zIndex(1)
+              .padding(.top, 50)
+          }
+          Spacer()
+        }
+      )
+      .onAppear {
+        if mapDatas == nil {
+          showToast = true
+          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            showToast = false
           }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
       }
     }
     .aspectRatio(1, contentMode: .fit)
-    .sheet(isPresented: $mailHandler.showDefaultMailView) {
-      MailView(mailHandler: mailHandler)
-    }
   }
 }
 
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
-    let viewModel = CommitViewModel()
-    return GrassMapView(isMine: false)
-      .environmentObject(viewModel)
+    GrassMapView(isMine: false)
   }
 }

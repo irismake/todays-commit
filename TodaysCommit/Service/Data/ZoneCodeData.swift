@@ -1,4 +1,4 @@
-let zoneCode: [Int: String] = [
+let nominationData: [Int: String] = [
   410: "대한민국",
   11: "서울특별시",
   51: "강원특별자치도",

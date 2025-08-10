@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct GitGrassView: View {
-  @EnvironmentObject var viewModel: CommitViewModel
+  @EnvironmentObject var mapManager: MapManager
   @State private var selectedOption = 0
   let options = ["전체", "나의 지도"]
 
@@ -22,7 +22,7 @@ struct GitGrassView: View {
           HStack(spacing: 12) {
             ZoomButton(isZoomIn: false)
                         
-            Text(viewModel.mapName)
+            Text(mapManager.mapName)
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
@@ -62,10 +62,7 @@ struct GitGrassView: View {
 
 struct GitGrassView_Previews: PreviewProvider {
   static var previews: some View {
-    let viewModel = CommitViewModel()
-
     GitGrassView()
-      .environmentObject(viewModel)
-      .previewLayout(.device)
   }
 }
+ 

@@ -1,31 +1,5 @@
 import SwiftUI
 
-struct Location: Hashable {
-  let lat: Double
-  let lon: Double
-}
-
-struct Coord: Hashable {
-  let x: Int
-  let y: Int
-}
-
-struct Zone: Hashable {
-  let coord: Coord
-  let zoneCode: Int
-  let subZoneCodes: [Int]?
-  let minPnu: Int?
-  let maxPnu: Int?
-
-  init(x: Int, y: Int, zoneCode: Int, subZoneCodes: [Int]? = nil, minPnu: Int? = nil, maxPnu: Int? = nil) {
-    coord = Coord(x: x, y: y)
-    self.zoneCode = zoneCode
-    self.subZoneCodes = subZoneCodes
-    self.minPnu = minPnu
-    self.maxPnu = maxPnu
-  }
-}
-
 struct RankUser: Decodable {
   let user_name: String
   let commit_count: Int
@@ -90,61 +64,6 @@ extension GrassCommit {
     }
     return nil
   }
-}
-
-class CommitViewModel: ObservableObject {
-  @Published var currentLocation: Location? = nil
-  @Published var selectedGrassCommit: GrassCommit? = nil
-  @Published var selectedGrassColor: Color = .lv_0
-  @Published var mapZoneCode: Int = 11
-  @Published var mapLevel: Int = 1
-  @Published var coords: [Int: Coord] = [
-    0: Coord(x: 10, y: 5),
-    1: Coord(x: 11, y: 10),
-    2: Coord(x: 10, y: 6)
-  ]
-
-  func resetToDefault() {
-    selectedGrassColor = Color.lv_0
-    selectedGrassCommit = nil
-  }
-    
-  var selectedZoneName: String {
-    guard let code = selectedZoneCode else {
-      return "잔디를 클릭해주세요."
-    }
-    return zoneCode[code] ?? "N/A"
-  }
-
-  var selectedZoneCode: Int? {
-    guard let coord = coords[mapLevel] else {
-      return nil
-    }
-    guard let zones = mapData[mapZoneCode] else {
-      return nil
-    }
-    return zones.first(where: { $0.coord == coord })?.zoneCode
-  }
-
-  var mapName: String {
-    zoneCode[mapZoneCode] ?? "N/A"
-  }
-
-  func saveCoord(coord: Coord) {
-    if mapLevel == 2 {
-      coords.removeValue(forKey: 1)
-      coords.removeValue(forKey: 0)
-
-    } else if mapLevel == 1 {
-      coords.removeValue(forKey: 0)
-    }
-    coords[mapLevel] = coord
-  }
-}
-
-class LayoutMetrics: ObservableObject {
-  @Published var appBarHeight: CGFloat = 0
-  @Published var bottomSafeAreaHeight: CGFloat = 0
 }
 
 struct MailData {
