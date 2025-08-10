@@ -14,6 +14,14 @@ struct ZoomButton: View {
   var isZoomIn: Bool
   @EnvironmentObject var mapManager: MapManager
 
+  var zoomOutDisabled: Bool {
+    !(0 ... 1).contains(mapManager.mapLevel)
+  }
+
+  var zoomInDisabled: Bool {
+    !(1 ... 2).contains(mapManager.mapLevel)
+  }
+    
   var body: some View {
     Button(action: {
       if isZoomIn {
@@ -28,13 +36,13 @@ struct ZoomButton: View {
         .font(.system(size: 10, weight: .bold))
         .frame(width: 20, height: 20)
         .background(
-          (isZoomIn ? mapManager.zoomInDisabled : mapManager.zoomOutDisabled)
+          (isZoomIn ? zoomInDisabled : zoomOutDisabled)
             ? Color(.systemGray)
             : Color(.systemBlue)
         )
         .foregroundColor(.white)
         .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
     }
-    .disabled(isZoomIn ? mapManager.zoomInDisabled : mapManager.zoomOutDisabled)
+    .disabled(isZoomIn ? zoomInDisabled : zoomOutDisabled)
   }
 }

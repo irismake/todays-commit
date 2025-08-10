@@ -18,29 +18,7 @@ final class MapManager: ObservableObject {
     }
     return nominationData[zoneCode] ?? "잔디를 클릭해주세요."
   }
-    
-  var zoomOutDisabled: Bool {
-    switch mapLevel {
-    case 0:
-      return mapDataLevel1?.isEmpty ?? true
-    case 1:
-      return mapDataLevel2?.isEmpty ?? true
-    default:
-      return true
-    }
-  }
-
-  var zoomInDisabled: Bool {
-    switch mapLevel {
-    case 1:
-      return mapDataLevel0?.isEmpty ?? true
-    case 2:
-      return mapDataLevel1?.isEmpty ?? true
-    default:
-      return true
-    }
-  }
-    
+ 
   private var cancellables = Set<AnyCancellable>()
 
   init() {
@@ -110,8 +88,6 @@ final class MapManager: ObservableObject {
       .values
       .flatMap { $0 }
       .first { $0.coordId == coordId }
-        
-    print("🔎 updateZoneCode level=\(mapLevel), coordId=\(coordId), zone=\(selectedCell)")
   }
 
   func coordIdToCoord(_ id: Int) -> Coord {
