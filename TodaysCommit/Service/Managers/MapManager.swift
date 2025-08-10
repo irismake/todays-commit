@@ -90,6 +90,45 @@ final class MapManager: ObservableObject {
       .first { $0.coordId == coordId }
   }
 
+  @MainActor
+  func fetchInitMapData(_ currentLocation: Location) async {
+    do {
+      let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
+      let cells = try await MapAPI.getCell(pnuResponse.pnu)
+
+      for cell in cells {
+        do {
+          let mapId = cell.mapId
+          let mapLevel = cell.mapLevel
+          let cellData = cell.cellData
+          let mapDataResponse = try await MapAPI.getMap(mapId)
+          let mapCode = mapDataResponse.mapCode
+          let mapData = mapDataResponse.mapData
+          let dict = [mapCode: mapData]
+                  
+          switch mapLevel {
+          case 0:
+            mapDataLevel0 = dict
+            cellDict[0] = cellData
+          case 1:
+            mapDataLevel1 = dict
+            cellDict[1] = cellData
+          default:
+            mapDataLevel2 = dict
+            cellDict[2] = cellData
+          }
+          print("데이터 저장")
+                     
+        } catch {
+          print("❌ loadInitialData 에서 에러: \(error)")
+        }
+      }
+      updateMapData(forLevel: 1)
+    } catch {
+      print("❌ 초기 데이터 로드 실패: \(error.localizedDescription)")
+    }
+  }
+    
   func coordIdToCoord(_ id: Int) -> Coord {
     let gridSize = GlobalStore.shared.gridSize
     let x = id % gridSize
