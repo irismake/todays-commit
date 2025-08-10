@@ -8,13 +8,11 @@ struct RootView: View {
   @State private var isLoading = false
   @StateObject private var locationManager = LocationManager()
   @StateObject private var mapManager = MapManager()
-  @StateObject private var viewModel = CommitViewModel()
 
   var body: some View {
     if accessToken != nil || isGuest {
       ZStack {
         ContentView()
-          .environmentObject(viewModel)
           .environmentObject(mapManager)
         overlayView(for: locationManager.authorizationStatus ?? .notDetermined)
 

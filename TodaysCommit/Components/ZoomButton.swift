@@ -12,8 +12,6 @@ func getUpperZoneCode(from code: Int) -> Int? {
 
 struct ZoomButton: View {
   var isZoomIn: Bool
-    
-  @EnvironmentObject var viewModel: CommitViewModel
   @EnvironmentObject var mapManager: MapManager
 
   var body: some View {

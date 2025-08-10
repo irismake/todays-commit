@@ -22,7 +22,6 @@ func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
 
 struct GrassMapView: View {
   var isMine: Bool
-  @EnvironmentObject var viewModel: CommitViewModel
   @EnvironmentObject var mapManager: MapManager
   @StateObject private var mailHandler = MailHandler()
   let gridSize = GlobalStore.shared.gridSize
@@ -151,8 +150,6 @@ struct GrassMapView: View {
 
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
-    let viewModel = CommitViewModel()
-    return GrassMapView(isMine: false)
-      .environmentObject(viewModel)
+    GrassMapView(isMine: false)
   }
 }
