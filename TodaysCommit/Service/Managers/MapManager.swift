@@ -44,6 +44,7 @@ final class MapManager: ObservableObject {
 
     if zoomingIn {
       guard let subZoneCode = selectedCell?.zoneCode else {
+        Overlay.show(Notification())
         return
       }
       mapId = mapCodeId[subZoneCode]?.mapId
@@ -62,17 +63,17 @@ final class MapManager: ObservableObject {
     }
     currentMapId = mapId
 
-    guard let coordId = selectedCell?.coordId else {
-      return
-    }
-    let coord = coordIdToCoord(coordId)
-    updateCell(newCoord: coord)
-      
     if zoomingIn {
       mapLevel -= 1
     } else {
       mapLevel += 1
     }
+      
+    guard let coordId = selectedCell?.coordId else {
+      return
+    }
+    let coord = coordIdToCoord(coordId)
+    updateCell(newCoord: coord)
   }
     
   private var cancellables = Set<AnyCancellable>()
@@ -89,9 +90,16 @@ final class MapManager: ObservableObject {
             return
           }
           await self.fetchMapData(of: currentMapId)
+          await self.resetSelectedCell()
         }
       }
       .store(in: &cancellables)
+  }
+    
+  @MainActor
+  func resetSelectedCell() {
+    selectedCoord = nil
+    selectedCell = nil
   }
 
   func getMapCode() -> Int? {
@@ -117,11 +125,12 @@ final class MapManager: ObservableObject {
   @MainActor
   func fetchMapData(of mapId: Int) async {
     do {
+      let overlayVC = Overlay.show(LoadingView())
+      defer { overlayVC.dismiss(animated: true) }
       let mapDataResponse = try await MapAPI.getMap(mapId)
       let mapCode = mapDataResponse.mapCode
       let mapData = mapDataResponse.mapData
-      let dict = [mapCode: mapData]
-      currentMapData = dict
+      currentMapData = [mapCode: mapData]
     } catch {
       print("❌ fetchMapData : \(error.localizedDescription)")
     }
