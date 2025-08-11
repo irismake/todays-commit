@@ -46,16 +46,11 @@ struct RootView: View {
       for cell in cells {
         let mapId = cell.mapId
         let mapLevel = cell.mapLevel
-        let cellData = cell.cellData
-          
-        switch mapLevel {
-        case 0:
-          mapManager.cellDict[0] = cellData
-        case 1:
-          mapManager.cellDict[1] = cellData
+        mapManager.myCells.append(cell)
+        
+        if mapLevel == 1 {
+          mapManager.currentMapId = mapId
           await mapManager.fetchMapData(of: mapId)
-        default:
-          mapManager.cellDict[2] = cellData
         }
         print("데이터 저장")
       }

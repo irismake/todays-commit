@@ -5,7 +5,7 @@ final class MapManager: ObservableObject {
   @Published var currentMapData: [Int: [CellData]]?
   @Published var currentMapId: Int?
   @Published var mapLevel: Int = 1
-  @Published var cellDict: [Int: CellData] = [:]
+  @Published var myCells: [CellDataResponse] = []
   @Published var selectedCell: CellData?
   @Published var selectedCoord: Coord?
   @Published var selectedGrassColor: Color = .lv_0
@@ -25,10 +25,12 @@ final class MapManager: ObservableObject {
   }
 
   var myCoord: Coord? {
-    guard let cell = cellDict[mapLevel]?.coordId else {
-      return Coord(x: 12, y: 12)
+    if myCells[mapLevel].mapId == currentMapId {
+      return coordIdToCoord(myCells[mapLevel].cellData.coordId)
+          
+    } else {
+      return nil
     }
-    return coordIdToCoord(cell)
   }
     
   var zoomOutDisabled: Bool {
