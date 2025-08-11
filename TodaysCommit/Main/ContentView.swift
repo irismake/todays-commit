@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-  @EnvironmentObject var mapManager: MapManager
-
   var body: some View {
     ZStack {
       TabView {

@@ -60,7 +60,15 @@ final class MapManager: ObservableObject {
     }
         
     guard let mapId else {
-      // 줌 인 버튼 색 비활성화 & 맵 데이터 불러올때 다시 활성화로 변경
+      Overlay.show(
+        RequestOverlay(requestMapName: selectedZoneName) {
+          let overlayVC = Overlay.show(ToastView(message: "요청이 완료되었습니다."))
+          Task { @MainActor in
+            defer { overlayVC.dismiss(animated: true) }
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+          }
+        }
+      )
       return
     }
     currentMapId = mapId
