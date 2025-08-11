@@ -2,15 +2,20 @@ import Combine
 import SwiftUI
 
 final class MapManager: ObservableObject {
-  @Published var mapDataLevel0: [Int: [CellData]]?
-  @Published var mapDataLevel1: [Int: [CellData]]?
-  @Published var mapDataLevel2: [Int: [CellData]]?
+  @Published var currentMapData: [Int: [CellData]]?
+  @Published var currentMapId: Int?
   @Published var mapLevel: Int = 1
-  @Published var mapName: String = "오늘의 커밋"
-  @Published var cellDict: [Int: CellData] = [:]
+  @Published var myCells: [CellDataResponse] = []
   @Published var selectedCell: CellData?
-  @Published var selectedCoord: Coord = .init(x: 12, y: 12)
+  @Published var selectedCoord: Coord?
   @Published var selectedGrassColor: Color = .lv_0
+
+  var mapName: String {
+    guard let mapCode = getMapCode() else {
+      return "오늘의 커밋"
+    }
+    return nominationData[mapCode] ?? "N/A"
+  }
 
   var selectedZoneName: String {
     guard let zoneCode = selectedCell?.zoneCode else {
@@ -18,78 +23,129 @@ final class MapManager: ObservableObject {
     }
     return nominationData[zoneCode] ?? "잔디를 클릭해주세요."
   }
- 
-  private var cancellables = Set<AnyCancellable>()
 
+  var myCoord: Coord? {
+    if myCells[mapLevel].mapId == currentMapId {
+      return coordIdToCoord(myCells[mapLevel].cellData.coordId)
+          
+    } else {
+      return nil
+    }
+  }
+    
+  var zoomOutDisabled: Bool {
+    !(0 ... 1).contains(mapLevel)
+  }
+
+  var zoomInDisabled: Bool {
+    !(1 ... 2).contains(mapLevel)
+  }
+      
+  func changeMapLevel(_ zoomingIn: Bool) {
+    var mapId: Int?
+
+    if zoomingIn {
+      guard let subZoneCode = selectedCell?.zoneCode else {
+        Overlay.show(Notification())
+        return
+      }
+      mapId = mapCodeId[subZoneCode]?.mapId
+          
+    } else {
+      guard let mapCode = getMapCode() else {
+        return
+      }
+      let upperZoneCode = getUpperZoneCode(from: mapCode)
+      mapId = mapCodeId[upperZoneCode]?.mapId
+    }
+        
+    guard let mapId else {
+      Overlay.show(
+        RequestOverlay(requestMapName: selectedZoneName) {
+          let overlayVC = Overlay.show(ToastView(message: "요청이 완료되었습니다."))
+          Task { @MainActor in
+            defer { overlayVC.dismiss(animated: true) }
+            try await Task.sleep(nanoseconds: 3_000_000_000)
+          }
+        }
+      )
+      return
+    }
+    currentMapId = mapId
+
+    if zoomingIn {
+      mapLevel -= 1
+    } else {
+      mapLevel += 1
+    }
+      
+    guard let coordId = selectedCell?.coordId else {
+      return
+    }
+    let coord = coordIdToCoord(coordId)
+    updateCell(newCoord: coord)
+  }
+    
+  private var cancellables = Set<AnyCancellable>()
+    
   init() {
-    print("초기화")
     $mapLevel
       .removeDuplicates()
-      .sink { newLevel in
-        print("📍 mapLevel 변경 감지됨: \(newLevel)")
-        self.updateMapData(forLevel: newLevel)
+      .sink { _ in
+        Task { [weak self] in
+          guard let self else {
+            return
+          }
+          guard let currentMapId else {
+            return
+          }
+          await self.fetchMapData(of: currentMapId)
+          await self.resetSelectedCell()
+        }
       }
       .store(in: &cancellables)
   }
     
-  func getMapData() -> [CellData]? {
-    switch mapLevel {
-    case 0:
-      return mapDataLevel0?.values.flatMap { $0 }
-    case 1:
-      return mapDataLevel1?.values.flatMap { $0 }
-    case 2:
-      return mapDataLevel2?.values.flatMap { $0 }
-    default:
-      return nil
-    }
+  @MainActor
+  func resetSelectedCell() {
+    selectedCoord = nil
+    selectedCell = nil
   }
 
-  func getMapCode(ofLevel level: Int) -> Int? {
-    switch level {
-    case 0: return mapDataLevel0?.keys.first
-    case 1: return mapDataLevel1?.keys.first
-    case 2: return mapDataLevel2?.keys.first
-    default: return nil
-    }
-  }
-
-  func updateMapData(forLevel level: Int) {
-    let mapCode = getMapCode(ofLevel: level)
-    updateMapName(for: mapCode ?? 11)
-    initCellData(level: level)
-  }
-
-  func updateMapName(for mapCode: Int) {
-    mapName = nominationData[mapCode] ?? "N/A"
-  }
-
-  func initCellData(level: Int) {
-    guard let cell = cellDict[level] else {
-      return
-    }
-    selectedCell = cell
-    selectedCoord = coordIdToCoord(selectedCell?.coordId ?? 0)
+  func getMapCode() -> Int? {
+    currentMapData?.keys.first
   }
     
-  func updateCellData(newCoord: Coord) {
+  func getMapData() -> [CellData]? {
+    currentMapData?
+      .values
+      .flatMap { $0 }
+  }
+
+  func updateCell(newCoord: Coord) {
     selectedCoord = newCoord
     let coordId = coordToCoordId(newCoord)
-
-    let dict: [Int: [CellData]]?
-    switch mapLevel {
-    case 0: dict = mapDataLevel0
-    case 1: dict = mapDataLevel1
-    case 2: dict = mapDataLevel2
-    default: dict = nil
-    }
-
-    selectedCell = dict?
+      
+    selectedCell = currentMapData?
       .values
       .flatMap { $0 }
       .first { $0.coordId == coordId }
   }
 
+  @MainActor
+  func fetchMapData(of mapId: Int) async {
+    do {
+      let overlayVC = Overlay.show(LoadingView())
+      defer { overlayVC.dismiss(animated: true) }
+      let mapDataResponse = try await MapAPI.getMap(mapId)
+      let mapCode = mapDataResponse.mapCode
+      let mapData = mapDataResponse.mapData
+      currentMapData = [mapCode: mapData]
+    } catch {
+      print("❌ fetchMapData : \(error.localizedDescription)")
+    }
+  }
+    
   func coordIdToCoord(_ id: Int) -> Coord {
     let gridSize = GlobalStore.shared.gridSize
     let x = id % gridSize
@@ -100,5 +156,19 @@ final class MapManager: ObservableObject {
   func coordToCoordId(_ coord: Coord) -> Int {
     let gridSize = GlobalStore.shared.gridSize
     return coord.y * gridSize + coord.x
+  }
+    
+  func getUpperZoneCode(from code: Int) -> Int {
+    let codeStr = String(code)
+    if codeStr.count == 2 {
+      return 410
+    } else {
+      let upperCodeStr = codeStr.dropLast(3)
+      guard let upperCode = Int(upperCodeStr) else {
+        // 변환 실패 시 기본값 지정
+        return 0
+      }
+      return upperCode
+    }
   }
 }

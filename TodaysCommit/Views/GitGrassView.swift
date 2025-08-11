@@ -20,14 +20,14 @@ struct GitGrassView: View {
           .padding(.vertical, 20)
 
           HStack(spacing: 12) {
-            ZoomButton(isZoomIn: false)
+            ZoomButton(zoomingIn: false)
                         
             Text(mapManager.mapName)
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
        
-            ZoomButton(isZoomIn: true)
+            ZoomButton(zoomingIn: true)
           }
 
           ZStack(alignment: .bottomTrailing) {

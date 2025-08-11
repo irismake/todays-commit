@@ -22,7 +22,6 @@ func loadCommitData(from filename: String, isMine: Bool) -> [GrassCommit] {
 
 struct GrassMapView: View {
   var isMine: Bool
-  @State private var showToast = false
   @EnvironmentObject var mapManager: MapManager
   @StateObject private var mailHandler = MailHandler()
   let gridSize = GlobalStore.shared.gridSize
@@ -53,7 +52,6 @@ struct GrassMapView: View {
       let mapDatas = mapManager.getMapData()
       let activeCoords: Set<Coord> = Set((mapDatas ?? []).map { coordIdToCoord($0.coordId) })
       let selectedCoord = mapManager.selectedCoord
-          
       VStack(spacing: spacing) {
         ForEach(0 ..< gridSize, id: \.self) { y in
           HStack(spacing: spacing) {
@@ -62,6 +60,9 @@ struct GrassMapView: View {
               let grassCommitData = commitData.first(where: { $0.x == x && $0.y == y })
               let isSelected = selectedCoord == coord
               let grassColor: Color = {
+                if mapManager.myCoord == coord {
+                  return Color.black
+                }
                 guard activeCoords.contains(coord) else {
                   return .clear
                 }
@@ -80,7 +81,6 @@ struct GrassMapView: View {
                   return .lv_0
                 }
               }()
-                                
               RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(grassColor)
                 .overlay(
@@ -92,27 +92,9 @@ struct GrassMapView: View {
                 .scaleEffect(isSelected ? 1.1 : 1.0)
                 .animation(.spring(response: 0.3), value: isSelected)
                 .onTapGesture {
-                  mapManager.updateCellData(newCoord: coord)
+                  mapManager.updateCell(newCoord: coord)
                 }
             }
-          }
-        }
-      }
-      .overlay(
-        VStack {
-          if showToast {
-            ToastView(message: "지도 데이터를 불러올 수 없습니다.")
-              .zIndex(1)
-              .padding(.top, 50)
-          }
-          Spacer()
-        }
-      )
-      .onAppear {
-        if mapDatas == nil {
-          showToast = true
-          DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            showToast = false
           }
         }
       }

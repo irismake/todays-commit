@@ -16,6 +16,7 @@ struct TodaysCommitApp: App {
     WindowGroup {
       RootView()
         .environmentObject(locationManager)
+        .environmentObject(mapManager)
     }
   }
 
