@@ -25,12 +25,12 @@ final class MapManager: ObservableObject {
   }
 
   var myCoord: Coord? {
-    if myCells[mapLevel].mapId == currentMapId {
-      return coordIdToCoord(myCells[mapLevel].cellData.coordId)
-          
-    } else {
+    guard let currentCell = myCells.first(where: { $0.mapLevel == self.mapLevel }),
+          currentCell.mapId == currentMapId
+    else {
       return nil
     }
+    return coordIdToCoord(currentCell.cellData.coordId)
   }
     
   var zoomOutDisabled: Bool {
@@ -122,10 +122,13 @@ final class MapManager: ObservableObject {
       .flatMap { $0 }
   }
 
-  func updateCell(newCoord: Coord) {
+  func updateCell(newCoord: Coord?) {
+    guard let newCoord else {
+      // 해당 레벨 지도 가져오고 해당 위치로 셀 이동
+      return
+    }
     selectedCoord = newCoord
     let coordId = coordToCoordId(newCoord)
-      
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
@@ -146,14 +149,20 @@ final class MapManager: ObservableObject {
     }
   }
     
-  func coordIdToCoord(_ id: Int) -> Coord {
+  func coordIdToCoord(_ coordId: Int?) -> Coord? {
+    guard let coordId else {
+      return nil
+    }
     let gridSize = GlobalStore.shared.gridSize
-    let x = id % gridSize
-    let y = id / gridSize
+    let x = coordId % gridSize
+    let y = coordId / gridSize
     return Coord(x: x, y: y)
   }
-      
-  func coordToCoordId(_ coord: Coord) -> Int {
+
+  func coordToCoordId(_ coord: Coord?) -> Int? {
+    guard let coord else {
+      return nil
+    }
     let gridSize = GlobalStore.shared.gridSize
     return coord.y * gridSize + coord.x
   }

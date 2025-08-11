@@ -32,7 +32,7 @@ struct GitGrassView: View {
 
           ZStack(alignment: .bottomTrailing) {
             GrassMapView(isMine: selectedOption == 1)
-            locationButton()
+            GpsButton()
           }
 
           Group {
