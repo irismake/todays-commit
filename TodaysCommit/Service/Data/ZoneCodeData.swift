@@ -17,7 +17,7 @@ let mapCodeId: [Int: MapData] = [
   50: MapData(mapId: 16, mapLevel: 1),
   44: MapData(mapId: 17, mapLevel: 1),
   43: MapData(mapId: 18, mapLevel: 1),
-  11350: MapData(mapId: 19, mapLevel: 0),
+  11305: MapData(mapId: 19, mapLevel: 0),
   11290: MapData(mapId: 20, mapLevel: 0)
 ]
 
