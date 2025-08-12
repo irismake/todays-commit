@@ -25,12 +25,12 @@ final class MapManager: ObservableObject {
   }
 
   var myCoord: Coord? {
-    if myCells[mapLevel].mapId == currentMapId {
-      return coordIdToCoord(myCells[mapLevel].cellData.coordId)
-          
-    } else {
+    guard let currentCell = myCells.first(where: { $0.mapLevel == self.mapLevel }),
+          currentCell.mapId == currentMapId
+    else {
       return nil
     }
+    return coordIdToCoord(currentCell.cellData.coordId)
   }
     
   var zoomOutDisabled: Bool {
@@ -78,12 +78,6 @@ final class MapManager: ObservableObject {
     } else {
       mapLevel += 1
     }
-      
-    guard let coordId = selectedCell?.coordId else {
-      return
-    }
-    let coord = coordIdToCoord(coordId)
-    updateCell(newCoord: coord)
   }
     
   private var cancellables = Set<AnyCancellable>()
@@ -91,16 +85,22 @@ final class MapManager: ObservableObject {
   init() {
     $mapLevel
       .removeDuplicates()
-      .sink { _ in
+      .sink { [weak self] _ in
+        guard let self else {
+          return
+        }
+
+        // UI 상태 업데이트는 메인에서
+        Task { @MainActor in
+          self.resetSelectedCell()
+        }
+
+        // 비동기 fetch는 백그라운드에서
         Task { [weak self] in
-          guard let self else {
-            return
-          }
-          guard let currentMapId else {
+          guard let self, let currentMapId = self.currentMapId else {
             return
           }
           await self.fetchMapData(of: currentMapId)
-          await self.resetSelectedCell()
         }
       }
       .store(in: &cancellables)
@@ -122,10 +122,27 @@ final class MapManager: ObservableObject {
       .flatMap { $0 }
   }
 
-  func updateCell(newCoord: Coord) {
+  func updateCell(newCoord: Coord?) {
+    guard let newCoord else {
+      // 지도내의 myCoord 가 없을때
+      if let currentCell = myCells.first(where: { $0.mapLevel == self.mapLevel }) {
+        let mapId = currentCell.mapId
+        Task {
+          @MainActor in
+          await fetchMapData(of: mapId)
+          currentMapId = mapId
+          selectedCoord = myCoord
+          let coordId = coordToCoordId(selectedCoord)
+          selectedCell = currentMapData?
+            .values
+            .flatMap { $0 }
+            .first { $0.coordId == coordId }
+        }
+      }
+      return
+    }
     selectedCoord = newCoord
     let coordId = coordToCoordId(newCoord)
-      
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
@@ -146,14 +163,20 @@ final class MapManager: ObservableObject {
     }
   }
     
-  func coordIdToCoord(_ id: Int) -> Coord {
+  func coordIdToCoord(_ coordId: Int?) -> Coord? {
+    guard let coordId else {
+      return nil
+    }
     let gridSize = GlobalStore.shared.gridSize
-    let x = id % gridSize
-    let y = id / gridSize
+    let x = coordId % gridSize
+    let y = coordId / gridSize
     return Coord(x: x, y: y)
   }
-      
-  func coordToCoordId(_ coord: Coord) -> Int {
+
+  func coordToCoordId(_ coord: Coord?) -> Int? {
+    guard let coord else {
+      return nil
+    }
     let gridSize = GlobalStore.shared.gridSize
     return coord.y * gridSize + coord.x
   }
