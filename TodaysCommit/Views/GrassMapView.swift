@@ -3,11 +3,14 @@ import SwiftUI
 struct GrassMapView: View {
   var isMine: Bool
   @EnvironmentObject var mapManager: MapManager
-  @EnvironmentObject var grassManager: GrassManager
+  private let grassService = GrassService.shared
+    
+  @State private var totalGrassData: [GrassData] = []
+  @State private var errorMessage: String?
   let gridSize = GlobalStore.shared.gridSize
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
-
+    
   init(isMine: Bool) {
     self.isMine = isMine
   }
@@ -25,28 +28,27 @@ struct GrassMapView: View {
     let gridSize = GlobalStore.shared.gridSize
     return coord.y * gridSize + coord.x
   }
-      
+    
   var body: some View {
     GeometryReader { geometry in
-        let mapDatas = mapManager.getMapData()
-        let activeCoords: Set<Coord> = Set((mapDatas ?? []).map { coordIdToCoord($0.coordId) })
-        let selectedCoord = mapManager.selectedCoord
+      let mapDatas = mapManager.getMapData()
+      let activeCoords: Set<Coord> = Set((mapDatas ?? []).map { coordIdToCoord($0.coordId) })
+      let selectedCoord = mapManager.selectedCoord
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
-        
-      let totalCounts = grassManager.totalGrassData.map(\.commitCount)
+            
+      let totalCounts = totalGrassData.map(\.commitCount)
       let minCount = totalCounts.min() ?? 0
       let maxCount = totalCounts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
-          
-   
+            
       VStack(spacing: spacing) {
         ForEach(0 ..< gridSize, id: \.self) { y in
           HStack(spacing: spacing) {
             ForEach(0 ..< gridSize, id: \.self) { x in
               let coord = Coord(x: x, y: y)
               let coordId = coordToCoordId(coord)
-              let grassData = grassManager.totalGrassData.first(where: { $0.coordId == coordId })
+              let grassData = totalGrassData.first(where: { $0.coordId == coordId })
               let isSelected = selectedCoord == coord
               let grassColor: Color = {
                 if mapManager.myCoord == coord {
@@ -55,7 +57,7 @@ struct GrassMapView: View {
                 guard activeCoords.contains(coord) else {
                   return .clear
                 }
-
+                                
                 if let grassData {
                   let level = Double(grassData.commitCount - minCount)
                   let color: Color
@@ -89,6 +91,26 @@ struct GrassMapView: View {
       }
     }
     .aspectRatio(1, contentMode: .fit)
+    .task(id: mapManager.currentMapId) {
+      print("task")
+      guard let mapId = mapManager.currentMapId else {
+        return
+      }
+
+      if let cachedData = grassService.getCachedGrassData() {
+        if cachedData.mapId == mapId {
+          print("cached data")
+          totalGrassData = cachedData.grassData
+          return
+        }
+      }
+            
+      let newGrassData = await grassService.fetchGrassData(of: mapId)
+
+      if mapManager.currentMapId == mapId {
+        totalGrassData = newGrassData
+      }
+    }
   }
 }
 

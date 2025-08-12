@@ -130,7 +130,6 @@ final class MapManager: ObservableObject {
         Task {
           @MainActor in
           await fetchMapData(of: mapId)
-          currentMapId = mapId
           selectedCoord = myCoord
           let coordId = coordToCoordId(selectedCoord)
           selectedCell = currentMapData?
@@ -154,21 +153,12 @@ final class MapManager: ObservableObject {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
     do {
-      // 지도 API 실행
       async let mapRes = MapAPI.getMap(mapId)
-      // 잔디 API 실행
-      async let grassTask = GrassManager.shared.fetchGrassData(of: mapId)
-
-      // 먼저 지도 API 데이터 받기
       let mapDataResponse = try await mapRes
-
-      // 그 다음 잔디 API가 끝날 때까지 기다리기
-      await grassTask
-
-      // 두 API가 모두 끝난 뒤에 currentMapData 설정
       let mapCode = mapDataResponse.mapCode
       let mapData = mapDataResponse.mapData
       currentMapData = [mapCode: mapData]
+      currentMapId = mapId
     } catch {
       print("❌ fetchMapData : \(error.localizedDescription)")
     }

@@ -49,7 +49,6 @@ struct RootView: View {
         mapManager.myCells.append(cell)
         
         if mapLevel == 1 {
-          mapManager.currentMapId = mapId
           await mapManager.fetchMapData(of: mapId)
         }
         print("데이터 저장")
