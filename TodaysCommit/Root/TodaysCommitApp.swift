@@ -6,6 +6,7 @@ import SwiftUI
 struct TodaysCommitApp: App {
   @StateObject private var locationManager = LocationManager()
   @StateObject private var mapManager = MapManager()
+  @StateObject private var grassManager = GrassManager.shared
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   init() {
@@ -17,6 +18,7 @@ struct TodaysCommitApp: App {
       RootView()
         .environmentObject(locationManager)
         .environmentObject(mapManager)
+        .environmentObject(grassManager)
     }
   }
 

@@ -16,6 +16,9 @@ struct GitGrassView: View {
               Text(options[index])
             }
           }
+          .onChange(of: selectedOption) {
+            print("선택된 값: \(options[selectedOption])")
+          }
           .pickerStyle(.segmented)
           .padding(.vertical, 20)
 
