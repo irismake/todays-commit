@@ -6,8 +6,8 @@ struct GpsButton: View {
     
   var body: some View {
     Button(action: {
-      print("현재 위치로 이동")
       mapManager.updateCell(newCoord: mapManager.myCoord)
+        
     }) {
       Image("gps")
         .resizable()
