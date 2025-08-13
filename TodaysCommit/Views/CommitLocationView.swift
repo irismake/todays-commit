@@ -10,7 +10,7 @@ struct CommitLocationView: View {
   var body: some View {
     VStack {
       ZStack {
-        Text("오늘의 커밋 완료")
+        Text("오늘의 커밋 시작")
           .font(.headline)
           .fontWeight(.bold)
         HStack {
