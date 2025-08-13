@@ -1,18 +1,18 @@
 import SwiftUI
 
 struct GrassMapView: View {
-  var isMine: Bool
+  var showMyMap: Bool
   @EnvironmentObject var mapManager: MapManager
   private let grassService = GrassService.shared
     
-  @State private var totalGrassData: [GrassData] = []
+  @State private var grassData: [GrassData] = []
   @State private var errorMessage: String?
   let gridSize = GlobalStore.shared.gridSize
   let spacing: CGFloat = 4
   let cornerRadius: CGFloat = 3
     
-  init(isMine: Bool) {
-    self.isMine = isMine
+  init(showMyMap: Bool) {
+    self.showMyMap = showMyMap
   }
     
   func coordIdToCoord(_ id: Int) -> Coord {
@@ -37,7 +37,7 @@ struct GrassMapView: View {
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
             
-      let totalCounts = totalGrassData.map(\.commitCount)
+      let totalCounts = grassData.map(\.commitCount)
       let minCount = totalCounts.min() ?? 0
       let maxCount = totalCounts.max() ?? 0
       let commitStep = maxCount > minCount ? Double(maxCount - minCount) / 4.0 : 1
@@ -48,7 +48,7 @@ struct GrassMapView: View {
             ForEach(0 ..< gridSize, id: \.self) { x in
               let coord = Coord(x: x, y: y)
               let coordId = coordToCoordId(coord)
-              let grassData = totalGrassData.first(where: { $0.coordId == coordId })
+              let grassData = grassData.first(where: { $0.coordId == coordId })
               let isSelected = selectedCoord == coord
               let grassColor: Color = {
                 if mapManager.myCoord == coord {
@@ -91,24 +91,41 @@ struct GrassMapView: View {
       }
     }
     .aspectRatio(1, contentMode: .fit)
-    .task(id: mapManager.currentMapId) {
+    .task(id: GrassTaskID(mapId: mapManager.currentMapId, showMyMap: showMyMap)) {
       print("task")
       guard let mapId = mapManager.currentMapId else {
         return
       }
 
-      if let cachedData = grassService.getCachedGrassData() {
-        if cachedData.mapId == mapId {
-          print("cached data")
-          totalGrassData = cachedData.grassData
-          return
+      if showMyMap {
+        if let cachedMyData = grassService.getMyCachedGrass() {
+          if cachedMyData.mapId == mapId {
+            print("cached My data")
+            grassData = cachedMyData.grassData
+            return
+          }
         }
-      }
-            
-      let newGrassData = await grassService.fetchGrassData(of: mapId)
+                    
+        let myGrassData = await grassService.fetchMyGrassData(of: mapId)
 
-      if mapManager.currentMapId == mapId {
-        totalGrassData = newGrassData
+        if mapManager.currentMapId == mapId {
+          grassData = myGrassData
+        }
+          
+      } else {
+        if let cachedTotalData = grassService.getTotalCachedGrass() {
+          if cachedTotalData.mapId == mapId {
+            print("cached Total data")
+            grassData = cachedTotalData.grassData
+            return
+          }
+        }
+                  
+        let totalGrassData = await grassService.fetchTotalGrassData(of: mapId)
+
+        if mapManager.currentMapId == mapId {
+          grassData = totalGrassData
+        }
       }
     }
   }
@@ -116,6 +133,6 @@ struct GrassMapView: View {
 
 struct GrassMapView_Previews: PreviewProvider {
   static var previews: some View {
-    GrassMapView(isMine: false)
+    GrassMapView(showMyMap: false)
   }
 }

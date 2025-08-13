@@ -1,5 +1,10 @@
 import SwiftUI
 
+struct GrassTaskID: Equatable {
+  let mapId: Int?
+  let showMyMap: Bool
+}
+
 struct GrassData: Decodable {
   let coordId: Int
   let commitCount: Int
