@@ -9,10 +9,19 @@ struct PlaceNotFoundOverlay: View {
         .fontWeight(.semibold)
         .foregroundColor(.orange)
 
-      Text("위치를 이동해보세요.")
+      Text("지도를 움직여서 잔디를 올바른 위치에 심어주세요.")
         .font(.caption)
         .foregroundColor(.gray)
 
+      Text("서울특별시 용산구 한남동 683-140")
+        .font(.subheadline)
+        .fontWeight(.semibold)
+        .foregroundColor(Color(UIColor.darkGray))
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(12)
+        
       CompleteButton(onComplete: {
         print("커밋 진행")
         onCommit()
