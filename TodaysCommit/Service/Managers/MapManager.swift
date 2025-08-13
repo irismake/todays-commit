@@ -5,9 +5,8 @@ final class MapManager: ObservableObject {
   @Published var currentMapData: [Int: [CellData]]?
   @Published var currentMapId: Int?
   @Published var mapLevel: Int = 1
-  @Published var myCells: [CellDataResponse] = []
+  @Published var gpsCells: [CellDataResponse] = []
   @Published var selectedCell: CellData?
-  @Published var selectedCoord: Coord?
   @Published var selectedGrassColor: Color = .lv_0
 
   var mapName: String {
@@ -24,13 +23,13 @@ final class MapManager: ObservableObject {
     return nominationData[zoneCode] ?? "잔디를 클릭해주세요."
   }
 
-  var myCoord: Coord? {
-    guard let currentCell = myCells.first(where: { $0.mapLevel == self.mapLevel }),
+  var gpsCoordId: Int? {
+    guard let currentCell = gpsCells.first(where: { $0.mapLevel == self.mapLevel }),
           currentCell.mapId == currentMapId
     else {
       return nil
     }
-    return coordIdToCoord(currentCell.cellData.coordId)
+    return currentCell.cellData.coordId
   }
     
   var zoomOutDisabled: Bool {
@@ -108,7 +107,6 @@ final class MapManager: ObservableObject {
     
   @MainActor
   func resetSelectedCell() {
-    selectedCoord = nil
     selectedCell = nil
   }
 
@@ -122,63 +120,44 @@ final class MapManager: ObservableObject {
       .flatMap { $0 }
   }
 
-  func updateCell(newCoord: Coord?) {
-    guard let newCoord else {
-      // 지도내의 myCoord 가 없을때
-      if let currentCell = myCells.first(where: { $0.mapLevel == self.mapLevel }) {
+  func updateCell(newCoordId: Int?) {
+    guard let newCoordId else {
+      // 지도내의 gpsCoordId 가 없을때
+      if let currentCell = gpsCells.first(where: { $0.mapLevel == self.mapLevel }) {
         let mapId = currentCell.mapId
         Task {
           @MainActor in
           await fetchMapData(of: mapId)
-          currentMapId = mapId
-          selectedCoord = myCoord
-          let coordId = coordToCoordId(selectedCoord)
+        
           selectedCell = currentMapData?
             .values
             .flatMap { $0 }
-            .first { $0.coordId == coordId }
+            .first { $0.coordId == currentCell.cellData.coordId }
         }
       }
       return
     }
-    selectedCoord = newCoord
-    let coordId = coordToCoordId(newCoord)
+      
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
-      .first { $0.coordId == coordId }
+      .first { $0.coordId == newCoordId }
   }
 
   @MainActor
   func fetchMapData(of mapId: Int) async {
+    let overlayVC = Overlay.show(LoadingView())
+    defer { overlayVC.dismiss(animated: true) }
     do {
-      let overlayVC = Overlay.show(LoadingView())
-      defer { overlayVC.dismiss(animated: true) }
-      let mapDataResponse = try await MapAPI.getMap(mapId)
+      async let mapRes = MapAPI.getMap(mapId)
+      let mapDataResponse = try await mapRes
       let mapCode = mapDataResponse.mapCode
       let mapData = mapDataResponse.mapData
       currentMapData = [mapCode: mapData]
+      currentMapId = mapId
     } catch {
       print("❌ fetchMapData : \(error.localizedDescription)")
     }
-  }
-    
-  func coordIdToCoord(_ coordId: Int?) -> Coord? {
-    guard let coordId else {
-      return nil
-    }
-    let gridSize = GlobalStore.shared.gridSize
-    let x = coordId % gridSize
-    let y = coordId / gridSize
-    return Coord(x: x, y: y)
-  }
-
-  func coordToCoordId(_ coord: Coord?) -> Int? {
-    guard let coord else {
-      return nil
-    }
-    let gridSize = GlobalStore.shared.gridSize
-    return coord.y * gridSize + coord.x
   }
     
   func getUpperZoneCode(from code: Int) -> Int {

@@ -6,7 +6,7 @@ struct GpsButton: View {
     
   var body: some View {
     Button(action: {
-      mapManager.updateCell(newCoord: mapManager.myCoord)
+      mapManager.updateCell(newCoordId: mapManager.gpsCoordId)
         
     }) {
       Image("gps")

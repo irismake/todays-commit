@@ -10,7 +10,7 @@ struct KakaoLoginButton: View {
       AuthService.shared.kakaoAuth { result in
         switch result {
         case let .success(user):
-          UserSessionManager.saveAccessToken(user: user)
+          UserSessionManager.saveUserSession(user)
         case let .failure(error):
           print("❌ 로그인 실패: \(error.localizedDescription)")
         }

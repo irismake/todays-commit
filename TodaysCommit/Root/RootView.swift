@@ -46,10 +46,9 @@ struct RootView: View {
       for cell in cells {
         let mapId = cell.mapId
         let mapLevel = cell.mapLevel
-        mapManager.myCells.append(cell)
+        mapManager.gpsCells.append(cell)
         
         if mapLevel == 1 {
-          mapManager.currentMapId = mapId
           await mapManager.fetchMapData(of: mapId)
         }
         print("데이터 저장")
