@@ -46,7 +46,7 @@ struct RootView: View {
       for cell in cells {
         let mapId = cell.mapId
         let mapLevel = cell.mapLevel
-        mapManager.myCells.append(cell)
+        mapManager.gpsCells.append(cell)
         
         if mapLevel == 1 {
           await mapManager.fetchMapData(of: mapId)

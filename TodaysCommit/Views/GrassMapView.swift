@@ -15,25 +15,11 @@ struct GrassMapView: View {
     self.showMyMap = showMyMap
   }
     
-  func coordIdToCoord(_ id: Int) -> Coord {
-    let x = id % gridSize
-    let y = id / gridSize
-    return Coord(x: x, y: y)
-  }
-    
-  func coordToCoordId(_ coord: Coord?) -> Int? {
-    guard let coord else {
-      return nil
-    }
-    let gridSize = GlobalStore.shared.gridSize
-    return coord.y * gridSize + coord.x
-  }
-    
   var body: some View {
     GeometryReader { geometry in
       let mapDatas = mapManager.getMapData()
-      let activeCoords: Set<Coord> = Set((mapDatas ?? []).map { coordIdToCoord($0.coordId) })
-      let selectedCoord = mapManager.selectedCoord
+      let activeCoordIds: Set<Int> = Set((mapDatas ?? []).map(\.coordId))
+      let selectedCell = mapManager.selectedCell?.coordId
       let totalSpacing = CGFloat(gridSize - 1) * spacing
       let cellSize = (min(geometry.size.width, geometry.size.height) - totalSpacing) / CGFloat(gridSize)
             
@@ -46,15 +32,15 @@ struct GrassMapView: View {
         ForEach(0 ..< gridSize, id: \.self) { y in
           HStack(spacing: spacing) {
             ForEach(0 ..< gridSize, id: \.self) { x in
-              let coord = Coord(x: x, y: y)
-              let coordId = coordToCoordId(coord)
+              let coordId = y * gridSize + x
+           
               let grassData = grassData.first(where: { $0.coordId == coordId })
-              let isSelected = selectedCoord == coord
+              let isSelected = selectedCell == coordId
               let grassColor: Color = {
-                if mapManager.myCoord == coord {
+                if mapManager.gpsCoordId == coordId {
                   return Color.black
                 }
-                guard activeCoords.contains(coord) else {
+                guard activeCoordIds.contains(coordId) else {
                   return .clear
                 }
                                 
@@ -83,7 +69,7 @@ struct GrassMapView: View {
                 .scaleEffect(isSelected ? 1.1 : 1.0)
                 .animation(.spring(response: 0.3), value: isSelected)
                 .onTapGesture {
-                  mapManager.updateCell(newCoord: coord)
+                  mapManager.updateCell(newCoordId: coordId)
                 }
             }
           }
