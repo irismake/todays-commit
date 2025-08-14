@@ -6,8 +6,8 @@ struct CommitLocationView: View {
   @State var draw: Bool = false
   @State private var showCommitView = false
   @StateObject private var layout = LayoutMetrics()
-  @State var missingPlaceAddress: String?
-  @State var existPlaceName: String?
+  @State var placeAddress: String?
+  @State var placeName: String?
 
   var body: some View {
     VStack {
@@ -43,7 +43,7 @@ struct CommitLocationView: View {
         VStack {
           if locationManager.isOverlayActive {
             PlaceNotFoundOverlay(
-              placeAddress: missingPlaceAddress,
+              placeAddress: placeAddress,
               onCommit: {
                 showCommitView = true
               }
@@ -60,12 +60,12 @@ struct CommitLocationView: View {
                       
                 let addrress = locationRes.address
                 let pnu = locationRes.pnu
-                missingPlaceAddress = addrress
+                placeAddress = addrress
                 let placeCheck = try await PlaceAPI.checkPlace(pnu)
                 print(placeCheck)
                 if placeCheck.exists {
                   if placeCheck.name != nil {
-                    existPlaceName = placeCheck.name
+                    placeName = placeCheck.name
                   }
                   showCommitView = true
                 } else {
@@ -89,7 +89,14 @@ struct CommitLocationView: View {
           }
         )
         .sheet(isPresented: $showCommitView) {
-          CommitView()
+          if let placeAddress {
+            CommitView(
+              commitAddress: placeAddress,
+              placeName: placeName
+            )
+          } else {
+            Text("주소 정보가 없습니다.")
+          }
         }
       }
     }
