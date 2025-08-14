@@ -6,6 +6,8 @@ struct CommitLocationView: View {
   @State var draw: Bool = false
   @State private var showCommitView = false
   @StateObject private var layout = LayoutMetrics()
+  @State var missingPlaceAddress: String?
+  @State var existPlaceName: String?
 
   var body: some View {
     VStack {
@@ -40,15 +42,39 @@ struct CommitLocationView: View {
               
         VStack {
           if locationManager.isOverlayActive {
-            PlaceNotFoundOverlay {
-              showCommitView = true
-            }
+            PlaceNotFoundOverlay(
+              placeAddress: missingPlaceAddress,
+              onCommit: {
+                showCommitView = true
+              }
+            )
            
           } else {
             CompleteButton(onComplete: {
-              print("커밋 진행")
-              locationManager.activateOverlay()
+              do {
+                let overlayVC = Overlay.show(LoadingView())
+                defer { overlayVC.dismiss(animated: true) }
                     
+                let placeLocation = locationManager.placeLocation
+                let locationRes = try await getLocationData(placeLocation)
+                      
+                let addrress = locationRes.address
+                let pnu = locationRes.pnu
+                missingPlaceAddress = addrress
+                let placeCheck = try await PlaceAPI.checkPlace(pnu)
+                print(placeCheck)
+                if placeCheck.exists {
+                  if placeCheck.name != nil {
+                    existPlaceName = placeCheck.name
+                  }
+                  showCommitView = true
+                } else {
+                  locationManager.activateOverlay()
+                }
+              } catch {
+                print("위치 데이터 로드 실패:", error)
+              }
+                
             }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
               .padding(.vertical)
               .padding(.bottom, 20)
@@ -70,6 +96,13 @@ struct CommitLocationView: View {
     
     .ignoresSafeArea(edges: .bottom)
   }
+}
+
+func getLocationData(_ location: Location?) async throws -> LocationResponse {
+  guard let location else {
+    throw URLError(.badURL)
+  }
+  return try await LocationAPI.getPnu(lat: location.lat, lon: location.lon)
 }
 
 struct CommitLocationView_Previews: PreviewProvider {

@@ -1,13 +1,15 @@
 import SwiftUI
 
 struct CompleteButton: View {
-  var onComplete: () -> Void
+  var onComplete: () async -> Void
   let title: String
   let color: Color
 
   var body: some View {
     Button(action: {
-      onComplete()
+      Task {
+        await onComplete()
+      }
     }) {
       Text(title)
         .font(.headline)

@@ -4,6 +4,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
   @Published var currentLocation: Location?
+  @Published var placeLocation: Location?
   @Published var authorizationStatus: CLAuthorizationStatus?
   @Published var isOverlayActive: Bool = false
   private let defaultLocation = Location(lat: 37.5665, lon: 126.9780)
