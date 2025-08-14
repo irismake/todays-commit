@@ -8,6 +8,6 @@ struct Location: Hashable {
 struct LocationResponse: Decodable {
   let lat: Double
   let lon: Double
-  let pnu: Int
+  let pnu: String
   let address: String
 }
