@@ -9,4 +9,17 @@ enum PlaceAPI {
       authRequired: true
     )
   }
+    
+  static func addPlace(_ placeData: PlaceResponse) async throws -> PlaceResponse {
+    let bodyData = try? JSONEncoder().encode(
+      placeData
+    )
+    return try await APIClient.shared.requestJSON(
+      path: "/place",
+      method: "POST",
+      body: bodyData,
+      response: PlaceResponse.self,
+      authRequired: true
+    )
+  }
 }

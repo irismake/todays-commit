@@ -7,7 +7,8 @@ struct CommitLocationView: View {
   @State private var showCommitView = false
   @StateObject private var layout = LayoutMetrics()
   @State var placeAddress: String?
-  @State var placeName: String?
+  @State var placePnu: String?
+  @State private var placeData: PlaceResponse?
 
   var body: some View {
     VStack {
@@ -45,35 +46,26 @@ struct CommitLocationView: View {
             PlaceNotFoundOverlay(
               placeAddress: placeAddress,
               onCommit: {
+                guard let placePnu,
+                      let placeAddress,
+                      let placeLocation = locationManager.placeLocation
+                else {
+                  return
+                }
+                placeData = PlaceResponse(
+                  pnu: placePnu,
+                  name: "",
+                  address: placeAddress,
+                  x: placeLocation.lat,
+                  y: placeLocation.lon
+                )
                 showCommitView = true
               }
             )
            
           } else {
             CompleteButton(onComplete: {
-              do {
-                let overlayVC = Overlay.show(LoadingView())
-                defer { overlayVC.dismiss(animated: true) }
-                    
-                let placeLocation = locationManager.placeLocation
-                let locationRes = try await getLocationData(placeLocation)
-                      
-                let addrress = locationRes.address
-                let pnu = locationRes.pnu
-                placeAddress = addrress
-                let placeCheck = try await PlaceAPI.checkPlace(pnu)
-                print(placeCheck)
-                if placeCheck.exists {
-                  if placeCheck.name != nil {
-                    placeName = placeCheck.name
-                  }
-                  showCommitView = true
-                } else {
-                  locationManager.activateOverlay()
-                }
-              } catch {
-                print("위치 데이터 로드 실패:", error)
-              }
+              await handleCommitAction()
                 
             }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
               .padding(.vertical)
@@ -88,20 +80,43 @@ struct CommitLocationView: View {
             }
           }
         )
-        .sheet(isPresented: $showCommitView) {
-          if let placeAddress {
-            CommitView(
-              commitAddress: placeAddress,
-              placeName: placeName
-            )
-          } else {
-            Text("주소 정보가 없습니다.")
+        .sheet(item: $placeData) { data in
+          CommitView(placeData: data) {
+            dismiss()
           }
         }
       }
     }
     
     .ignoresSafeArea(edges: .bottom)
+  }
+
+  private func handleCommitAction() async {
+    let placeLocation = locationManager.placeLocation
+    let locationRes = try await getLocationData(placeLocation)
+    let address = locationRes.address
+    placePnu = locationRes.pnu
+    placeAddress = address
+    let placeCheck = try await PlaceAPI.checkPlace(locationRes.pnu)
+
+    if placeCheck.exists {
+      guard let placeAddress,
+            let placeLocation
+      else {
+        return
+      }
+      let placeName = placeCheck.name ?? ""
+      placeData = PlaceResponse(
+        pnu: locationRes.pnu,
+        name: placeName,
+        address: placeAddress,
+        x: placeLocation.lat,
+        y: placeLocation.lon
+      )
+      showCommitView = true
+    } else {
+      locationManager.activateOverlay()
+    }
   }
 }
 

@@ -2,24 +2,20 @@ import SwiftUI
 
 struct CommitView: View {
   @Environment(\.dismiss) private var dismiss
-  let commitAddress: String
-  let placeName: String?
-  // 사용자가 입력/확정할 장소명
+  var onFinish: () -> Void = {}
   @State private var inputPlaceName: String
-  // 편집 가능 여부
   private let isEditable: Bool
-    
-  // placeName 유무에 따라 초기값/편집여부 세팅
-  init(commitAddress: String, placeName: String?) {
-    self.commitAddress = commitAddress
-    self.placeName = placeName
-    _inputPlaceName = State(initialValue: placeName ?? "")
-    isEditable = (placeName?.isEmpty ?? true)
+  private let placeData: PlaceResponse
+ 
+  init(placeData: PlaceResponse, onFinish: @escaping () -> Void) {
+    self.placeData = placeData
+    self.onFinish = onFinish
+    _inputPlaceName = State(initialValue: placeData.name)
+    isEditable = placeData.name == ""
   }
 
-  // 최종 사용할 이름(읽기 전용이면 초기값, 편집 가능이면 입력값)
   private var finalPlaceName: String {
-    isEditable ? inputPlaceName : (placeName ?? "")
+    isEditable ? inputPlaceName : (placeData.name)
   }
     
   var body: some View {
@@ -52,7 +48,7 @@ struct CommitView: View {
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .leading)
                 
-            Text(commitAddress)
+            Text(placeData.address)
               .font(.subheadline).fontWeight(.semibold)
               .foregroundColor(.secondary)
               .padding()
@@ -84,7 +80,7 @@ struct CommitView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color(UIColor.systemGray6))
             .cornerRadius(12)
-            .disabled(!isEditable) // 편집 불가이면 터치/키보드 비활성
+            .disabled(!isEditable)
                 
             Text("이 장소는 어때요?")
               .font(.subheadline)
@@ -103,17 +99,49 @@ struct CommitView: View {
       }.scrollIndicators(.hidden)
 
       CompleteButton(onComplete: {
-        // 잔디 심기
+        guard !inputPlaceName.isEmpty else {
+          // 경고 팝업
+          return
+        }
+          
+        let updatedData = PlaceResponse(
+          pnu: placeData.pnu,
+          name: inputPlaceName,
+          address: placeData.address,
+          x: placeData.x,
+          y: placeData.y
+        )
+        print(updatedData)
+      
+        await fetchPlantingGrass(of: updatedData)
+        
       }, title: "잔디 심기", color: Color.green)
     }
     .padding(.horizontal)
     .padding(.bottom)
     .background(Color.white)
   }
+
+  func fetchPlantingGrass(of _: PlaceResponse) async {
+    let grassService = GrassService.shared
+    let placeService = PlaceService.shared
+    if isEditable {
+      await placeService.addPlace(of: placeData)
+    }
+    await grassService.addGrassData(of: placeData.pnu)
+    dismiss()
+    onFinish()
+  }
 }
 
 struct CommitView_Previews: PreviewProvider {
   static var previews: some View {
-    CommitView(commitAddress: "서울 종로구 명륜2가 24-4", placeName: "공차 대학로점")
+    CommitView(placeData: PlaceResponse(
+      pnu: "pnu",
+      name: "placeName",
+      address: "placeAddress",
+      x: 0.0,
+      y: 0.0
+    ), onFinish: {})
   }
 }
