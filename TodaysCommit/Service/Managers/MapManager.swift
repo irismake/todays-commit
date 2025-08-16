@@ -133,27 +133,26 @@ final class MapManager: ObservableObject {
           @MainActor in
           await fetchMapData(of: mapId)
         
+          await placeService.getMainPlace(mapId: mapId, coordId: currentCell.cellData.coordId, sort: "popular")
+            
           selectedCell = currentMapData?
             .values
             .flatMap { $0 }
             .first { $0.coordId == currentCell.cellData.coordId }
-            
-          await placeService.getMainPlace(mapId: mapId, coordId: currentCell.cellData.coordId, sort: "popular")
         }
       }
       return
     }
+    guard let currentMapId else {
+      return
+    }
+        
+    await placeService.getMainPlace(mapId: currentMapId, coordId: newCoordId, sort: "popular")
       
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
       .first { $0.coordId == newCoordId }
-      
-    guard let currentMapId else {
-      return
-    }
-      
-    await placeService.getMainPlace(mapId: currentMapId, coordId: newCoordId, sort: "popular")
   }
 
   @MainActor

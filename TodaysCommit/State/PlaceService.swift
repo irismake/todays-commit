@@ -4,13 +4,12 @@ final class PlaceService {
   static let shared = PlaceService()
   private init() {}
     
-    private var cachedMainPlaces: [PlaceData]?
-    private var cachedMyPlaces: [PlaceData]?
+  private var cachedMainPlaces: [PlaceData]?
+  private var cachedMyPlaces: [PlaceData]?
 
-    func getMainCachedPlace() -> [PlaceData]? { cachedMainPlaces }
-    func getMyCachedPlace() -> [PlaceData]? { cachedMyPlaces }
+  func getMainCachedPlace() -> [PlaceData]? { cachedMainPlaces }
+  func getMyCachedPlace() -> [PlaceData]? { cachedMyPlaces }
 
-    
   @Published var placeLocation: Location?
 
   func addPlace(of placeData: AddPlaceData) async {
@@ -29,7 +28,8 @@ final class PlaceService {
       }
 
       let response = try await PlaceAPI.getMainPlace(mapId: mapId, coordId: coordId, x: location.lat, y: location.lon, sort: sort)
-        cachedMainPlaces = response.places
+    
+      cachedMainPlaces = response.places
     } catch {
       print("❌ getMainPlace : \(error.localizedDescription)")
     }

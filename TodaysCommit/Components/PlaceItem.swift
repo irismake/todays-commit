@@ -1,13 +1,15 @@
 import SwiftUI
 
 struct PlaceItem: View {
-  var commitCount: Int
-
+  let placeName: String
+  let distance: String
+  let commitCount: Int
+    
   var body: some View {
     Button(action: {}) {
       HStack {
         VStack(alignment: .leading, spacing: 20) {
-          Text("커피스토어")
+          Text(placeName)
             .font(.headline)
             .foregroundColor(.primary)
             .lineLimit(1)
@@ -17,7 +19,7 @@ struct PlaceItem: View {
               Image(systemName: "location.fill")
                 .font(.system(size: 10, weight: .semibold))
                 .foregroundColor(Color(red: 194 / 255, green: 194 / 255, blue: 194 / 255))
-              Text("3m")
+              Text(distance)
                 .font(.caption)
                 .foregroundColor(.gray.opacity(0.6))
             }
@@ -34,8 +36,7 @@ struct PlaceItem: View {
         }
          
         Spacer()
-         
-        // 오른쪽 인디케이터
+
         Image(systemName: "chevron.right")
           .font(.system(size: 12, weight: .semibold))
           .foregroundColor(.gray.opacity(0.6))
@@ -52,8 +53,8 @@ struct PlaceItem: View {
 struct PlaceItem_Previews: PreviewProvider {
   static var previews: some View {
     VStack(spacing: 20) {
-      PlaceItem(commitCount: 125)
-      PlaceItem(commitCount: 42)
+      PlaceItem(placeName: "커피스토어", distance: "123m", commitCount: 125)
+      PlaceItem(placeName: "스타벅스 성신여대점", distance: "9m", commitCount: 42)
     }
     .padding()
   }
