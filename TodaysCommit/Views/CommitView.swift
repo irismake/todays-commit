@@ -122,15 +122,15 @@ struct CommitView: View {
     .background(Color.white)
   }
 
-  func fetchPlantingGrass(of _: AddPlaceData) async {
+  func fetchPlantingGrass(of addPlaceData: AddPlaceData) async {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
     let grassService = GrassService.shared
     let placeService = PlaceService.shared
     if isEditable {
-      await placeService.addPlace(of: placeData)
+      await placeService.addPlace(of: addPlaceData)
     }
-    await grassService.addGrassData(of: placeData.pnu)
+    await grassService.addGrassData(of: addPlaceData.pnu)
     dismiss()
     onFinish()
     try? await Task.sleep(nanoseconds: 1_000_000_000)
