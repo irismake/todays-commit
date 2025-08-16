@@ -7,7 +7,7 @@ struct GpsButton: View {
   var body: some View {
     Button {
       Task {
-        await mapManager.updateCell(newCoordId: mapManager.gpsCoordId)
+        await mapManager.updateCell(newCoordId: mapManager.gpsCoordId, grassColor: .black)
       }
     } label: {
       Image("gps")

@@ -70,7 +70,7 @@ struct GrassMapView: View {
                 .animation(.spring(response: 0.3), value: isSelected)
                 .onTapGesture {
                   Task {
-                    await mapManager.updateCell(newCoordId: coordId)
+                    await mapManager.updateCell(newCoordId: coordId, grassColor: grassColor)
                   }
                 }
             }

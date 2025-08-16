@@ -122,9 +122,10 @@ final class MapManager: ObservableObject {
   }
     
   @MainActor
-  func updateCell(newCoordId: Int?) async {
+  func updateCell(newCoordId: Int?, grassColor: Color) async {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
+    selectedGrassColor = grassColor
     guard let newCoordId else {
       // 지도내의 gpsCoordId 가 없을때
       if let currentCell = gpsCells.first(where: { $0.mapLevel == self.mapLevel }) {
