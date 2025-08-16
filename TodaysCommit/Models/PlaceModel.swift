@@ -14,9 +14,13 @@ struct AddPlaceData: Codable, Identifiable {
   let y: Double
 }
 
-struct PlaceResponse: Decodable {
+struct PlaceData: Decodable {
   let pnu: String
   let name: String
   let distance: Int
-  let commit_count: Int
+  let commitCount: Int
+}
+
+struct PlaceResponse: Decodable {
+  let places: [PlaceData]
 }

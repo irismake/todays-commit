@@ -69,7 +69,9 @@ struct GrassMapView: View {
                 .scaleEffect(isSelected ? 1.1 : 1.0)
                 .animation(.spring(response: 0.3), value: isSelected)
                 .onTapGesture {
-                  mapManager.updateCell(newCoordId: coordId)
+                  Task {
+                    await mapManager.updateCell(newCoordId: coordId)
+                  }
                 }
             }
           }
