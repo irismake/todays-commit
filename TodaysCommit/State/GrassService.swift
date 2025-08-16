@@ -11,6 +11,14 @@ final class GrassService {
   func getTotalCachedGrass() -> GrassDataResponse? { cachedTotalGrass }
   func getMyCachedGrass() -> GrassDataResponse? { cachedMyGrass }
 
+  func addGrassData(of pnu: String) async {
+    do {
+      let response = try await GrassAPI.addGrass(pnu)
+    } catch {
+      print("❌ fetchGrassData : \(error.localizedDescription)")
+    }
+  }
+
   func fetchTotalGrassData(of mapId: Int) async -> [GrassData] {
     do {
       let response = try await GrassAPI.getGrass(mapId)

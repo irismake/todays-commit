@@ -1,20 +1,58 @@
 import SwiftUI
 
+final class BlockingWindow: UIWindow {
+  override func point(inside _: CGPoint, with _: UIEvent?) -> Bool { true }
+}
+
 enum Overlay {
+  private static var window: BlockingWindow?
+
   @discardableResult
   static func show(_ swiftUIView: some View) -> OverlayViewController {
-    guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-          let rootVC = scene.windows.first?.rootViewController
+    guard
+      let scene = UIApplication.shared.connectedScenes
+      .compactMap({ $0 as? UIWindowScene })
+      .first(where: { $0.activationState == .foregroundActive })
+      ?? UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first
     else {
-      fatalError("No root view controller found")
+      fatalError("No active UIWindowScene found")
     }
 
     let hosting = UIHostingController(rootView: swiftUIView)
     hosting.view.backgroundColor = .clear
 
     let popupVC = OverlayViewController(contentVC: hosting)
-    rootVC.present(popupVC, animated: true)
+
+    let w = BlockingWindow(windowScene: scene)
+    w.windowLevel = .alert + 1
+    w.isOpaque = false
+    w.backgroundColor = .clear
+    w.frame = scene.screen.bounds
+    w.rootViewController = popupVC
+    w.makeKeyAndVisible()
+
+    window = w
     return popupVC
+  }
+
+  @MainActor
+  static func dismiss(animated: Bool = true, completion: (() -> Void)? = nil) {
+    guard let w = window else {
+      completion?()
+      return
+    }
+    let cleanup = {
+      window?.isHidden = true
+      window = nil
+      completion?()
+    }
+    if animated {
+      UIView.animate(withDuration: 0.2, animations: { w.alpha = 0 }) { _ in
+        cleanup()
+      }
+    } else {
+      cleanup()
+    }
   }
 }
 
@@ -36,9 +74,6 @@ final class OverlayViewController: UIViewController {
 
     view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
 
-    let tap = UITapGestureRecognizer(target: self, action: #selector(dismissSelf))
-    view.addGestureRecognizer(tap)
-
     addChild(contentVC)
     let contentView = contentVC.view!
     contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +86,10 @@ final class OverlayViewController: UIViewController {
     ])
 
     contentVC.didMove(toParent: self)
+  }
+
+  override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+    Overlay.dismiss(animated: flag, completion: completion)
   }
 
   @objc private func dismissSelf() {

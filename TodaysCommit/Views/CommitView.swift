@@ -2,7 +2,22 @@ import SwiftUI
 
 struct CommitView: View {
   @Environment(\.dismiss) private var dismiss
+  var onFinish: () -> Void = {}
+  @State private var inputPlaceName: String
+  private let isEditable: Bool
+  private let placeData: PlaceResponse
+ 
+  init(placeData: PlaceResponse, onFinish: @escaping () -> Void) {
+    self.placeData = placeData
+    self.onFinish = onFinish
+    _inputPlaceName = State(initialValue: placeData.name)
+    isEditable = placeData.name == ""
+  }
 
+  private var finalPlaceName: String {
+    isEditable ? inputPlaceName : (placeData.name)
+  }
+    
   var body: some View {
     VStack {
       ZStack {
@@ -32,37 +47,47 @@ struct CommitView: View {
               .fontWeight(.medium)
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .leading)
-
-            Text("서울특별시 용산구 한남동 683-140")
-              .font(.subheadline)
-              .fontWeight(.semibold)
-              .foregroundColor(.gray)
+                
+            Text(placeData.address)
+              .font(.subheadline).fontWeight(.semibold)
+              .foregroundColor(.secondary)
               .padding()
-              .frame(maxWidth: .infinity)
-              .background(Color.gray.opacity(0.1))
+              .frame(maxWidth: .infinity, alignment: .leading)
+              .background(Color(UIColor.systemGray6))
               .cornerRadius(12)
-
+                
             Text("장소 이름")
               .font(.subheadline)
               .fontWeight(.medium)
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .leading)
-
-            Text("맥심 플랜트")
-              .font(.subheadline)
-              .fontWeight(.semibold)
-              .foregroundColor(.gray)
-              .padding()
-              .frame(maxWidth: .infinity)
-              .background(Color.gray.opacity(0.1))
-              .cornerRadius(12)
-              
+                
+            // 장소명: 읽기전용 or 입력필드
+            Group {
+              if isEditable {
+                TextField("장소 이름을 입력하세요", text: $inputPlaceName)
+                  .textInputAutocapitalization(.none)
+                  .disableAutocorrection(true)
+                  .submitLabel(.done)
+              } else {
+                Text(finalPlaceName.isEmpty ? "-" : finalPlaceName)
+              }
+            }
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .foregroundColor(.gray)
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color(UIColor.systemGray6))
+            .cornerRadius(12)
+            .disabled(!isEditable)
+                
             Text("이 장소는 어때요?")
               .font(.subheadline)
               .fontWeight(.medium)
               .foregroundColor(.black)
               .frame(maxWidth: .infinity, alignment: .leading)
-              
+                
             Text("많은 사람들이 커밋한 장소예요")
               .font(.caption)
               .fontWeight(.medium)
@@ -73,27 +98,53 @@ struct CommitView: View {
         }
       }.scrollIndicators(.hidden)
 
-      Button(action: {
-        print("잔디 심기 실행")
-      }) {
-        Text("잔디 심기")
-          .font(.headline)
-          .fontWeight(.bold)
-          .frame(maxWidth: .infinity)
-          .padding()
-          .background(Color.green)
-          .foregroundColor(.white)
-          .cornerRadius(12)
-      }
+      CompleteButton(onComplete: {
+        guard !inputPlaceName.isEmpty else {
+          // 경고 팝업
+          return
+        }
+          
+        let updatedData = PlaceResponse(
+          pnu: placeData.pnu,
+          name: inputPlaceName,
+          address: placeData.address,
+          x: placeData.x,
+          y: placeData.y
+        )
+        print(updatedData)
+      
+        await fetchPlantingGrass(of: updatedData)
+        
+      }, title: "잔디 심기", color: Color.green)
     }
     .padding(.horizontal)
     .padding(.bottom)
     .background(Color.white)
   }
+
+  func fetchPlantingGrass(of _: PlaceResponse) async {
+    let overlayVC = Overlay.show(LoadingView())
+    defer { overlayVC.dismiss(animated: true) }
+    let grassService = GrassService.shared
+    let placeService = PlaceService.shared
+    if isEditable {
+      await placeService.addPlace(of: placeData)
+    }
+    await grassService.addGrassData(of: placeData.pnu)
+    dismiss()
+    onFinish()
+    try? await Task.sleep(nanoseconds: 1_000_000_000)
+  }
 }
 
 struct CommitView_Previews: PreviewProvider {
   static var previews: some View {
-    CommitView()
+    CommitView(placeData: PlaceResponse(
+      pnu: "pnu",
+      name: "placeName",
+      address: "placeAddress",
+      x: 0.0,
+      y: 0.0
+    ), onFinish: {})
   }
 }

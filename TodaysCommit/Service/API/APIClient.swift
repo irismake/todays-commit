@@ -44,7 +44,13 @@ actor APIClient {
         }
         try await getRefreshToken()
         return try await requestJSON(
-          path: path, query: query, method: method, body: body, response: response, attempt: attempt + 1
+          path: path,
+          query: query,
+          method: method,
+          body: body,
+          response: response,
+          authRequired: authRequired,
+          attempt: attempt + 1
         )
       }
 

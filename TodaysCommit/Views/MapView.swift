@@ -173,9 +173,8 @@ struct KakaoMapView: UIViewRepresentable {
       let size = mapView.viewRect.size
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
-      print("위도: \(centerMapPoint.wgsCoord.latitude), 경도: \(centerMapPoint.wgsCoord.longitude)")
+      locationManager.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
       locationManager.deactivateOverlay()
-      print(locationManager.isOverlayActive)
     }
   }
 }

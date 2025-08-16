@@ -40,8 +40,8 @@ struct RootView: View {
 
   func fetchInitMapData(_ currentLocation: Location) async {
     do {
-      let pnuResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
-      let cells = try await MapAPI.getCell(pnuResponse.pnu)
+      let locationResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
+      let cells = try await MapAPI.getCell(locationResponse.pnu)
 
       for cell in cells {
         let mapId = cell.mapId

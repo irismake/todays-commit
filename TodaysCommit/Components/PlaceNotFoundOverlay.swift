@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct PlaceNotFoundOverlay: View {
+  let placeAddress: String?
   var onCommit: () -> Void
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
@@ -9,12 +10,20 @@ struct PlaceNotFoundOverlay: View {
         .fontWeight(.semibold)
         .foregroundColor(.orange)
 
-      Text("위치를 이동해보세요.")
+      Text("지도를 움직여서 잔디를 올바른 위치에 심어주세요.")
         .font(.caption)
         .foregroundColor(.gray)
 
+      Text(placeAddress ?? "")
+        .font(.subheadline)
+        .fontWeight(.semibold)
+        .foregroundColor(Color(UIColor.darkGray))
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(12)
+        
       CompleteButton(onComplete: {
-        print("커밋 진행")
         onCommit()
       }, title: "그래도 이 위치로 커밋하기", color: Color.orange)
     }
