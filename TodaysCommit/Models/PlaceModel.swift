@@ -5,11 +5,18 @@ struct PlaceChcek: Decodable {
   let name: String?
 }
 
-struct PlaceResponse: Codable, Identifiable {
+struct AddPlaceData: Codable, Identifiable {
   var id: String { pnu }
   let pnu: String
   let name: String
   let address: String
   let x: Double
   let y: Double
+}
+
+struct PlaceResponse: Decodable {
+  let pnu: String
+  let name: String
+  let distance: Int
+  let commit_count: Int
 }

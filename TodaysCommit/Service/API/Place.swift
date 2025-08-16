@@ -10,7 +10,7 @@ enum PlaceAPI {
     )
   }
     
-  static func addPlace(_ placeData: PlaceResponse) async throws -> PlaceResponse {
+  static func addPlace(_ placeData: AddPlaceData) async throws -> AddPlaceData {
     let bodyData = try? JSONEncoder().encode(
       placeData
     )
@@ -18,8 +18,16 @@ enum PlaceAPI {
       path: "/place",
       method: "POST",
       body: bodyData,
-      response: PlaceResponse.self,
+      response: AddPlaceData.self,
       authRequired: true
+    )
+  }
+    
+  static func getMainPlace(mapId: Int, coordId: Int, x: Double, y: Double, sort: String) async throws -> PlaceResponse {
+    try await APIClient.shared.requestJSON(
+      path: "/place/main",
+      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "x", value: String(x)), URLQueryItem(name: "y", value: String(y)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
+      response: PlaceResponse.self,
     )
   }
 }

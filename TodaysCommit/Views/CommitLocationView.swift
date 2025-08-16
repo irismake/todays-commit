@@ -7,7 +7,7 @@ struct CommitLocationView: View {
   @StateObject private var layout = LayoutMetrics()
   @State var placeAddress: String?
   @State var placePnu: String?
-  @State private var placeData: PlaceResponse?
+  @State private var placeData: AddPlaceData?
     
   var body: some View {
     VStack {
@@ -51,7 +51,7 @@ struct CommitLocationView: View {
                 else {
                   return
                 }
-                placeData = PlaceResponse(
+                placeData = AddPlaceData(
                   pnu: placePnu,
                   name: "",
                   address: placeAddress,
@@ -102,7 +102,7 @@ struct CommitLocationView: View {
             
       let placeName = placeCheck.name ?? ""
    
-      placeData = PlaceResponse(
+      placeData = AddPlaceData(
         pnu: placePnu,
         name: placeName,
         address: placeAddress,
