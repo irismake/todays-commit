@@ -4,7 +4,6 @@ import SwiftUI
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
   @EnvironmentObject var layout: LayoutMetrics
-  @EnvironmentObject var locationManager: LocationManager
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
     let view = KMViewContainer()
@@ -27,7 +26,7 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator(layoutMetrics: layout, locationManager: locationManager)
+    KakaoMapCoordinator(layoutMetrics: layout)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
@@ -41,17 +40,12 @@ struct KakaoMapView: UIViewRepresentable {
     let zoomLevel = 18
     let layout: LayoutMetrics
     var bottomMargin: CGFloat = 0
-    let locationManager: LocationManager
+    let globalStore = GlobalStore.shared
+    let placeService = PlaceService.shared
       
-    init(layoutMetrics: LayoutMetrics, locationManager: LocationManager) {
+    init(layoutMetrics: LayoutMetrics) {
       layout = layoutMetrics
-      self.locationManager = locationManager
-
-      if let loc = locationManager.currentLocation {
-        userMapPoint = .init(longitude: loc.lon, latitude: loc.lat)
-      } else {
-        userMapPoint = initMapPoint
-      }
+      userMapPoint = initMapPoint
 
       super.init()
     }
@@ -85,8 +79,12 @@ struct KakaoMapView: UIViewRepresentable {
       let view = controller?.getView("mapview") as! KakaoMap
       
       view.eventDelegate = self
-          
       setMapMargin()
+      if let loc = GlobalStore.shared.currentLocation {
+        userMapPoint = MapPoint(longitude: loc.lon, latitude: loc.lat)
+      } else {
+        userMapPoint = initMapPoint
+      }
       moveCamera()
       createPoi()
       createGpsSpriteGUI()
@@ -180,8 +178,9 @@ struct KakaoMapView: UIViewRepresentable {
       let size = mapView.viewRect.size
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
-      locationManager.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
-      locationManager.deactivateOverlay()
+     
+      placeService.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
+      layout.deactivateOverlay()
     }
   }
 }

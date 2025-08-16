@@ -1,10 +1,10 @@
 import Combine
-import SwiftUI
 
 final class PlaceService {
   static let shared = PlaceService()
-  @StateObject private var locationManager = LocationManager()
   private init() {}
+    
+  @Published var placeLocation: Location?
 
   func addPlace(of placeData: AddPlaceData) async {
     do {
@@ -16,11 +16,12 @@ final class PlaceService {
     
   func getMainPlace(mapId: Int, coordId: Int, sort: String) async {
     do {
-      guard let currentLocation = locationManager.currentLocation else {
+      guard let location = GlobalStore.shared.currentLocation else {
+        // 위치 권한 팝업
         return
       }
-        
-      let response = try await PlaceAPI.getMainPlace(mapId: mapId, coordId: coordId, x: currentLocation.lat, y: currentLocation.lon, sort: sort)
+
+      let response = try await PlaceAPI.getMainPlace(mapId: mapId, coordId: coordId, x: location.lat, y: location.lon, sort: sort)
       print(response)
     } catch {
       print("❌ getMainPlace : \(error.localizedDescription)")

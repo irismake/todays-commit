@@ -2,9 +2,9 @@ import SwiftUI
 
 struct CommitLocationView: View {
   @Environment(\.dismiss) private var dismiss
-  @EnvironmentObject var locationManager: LocationManager
   @State var draw: Bool = false
   @StateObject private var layout = LayoutMetrics()
+  private let placeService = PlaceService.shared
   @State var placeAddress: String?
   @State var placePnu: String?
   @State private var placeData: AddPlaceData?
@@ -38,16 +38,15 @@ struct CommitLocationView: View {
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layout)
-          .environmentObject(locationManager)
                 
         VStack {
-          if locationManager.isOverlayActive {
+          if layout.isOverlayActive {
             PlaceNotFoundOverlay(
               placeAddress: placeAddress,
               onCommit: {
                 guard let placePnu,
                       let placeAddress,
-                      let placeLocation = locationManager.placeLocation
+                      let placeLocation = placeService.placeLocation
                 else {
                   return
                 }
@@ -95,7 +94,7 @@ struct CommitLocationView: View {
     if placeCheck.exists {
       guard let placePnu,
             let placeAddress,
-            let placeLocation = locationManager.placeLocation
+            let placeLocation = placeService.placeLocation
       else {
         return
       }
@@ -111,7 +110,7 @@ struct CommitLocationView: View {
       )
 
     } else {
-      locationManager.activateOverlay()
+      layout.activateOverlay()
     }
   }
     
@@ -120,7 +119,7 @@ struct CommitLocationView: View {
     defer { overlayVC.dismiss(animated: true) }
         
     do {
-      let placeLocation = locationManager.placeLocation
+      let placeLocation = placeService.placeLocation
       let locationRes = try await getLocationData(placeLocation)
       let address = locationRes.address
       placePnu = locationRes.pnu
