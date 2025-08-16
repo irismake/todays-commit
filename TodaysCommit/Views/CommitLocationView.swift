@@ -4,12 +4,11 @@ struct CommitLocationView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var locationManager: LocationManager
   @State var draw: Bool = false
-  @State private var showCommitView = false
   @StateObject private var layout = LayoutMetrics()
   @State var placeAddress: String?
   @State var placePnu: String?
   @State private var placeData: PlaceResponse?
-
+    
   var body: some View {
     VStack {
       ZStack {
@@ -32,7 +31,7 @@ struct CommitLocationView: View {
           layout.appBarHeight = proxy.frame(in: .global).minY
         }
       })
-          
+            
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)
           .onAppear { draw = true }
@@ -40,7 +39,7 @@ struct CommitLocationView: View {
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layout)
           .environmentObject(locationManager)
-              
+                
         VStack {
           if locationManager.isOverlayActive {
             PlaceNotFoundOverlay(
@@ -59,14 +58,13 @@ struct CommitLocationView: View {
                   x: placeLocation.lat,
                   y: placeLocation.lon
                 )
-                showCommitView = true
               }
             )
-           
+                        
           } else {
             CompleteButton(onComplete: {
               await handleCommitAction()
-                
+
             }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
               .padding(.vertical)
               .padding(.bottom, 20)
@@ -87,35 +85,50 @@ struct CommitLocationView: View {
         }
       }
     }
-    
+        
     .ignoresSafeArea(edges: .bottom)
   }
-
+    
   private func handleCommitAction() async {
-    let placeLocation = locationManager.placeLocation
-    let locationRes = try await getLocationData(placeLocation)
-    let address = locationRes.address
-    placePnu = locationRes.pnu
-    placeAddress = address
-    let placeCheck = try await PlaceAPI.checkPlace(locationRes.pnu)
-
+    let placeCheck = await checkPlace()
+    
     if placeCheck.exists {
-      guard let placeAddress,
-            let placeLocation
+      guard let placePnu,
+            let placeAddress,
+            let placeLocation = locationManager.placeLocation
       else {
         return
       }
+            
       let placeName = placeCheck.name ?? ""
+   
       placeData = PlaceResponse(
-        pnu: locationRes.pnu,
+        pnu: placePnu,
         name: placeName,
         address: placeAddress,
         x: placeLocation.lat,
         y: placeLocation.lon
       )
-      showCommitView = true
+
     } else {
       locationManager.activateOverlay()
+    }
+  }
+    
+  private func checkPlace() async -> PlaceChcek {
+    let overlayVC = Overlay.show(LoadingView())
+    defer { overlayVC.dismiss(animated: true) }
+        
+    do {
+      let placeLocation = locationManager.placeLocation
+      let locationRes = try await getLocationData(placeLocation)
+      let address = locationRes.address
+      placePnu = locationRes.pnu
+      placeAddress = address
+      return try await PlaceAPI.checkPlace(locationRes.pnu)
+    } catch {
+      print("❌ handleCommitAction : \(error.localizedDescription)")
+      return PlaceChcek(exists: false, name: nil)
     }
   }
 }
