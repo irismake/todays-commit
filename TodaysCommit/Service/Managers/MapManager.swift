@@ -109,6 +109,7 @@ final class MapManager: ObservableObject {
   @MainActor
   func resetSelectedCell() {
     selectedCell = nil
+    selectedGrassColor = .lv_0
   }
 
   func getMapCode() -> Int? {
@@ -126,6 +127,7 @@ final class MapManager: ObservableObject {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
     selectedGrassColor = grassColor
+        
     guard let newCoordId else {
       // 지도내의 gpsCoordId 가 없을때
       if let currentCell = gpsCells.first(where: { $0.mapLevel == self.mapLevel }) {
@@ -133,9 +135,10 @@ final class MapManager: ObservableObject {
         Task {
           @MainActor in
           await fetchMapData(of: mapId)
+          if selectedGrassColor != .lv_0 {
+            await placeService.getMainPlace(mapId: mapId, coordId: currentCell.cellData.coordId, sort: "popular")
+          }
         
-          await placeService.getMainPlace(mapId: mapId, coordId: currentCell.cellData.coordId, sort: "popular")
-            
           selectedCell = currentMapData?
             .values
             .flatMap { $0 }
@@ -148,7 +151,9 @@ final class MapManager: ObservableObject {
       return
     }
         
-    await placeService.getMainPlace(mapId: currentMapId, coordId: newCoordId, sort: "popular")
+    if selectedGrassColor != .lv_0 {
+      await placeService.getMainPlace(mapId: currentMapId, coordId: newCoordId, sort: "popular")
+    }
       
     selectedCell = currentMapData?
       .values
