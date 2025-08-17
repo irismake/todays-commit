@@ -4,7 +4,6 @@ import SwiftUI
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
   @EnvironmentObject var layout: LayoutMetrics
-  @EnvironmentObject var locationManager: LocationManager
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
     let view = KMViewContainer()
@@ -27,13 +26,13 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator(layoutMetrics: layout, locationManager: locationManager)
+    KakaoMapCoordinator(layoutMetrics: layout)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
     
   class KakaoMapCoordinator: NSObject, MapControllerDelegate, GuiEventDelegate, KakaoMapEventDelegate {
-    var userMapPoint: MapPoint = .init(longitude: 127.00371914442674, latitude: 37.58360034150261)
+    var userMapPoint: MapPoint?
     var initMapPoint: MapPoint = .init(longitude: 126.97865225946583, latitude: 37.56682195018582)
     var controller: KMController?
     var first: Bool = true
@@ -41,11 +40,13 @@ struct KakaoMapView: UIViewRepresentable {
     let zoomLevel = 18
     let layout: LayoutMetrics
     var bottomMargin: CGFloat = 0
-    let locationManager: LocationManager
+    let globalStore = GlobalStore.shared
+    let placeService = PlaceService.shared
       
-    init(layoutMetrics: LayoutMetrics, locationManager: LocationManager) {
+    init(layoutMetrics: LayoutMetrics) {
       layout = layoutMetrics
-      self.locationManager = locationManager
+      userMapPoint = initMapPoint
+
       super.init()
     }
 
@@ -78,8 +79,12 @@ struct KakaoMapView: UIViewRepresentable {
       let view = controller?.getView("mapview") as! KakaoMap
       
       view.eventDelegate = self
-          
       setMapMargin()
+      if let loc = GlobalStore.shared.currentLocation {
+        userMapPoint = MapPoint(longitude: loc.lon, latitude: loc.lat)
+      } else {
+        userMapPoint = initMapPoint
+      }
       moveCamera()
       createPoi()
       createGpsSpriteGUI()
@@ -113,14 +118,14 @@ struct KakaoMapView: UIViewRepresentable {
       let poiOption = PoiOptions(styleID: "PerLevelStyle")
       poiOption.rank = 0
              
-      let poi1 = layer?.addPoi(option: poiOption, at: userMapPoint)
+      let poi1 = layer?.addPoi(option: poiOption, at: userMapPoint ?? initMapPoint)
       poi1?.show()
     }
       
     func moveCamera() {
       let mapView: KakaoMap = controller?.getView("mapview") as! KakaoMap
         
-      mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint, zoomLevel: zoomLevel, rotation: 0, tilt: 0)))
+      mapView.moveCamera(CameraUpdate.make(cameraPosition: CameraPosition(target: userMapPoint ?? initMapPoint, zoomLevel: zoomLevel, rotation: 0, tilt: 0)))
     }
       
     func createGpsSpriteGUI() {
@@ -173,8 +178,9 @@ struct KakaoMapView: UIViewRepresentable {
       let size = mapView.viewRect.size
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
-      locationManager.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
-      locationManager.deactivateOverlay()
+     
+      placeService.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
+      layout.deactivateOverlay()
     }
   }
 }

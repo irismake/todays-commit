@@ -5,10 +5,11 @@ struct GpsButton: View {
   let buttonSize = GlobalStore.shared.screenWidth / 8
     
   var body: some View {
-    Button(action: {
-      mapManager.updateCell(newCoordId: mapManager.gpsCoordId)
-        
-    }) {
+    Button {
+      Task {
+        await mapManager.updateCell(newCoordId: mapManager.gpsCoordId, grassColor: .black)
+      }
+    } label: {
       Image("gps")
         .resizable()
         .aspectRatio(contentMode: .fit)

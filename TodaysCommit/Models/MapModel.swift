@@ -11,7 +11,7 @@ struct CellDataResponse: Decodable {
   let cellData: CellData
 }
 
-struct CellData: Decodable {
+struct CellData: Decodable, Equatable {
   let coordId: Int
   let zoneCode: Int
 }

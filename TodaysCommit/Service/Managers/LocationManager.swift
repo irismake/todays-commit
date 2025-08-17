@@ -4,9 +4,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
   @Published var currentLocation: Location?
-  @Published var placeLocation: Location?
   @Published var authorizationStatus: CLAuthorizationStatus?
-  @Published var isOverlayActive: Bool = false
   private let defaultLocation = Location(lat: 37.5665, lon: 126.9780)
 
   override init() {
@@ -26,6 +24,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     let location = loc.coordinate
       
     currentLocation = Location(lat: location.latitude, lon: location.longitude)
+    GlobalStore.shared.currentLocation = currentLocation
   }
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -34,13 +33,5 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       print(authorizationStatus)
       // .loadInitMapData(currentLocation: Location)
     }
-  }
-    
-  func deactivateOverlay() {
-    isOverlayActive = false
-  }
-
-  func activateOverlay() {
-    isOverlayActive = true
   }
 }
