@@ -4,6 +4,7 @@ struct PlaceItem: View {
   let placeName: String
   let distance: String
   let commitCount: Int
+  let grassColor: Color
     
   var body: some View {
     Button(action: {}) {
@@ -42,9 +43,13 @@ struct PlaceItem: View {
           .foregroundColor(.gray.opacity(0.6))
       }
       .padding()
-      .background(Color.green.opacity(0.1))
-      .cornerRadius(16)
-      .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+      .background(Color(.systemBackground))
+      .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+      .overlay(
+        RoundedRectangle(cornerRadius: 16, style: .continuous)
+          .stroke(grassColor.opacity(0.3), lineWidth: 1)
+      )
+      .shadow(color: grassColor.opacity(0.1), radius: 6, x: 0, y: 0)
     }
     .buttonStyle(.plain)
   }
@@ -53,8 +58,8 @@ struct PlaceItem: View {
 struct PlaceItem_Previews: PreviewProvider {
   static var previews: some View {
     VStack(spacing: 20) {
-      PlaceItem(placeName: "커피스토어", distance: "123m", commitCount: 125)
-      PlaceItem(placeName: "스타벅스 성신여대점", distance: "9m", commitCount: 42)
+      PlaceItem(placeName: "커피스토어", distance: "123m", commitCount: 125, grassColor: .lv_4)
+      PlaceItem(placeName: "스타벅스 성신여대점", distance: "9m", commitCount: 42, grassColor: .lv_1)
     }
     .padding()
   }
