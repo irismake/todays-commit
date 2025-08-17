@@ -1,16 +1,61 @@
 import SwiftUI
 
+private enum SortOption: String, CaseIterable, Identifiable {
+  case recent = "최신순"
+  case popular = "인기순"
+  var id: String { rawValue }
+}
+
+private struct SortChips: View {
+  @Binding var selection: SortOption
+  @Namespace private var underlineNS
+
+  var body: some View {
+    HStack(spacing: 16) {
+      ForEach(SortOption.allCases) { option in
+        let isSelected = (option == selection)
+
+        Button {
+          if selection != option {
+            selection = option
+          }
+        } label: {
+          VStack(spacing: 6) {
+            Text(option.rawValue)
+              .font(.footnote)
+              .fontWeight(.bold)
+              .foregroundColor(isSelected ? .primary : .secondary)
+              .padding(.horizontal, 6)
+            if isSelected {
+              Capsule()
+                .fill(Color.primary)
+                .frame(height: 2)
+                .matchedGeometryEffect(id: "sort_underline", in: underlineNS)
+            } else {
+              Color.clear.frame(height: 2)
+            }
+          }
+          .padding(.vertical, 4)
+        }
+        .buttonStyle(.plain)
+      }
+    }
+    .fixedSize(horizontal: true, vertical: false)
+  }
+}
+
 struct TotalRankingView: View {
   @EnvironmentObject var mapManager: MapManager
   private let placeService = PlaceService.shared
   @State private var cachedPlaces: [PlaceData]? = nil
+  @State private var sortOption: SortOption = .recent
 
   private var totalCommitCount: Int {
     cachedPlaces?.reduce(0) { $0 + $1.commitCount } ?? 0
   }
 
   var body: some View {
-    VStack(spacing: 20) {
+    VStack(alignment: .leading, spacing: 20) {
       HStack {
         Image(systemName: "app.fill")
           .font(.headline)
@@ -20,13 +65,14 @@ struct TotalRankingView: View {
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)
-
+          
         Text("총 커밋 \(totalCommitCount)회")
           .font(.subheadline)
           .foregroundColor(.secondary)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
 
+      SortChips(selection: $sortOption)
+       
       Group {
         if mapManager.selectedGrassColor == .lv_0 {
           EmptyGrassCard()
@@ -37,11 +83,11 @@ struct TotalRankingView: View {
               PlaceItem(
                 placeName: mainPlaces[idx].name,
                 distance: mainPlaces[idx].distance,
-                commitCount: mainPlaces[idx].commitCount
+                commitCount: mainPlaces[idx].commitCount,
+                grassColor: mapManager.selectedGrassColor
               )
             }
           }
-
         } else {
           EmptyGrassCard()
         }
