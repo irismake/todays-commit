@@ -38,7 +38,7 @@ private struct SortChips: View {
   }
 }
 
-struct TotalRankingView: View {
+struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
 

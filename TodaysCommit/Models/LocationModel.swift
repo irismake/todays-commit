@@ -1,5 +1,3 @@
-import SwiftUI
-
 struct Location: Hashable {
   let lat: Double
   let lon: Double

@@ -7,7 +7,7 @@ struct TodaysCommitApp: App {
   @StateObject private var locationManager: LocationManager
   @StateObject private var mapManager: MapManager
   @StateObject private var placeManager: PlaceManager
-  @StateObject private var layoutManager: LayoutMetrics
+  @StateObject private var layoutManager: LayoutManager
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   init() {
@@ -15,7 +15,7 @@ struct TodaysCommitApp: App {
       
     let loc = LocationManager()
     let map = MapManager()
-    let layout = LayoutMetrics()
+    let layout = LayoutManager()
       
     _locationManager = StateObject(wrappedValue: loc)
     _mapManager = StateObject(wrappedValue: map)

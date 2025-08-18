@@ -3,7 +3,7 @@ import SwiftUI
 
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
-  @EnvironmentObject var layout: LayoutMetrics
+  @EnvironmentObject var layoutManager: LayoutManager
   @EnvironmentObject var placeManager: PlaceManager
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
@@ -27,7 +27,7 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator(layoutMetrics: layout, placeManager: placeManager)
+    KakaoMapCoordinator(layoutManager: layoutManager, placeManager: placeManager)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
@@ -39,13 +39,13 @@ struct KakaoMapView: UIViewRepresentable {
     var first: Bool = true
     var auth: Bool = false
     let zoomLevel = 18
-    let layout: LayoutMetrics
+    let layoutManager: LayoutManager
     let placeManager: PlaceManager
     var bottomMargin: CGFloat = 0
     let globalStore = GlobalStore.shared
       
-    init(layoutMetrics: LayoutMetrics, placeManager: PlaceManager) {
-      layout = layoutMetrics
+    init(layoutManager: LayoutManager, placeManager: PlaceManager) {
+      self.layoutManager = layoutManager
       self.placeManager = placeManager
       userMapPoint = initMapPoint
 
@@ -99,7 +99,7 @@ struct KakaoMapView: UIViewRepresentable {
  
     func setMapMargin() {
       let screenHeight = UIScreen.main.bounds.height
-      bottomMargin = screenHeight - layout.bottomSafeAreaHeight
+      bottomMargin = screenHeight - layoutManager.bottomSafeAreaHeight
       let mapView = controller?.getView("mapview") as! KakaoMap
       mapView.setMargins(UIEdgeInsets(top: 0, left: 0, bottom: bottomMargin, right: 0))
     }
@@ -186,7 +186,7 @@ struct KakaoMapView: UIViewRepresentable {
         lon: centerMapPoint.wgsCoord.longitude
       )
       placeManager.placeLocation = loc
-      layout.deactivateOverlay()
+      layoutManager.deactivateOverlay()
     }
   }
 }

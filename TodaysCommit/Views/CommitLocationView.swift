@@ -3,7 +3,7 @@ import SwiftUI
 struct CommitLocationView: View {
   @Environment(\.dismiss) private var dismiss
   @State var draw: Bool = false
-  @EnvironmentObject var layout: LayoutMetrics
+  @EnvironmentObject var layoutManager: LayoutManager
   @EnvironmentObject var placeManager: PlaceManager
   @State var placeAddress: String?
   @State var placePnu: String?
@@ -28,7 +28,7 @@ struct CommitLocationView: View {
       .padding(.vertical)
       .background(GeometryReader { proxy in
         Color.clear.onAppear {
-          layout.appBarHeight = proxy.frame(in: .global).minY
+          layoutManager.appBarHeight = proxy.frame(in: .global).minY
         }
       })
             
@@ -37,11 +37,11 @@ struct CommitLocationView: View {
           .onAppear { draw = true }
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
-          .environmentObject(layout)
+          .environmentObject(layoutManager)
           .environmentObject(placeManager)
                 
         VStack {
-          if layout.isOverlayActive {
+          if layoutManager.isOverlayActive {
             PlaceNotFoundOverlay(
               placeAddress: placeAddress,
               onCommit: {
@@ -74,7 +74,7 @@ struct CommitLocationView: View {
         .background(
           GeometryReader { proxy in
             Color.clear.onAppear {
-              layout.bottomSafeAreaHeight = proxy.frame(in: .global).minY
+              layoutManager.bottomSafeAreaHeight = proxy.frame(in: .global).minY
             }
           }
         )
@@ -111,7 +111,7 @@ struct CommitLocationView: View {
       )
 
     } else {
-      layout.activateOverlay()
+      layoutManager.activateOverlay()
     }
   }
     
