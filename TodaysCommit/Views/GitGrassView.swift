@@ -2,8 +2,7 @@ import SwiftUI
 
 struct GitGrassView: View {
   @EnvironmentObject var mapManager: MapManager
-  @State private var selectedOption = 0
-  let options = ["전체", "나의 지도"]
+  @EnvironmentObject var placeManager: PlaceManager
 
   var body: some View {
     NavigationView {
@@ -11,13 +10,9 @@ struct GitGrassView: View {
         VStack {
           CommitBanner(commitState: false)
 
-          Picker("선택", selection: $selectedOption) {
-            ForEach(0 ..< options.count, id: \.self) { index in
-              Text(options[index])
-            }
-          }
-          .onChange(of: selectedOption) {
-            print("선택된 값: \(options[selectedOption])")
+          Picker("범위", selection: $placeManager.placeScope) {
+            Text("전체").tag(PlaceScope.main)
+            Text("나의 지도").tag(PlaceScope.my)
           }
           .pickerStyle(.segmented)
           .padding(.vertical, 20)
@@ -34,17 +29,11 @@ struct GitGrassView: View {
           }
 
           ZStack(alignment: .bottomTrailing) {
-            GrassMapView(showMyMap: selectedOption == 1)
+            GrassMapView(showMyMap: placeManager.placeScope == .my)
             GpsButton()
           }
 
-          Group {
-            if selectedOption == 0 {
-              TotalRankingView()
-            } else {
-              UserRankingView()
-            }
-          }
+          TotalRankingView()
         }
         .padding()
       }

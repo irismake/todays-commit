@@ -1,10 +1,13 @@
 import Combine
 import SwiftUI
 
+enum PlaceScope: Hashable { case main, my }
+
 private struct PlaceCacheKey: Hashable {
   let mapId: Int
   let coordId: Int
   let sort: SortOption
+  let scope: PlaceScope
 }
 
 final class PlaceManager: ObservableObject {
@@ -16,6 +19,7 @@ final class PlaceManager: ObservableObject {
 
   @Published private(set) var totalCommitCount: Int = 0
   @Published var placeSort: SortOption = .recent
+  @Published var placeScope: PlaceScope = .main
   @Published var placeLocation: Location?
 
   private var cache: [PlaceCacheKey: [PlaceData]] = [:]
@@ -39,10 +43,11 @@ final class PlaceManager: ObservableObject {
       .compactMap { $0 }
 
     let sort = $placeSort.removeDuplicates()
+    let scope = $placeScope.removeDuplicates()
 
-    Publishers.CombineLatest(cell, sort)
+    Publishers.CombineLatest3(cell, sort, scope)
       .receive(on: RunLoop.main)
-      .sink { [weak self] cell, sort in
+      .sink { [weak self] cell, sort, scope in
         guard let self else {
           return
         }
@@ -51,24 +56,34 @@ final class PlaceManager: ObservableObject {
           Task { @MainActor in self.cachedPlaces = [] }
           return
         }
-          
         guard let mapId = self.mapManager.currentMapId else {
           Task { @MainActor in self.cachedPlaces = [] }
           return
         }
 
-        Task { await self.fetchPlaces(mapId: mapId, coordId: cell.coordId, sort: sort) }
+        Task {
+          await self.fetchPlaces(
+            mapId: mapId,
+            coordId: cell.coordId,
+            sort: sort,
+            scope: scope
+          )
+        }
       }
       .store(in: &cancellables)
   }
 
-  private func fetchPlaces(mapId: Int, coordId: Int, sort: SortOption, ignoreCache: Bool = false) async {
-    let key = PlaceCacheKey(mapId: mapId, coordId: coordId, sort: sort)
+  private func fetchPlaces(
+    mapId: Int,
+    coordId: Int,
+    sort: SortOption,
+    scope: PlaceScope,
+    ignoreCache: Bool = false
+  ) async {
+    let key = PlaceCacheKey(mapId: mapId, coordId: coordId, sort: sort, scope: scope)
 
     if !ignoreCache, let hit = cache[key] {
-      await MainActor.run {
-        cachedPlaces = hit
-      }
+      await MainActor.run { cachedPlaces = hit }
       return
     }
 
@@ -79,16 +94,33 @@ final class PlaceManager: ObservableObject {
 
     do {
       let sortParam = (sort == .recent) ? "recent" : "popular"
-      let response = try await PlaceAPI.getMainPlace(
-        mapId: mapId,
-        coordId: coordId,
-        x: currentLocation.lat,
-        y: currentLocation.lon,
-        sort: sortParam
-      )
+
+      let places: [PlaceData]
+      switch scope {
+      case .main:
+        let res = try await PlaceAPI.getMainPlace(
+          mapId: mapId,
+          coordId: coordId,
+          x: currentLocation.lat,
+          y: currentLocation.lon,
+          sort: sortParam
+        )
+        places = res.places
+
+      case .my:
+        let res = try await PlaceAPI.getMyPlace(
+          mapId: mapId,
+          coordId: coordId,
+          x: currentLocation.lat,
+          y: currentLocation.lon,
+          sort: sortParam
+        )
+        places = res.places
+      }
+
       await MainActor.run {
-        cache[key] = response.places
-        cachedPlaces = response.places
+        cache[key] = places
+        cachedPlaces = places
       }
     } catch {
       print("❌ [API ERROR] \(error.localizedDescription)")
