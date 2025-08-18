@@ -4,6 +4,7 @@ import SwiftUI
 struct KakaoMapView: UIViewRepresentable {
   @Binding var draw: Bool
   @EnvironmentObject var layout: LayoutMetrics
+  @EnvironmentObject var placeManager: PlaceManager
     
   func makeUIView(context: Self.Context) -> KMViewContainer {
     let view = KMViewContainer()
@@ -26,7 +27,7 @@ struct KakaoMapView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> KakaoMapCoordinator {
-    KakaoMapCoordinator(layoutMetrics: layout)
+    KakaoMapCoordinator(layoutMetrics: layout, placeManager: placeManager)
   }
 
   // static func dismantleUIView(_: KMViewContainer, coordinator _: KakaoMapCoordinator) {}
@@ -39,12 +40,13 @@ struct KakaoMapView: UIViewRepresentable {
     var auth: Bool = false
     let zoomLevel = 18
     let layout: LayoutMetrics
+    let placeManager: PlaceManager
     var bottomMargin: CGFloat = 0
     let globalStore = GlobalStore.shared
-    let placeService = PlaceService.shared
       
-    init(layoutMetrics: LayoutMetrics) {
+    init(layoutMetrics: LayoutMetrics, placeManager: PlaceManager) {
       layout = layoutMetrics
+      self.placeManager = placeManager
       userMapPoint = initMapPoint
 
       super.init()
@@ -179,7 +181,11 @@ struct KakaoMapView: UIViewRepresentable {
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
      
-      placeService.placeLocation = Location(lat: centerMapPoint.wgsCoord.latitude, lon: centerMapPoint.wgsCoord.longitude)
+      let loc = Location(
+        lat: centerMapPoint.wgsCoord.latitude,
+        lon: centerMapPoint.wgsCoord.longitude
+      )
+      placeManager.placeLocation = loc
       layout.deactivateOverlay()
     }
   }

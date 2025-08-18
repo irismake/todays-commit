@@ -3,8 +3,8 @@ import SwiftUI
 struct CommitLocationView: View {
   @Environment(\.dismiss) private var dismiss
   @State var draw: Bool = false
-  @StateObject private var layout = LayoutMetrics()
-  private let placeService = PlaceService.shared
+  @EnvironmentObject var layout: LayoutMetrics
+  @EnvironmentObject var placeManager: PlaceManager
   @State var placeAddress: String?
   @State var placePnu: String?
   @State private var placeData: AddPlaceData?
@@ -38,6 +38,7 @@ struct CommitLocationView: View {
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layout)
+          .environmentObject(placeManager)
                 
         VStack {
           if layout.isOverlayActive {
@@ -46,7 +47,7 @@ struct CommitLocationView: View {
               onCommit: {
                 guard let placePnu,
                       let placeAddress,
-                      let placeLocation = placeService.placeLocation
+                      let placeLocation = placeManager.placeLocation
                 else {
                   return
                 }
@@ -94,7 +95,7 @@ struct CommitLocationView: View {
     if placeCheck.exists {
       guard let placePnu,
             let placeAddress,
-            let placeLocation = placeService.placeLocation
+            let placeLocation = placeManager.placeLocation
       else {
         return
       }
@@ -119,7 +120,7 @@ struct CommitLocationView: View {
     defer { overlayVC.dismiss(animated: true) }
         
     do {
-      let placeLocation = placeService.placeLocation
+      let placeLocation = placeManager.placeLocation
       let locationRes = try await getLocationData(placeLocation)
       let address = locationRes.address
       placePnu = locationRes.pnu
@@ -137,10 +138,4 @@ func getLocationData(_ location: Location?) async throws -> LocationResponse {
     throw URLError(.badURL)
   }
   return try await LocationAPI.getPnu(lat: location.lat, lon: location.lon)
-}
-
-struct CommitLocationView_Previews: PreviewProvider {
-  static var previews: some View {
-    CommitLocationView()
-  }
 }

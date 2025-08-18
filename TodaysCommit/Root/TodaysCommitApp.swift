@@ -4,12 +4,23 @@ import SwiftUI
 
 @main
 struct TodaysCommitApp: App {
-  @StateObject private var locationManager = LocationManager()
-  @StateObject private var mapManager = MapManager()
+  @StateObject private var locationManager: LocationManager
+  @StateObject private var mapManager: MapManager
+  @StateObject private var placeManager: PlaceManager
+  @StateObject private var layoutManager: LayoutMetrics
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   init() {
     UserDefaults.standard.set(false, forKey: "is_guest")
+      
+    let loc = LocationManager()
+    let map = MapManager()
+    let layout = LayoutMetrics()
+      
+    _locationManager = StateObject(wrappedValue: loc)
+    _mapManager = StateObject(wrappedValue: map)
+    _placeManager = StateObject(wrappedValue: PlaceManager(mapManager: map))
+    _layoutManager = StateObject(wrappedValue: layout)
   }
 
   var body: some Scene {
@@ -17,6 +28,8 @@ struct TodaysCommitApp: App {
       RootView()
         .environmentObject(locationManager)
         .environmentObject(mapManager)
+        .environmentObject(placeManager)
+        .environmentObject(layoutManager)
     }
   }
 

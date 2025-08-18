@@ -8,7 +8,6 @@ final class MapManager: ObservableObject {
   @Published var gpsCells: [CellDataResponse] = []
   @Published var selectedCell: CellData?
   @Published var selectedGrassColor: Color = .lv_0
-  private let placeService = PlaceService.shared
 
   var mapName: String {
     guard let mapCode = getMapCode() else {
@@ -135,9 +134,6 @@ final class MapManager: ObservableObject {
         Task {
           @MainActor in
           await fetchMapData(of: mapId)
-          if selectedGrassColor != .lv_0 {
-            await placeService.getMainPlace(mapId: mapId, coordId: currentCell.cellData.coordId, sort: "popular")
-          }
         
           selectedCell = currentMapData?
             .values
@@ -147,14 +143,7 @@ final class MapManager: ObservableObject {
       }
       return
     }
-    guard let currentMapId else {
-      return
-    }
         
-    if selectedGrassColor != .lv_0 {
-      await placeService.getMainPlace(mapId: currentMapId, coordId: newCoordId, sort: "popular")
-    }
-      
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
