@@ -1,11 +1,5 @@
 import SwiftUI
 
-private enum SortOption: String, CaseIterable, Identifiable {
-  case recent = "최신순"
-  case popular = "인기순"
-  var id: String { rawValue }
-}
-
 private struct SortChips: View {
   @Binding var selection: SortOption
   @Namespace private var underlineNS
@@ -46,13 +40,7 @@ private struct SortChips: View {
 
 struct TotalRankingView: View {
   @EnvironmentObject var mapManager: MapManager
-  private let placeService = PlaceService.shared
-  @State private var cachedPlaces: [PlaceData]? = nil
-  @State private var sortOption: SortOption = .recent
-
-  private var totalCommitCount: Int {
-    cachedPlaces?.reduce(0) { $0 + $1.commitCount } ?? 0
-  }
+  @EnvironmentObject var placeManager: PlaceManager
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -66,24 +54,27 @@ struct TotalRankingView: View {
           .fontWeight(.semibold)
           .foregroundColor(.primary)
           
-        Text("총 커밋 \(totalCommitCount)회")
+        Text("총 커밋 \(placeManager.totalCommitCount)회")
           .font(.subheadline)
           .foregroundColor(.secondary)
       }
 
-      SortChips(selection: $sortOption)
+      SortChips(
+        selection: Binding(
+          get: { placeManager.placeSort },
+          set: { placeManager.placeSort = $0 }
+        )
+      )
        
       Group {
-        if mapManager.selectedGrassColor == .lv_0 {
-          EmptyGrassCard()
-
-        } else if let mainPlaces = cachedPlaces, !mainPlaces.isEmpty {
+        if !placeManager.cachedPlaces.isEmpty {
           VStack(spacing: 12) {
-            ForEach(mainPlaces.indices, id: \.self) { idx in
+            ForEach(placeManager.cachedPlaces.indices, id: \.self) { idx in
+              let place = placeManager.cachedPlaces[idx]
               PlaceItem(
-                placeName: mainPlaces[idx].name,
-                distance: mainPlaces[idx].distance,
-                commitCount: mainPlaces[idx].commitCount,
+                placeName: place.name,
+                distance: place.distance,
+                commitCount: place.commitCount,
                 grassColor: mapManager.selectedGrassColor
               )
             }
@@ -92,12 +83,6 @@ struct TotalRankingView: View {
           EmptyGrassCard()
         }
       }
-    }
-    .onAppear {
-      cachedPlaces = placeService.getMainCachedPlace()
-    }
-    .onChange(of: mapManager.selectedCell) {
-      cachedPlaces = placeService.getMainCachedPlace()
     }
   }
 }

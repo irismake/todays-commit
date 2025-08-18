@@ -66,6 +66,12 @@ extension GrassCommit {
   }
 }
 
+enum SortOption: String, CaseIterable, Identifiable {
+  case recent = "최신순"
+  case popular = "인기순"
+  var id: String { rawValue }
+}
+
 struct MailData {
   let recipient: String = "gitgrassgrowing@gmail.com"
   let subject: String
