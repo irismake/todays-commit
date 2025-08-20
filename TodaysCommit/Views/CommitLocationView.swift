@@ -66,8 +66,7 @@ struct CommitLocationView: View {
               await handleCommitAction()
 
             }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
-              .padding(.vertical)
-              .padding(.bottom, 20)
+              .padding(.bottom)
               .padding(.horizontal)
           }
         }
@@ -85,8 +84,6 @@ struct CommitLocationView: View {
         }
       }
     }
-        
-    .ignoresSafeArea(edges: .bottom)
   }
     
   private func handleCommitAction() async {

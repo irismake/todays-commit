@@ -50,7 +50,8 @@ struct CommitView: View {
               .frame(maxWidth: .infinity, alignment: .leading)
                 
             Text(placeData.address)
-              .font(.subheadline).fontWeight(.semibold)
+              .font(.subheadline)
+              .fontWeight(.semibold)
               .foregroundColor(.secondary)
               .padding()
               .frame(maxWidth: .infinity, alignment: .leading)
