@@ -41,8 +41,7 @@ struct CommitView: View {
       ScrollView {
         VStack(spacing: 20) {
           Group {
-            VStack {}.background(Color.green)
-              .frame(height: 200)
+            KakaoMapButton()
             Text("커밋 위치")
               .font(.subheadline)
               .fontWeight(.medium)

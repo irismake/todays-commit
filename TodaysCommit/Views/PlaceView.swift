@@ -41,6 +41,7 @@ private struct SortChips: View {
 struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
+  @State private var showFull = false
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -72,6 +73,7 @@ struct PlaceView: View {
             ForEach(placeManager.cachedPlaces.indices, id: \.self) { idx in
               let place = placeManager.cachedPlaces[idx]
               PlaceItem(
+                showPlaceDetail: { showFull = true },
                 placeName: place.name,
                 distance: place.distance,
                 commitCount: place.commitCount,
@@ -83,6 +85,8 @@ struct PlaceView: View {
           EmptyGrassCard()
         }
       }
+    }.fullScreenCover(isPresented: $showFull) {
+      PlaceDetailView()
     }
   }
 }
