@@ -22,3 +22,21 @@ struct PlaceData: Decodable {
 struct PlaceResponse: Decodable {
   let places: [PlaceData]
 }
+
+struct PlaceDetail: Decodable {
+  var distance: String?
+  var commitCount: Int?
+  let pnu: String
+  let name: String
+  let address: String
+  let x: Double
+  let y: Double
+  let commits: [PlaceCommitData]
+}
+
+struct PlaceCommitData: Decodable, Identifiable {
+  var id: Int { commitId }
+  let commitId: Int
+  let userName: String
+  let createdAt: String
+}

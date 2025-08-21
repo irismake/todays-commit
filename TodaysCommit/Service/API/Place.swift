@@ -39,4 +39,11 @@ enum PlaceAPI {
       authRequired: true
     )
   }
+    
+  static func getPlaceDetail(_ pnu: String) async throws -> PlaceDetail {
+    try await APIClient.shared.requestJSON(
+      path: "/place/\(pnu)",
+      response: PlaceDetail.self,
+    )
+  }
 }

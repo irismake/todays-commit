@@ -23,6 +23,8 @@ final class PlaceManager: ObservableObject {
   @Published var placeLocation: Location?
 
   private var cache: [PlaceCacheKey: [PlaceData]] = [:]
+    
+  @Published var placeDetail: PlaceDetail?
 
   private let mapManager: MapManager
   private var cancellables = Set<AnyCancellable>()
@@ -132,6 +134,18 @@ final class PlaceManager: ObservableObject {
       _ = try await PlaceAPI.addPlace(placeData)
     } catch {
       print("❌ addPlace : \(error.localizedDescription)")
+    }
+  }
+    
+  @MainActor
+  func fetchPlaceDetail(of pnu: String) async {
+    let overlayVC = Overlay.show(LoadingView())
+    defer { overlayVC.dismiss(animated: true) }
+    do {
+      let res = try await PlaceAPI.getPlaceDetail(pnu)
+      placeDetail = res
+    } catch {
+      print("❌ fetchPlaceDetail : \(error.localizedDescription)")
     }
   }
 }

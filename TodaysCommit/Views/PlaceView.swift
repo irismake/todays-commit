@@ -70,10 +70,16 @@ struct PlaceView: View {
       Group {
         if !placeManager.cachedPlaces.isEmpty {
           VStack(spacing: 12) {
-            ForEach(placeManager.cachedPlaces.indices, id: \.self) { idx in
-              let place = placeManager.cachedPlaces[idx]
+            ForEach(placeManager.cachedPlaces, id: \.pnu) { place in
               PlaceItem(
-                showPlaceDetail: { showFull = true },
+                onTap: {
+                  Task {
+                    await placeManager.fetchPlaceDetail(of: place.pnu)
+                    placeManager.placeDetail?.commitCount = place.commitCount
+                    placeManager.placeDetail?.distance = place.distance
+                    showFull = true
+                  }
+                },
                 placeName: place.name,
                 distance: place.distance,
                 commitCount: place.commitCount,
