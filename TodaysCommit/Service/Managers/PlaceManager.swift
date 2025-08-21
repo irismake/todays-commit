@@ -11,7 +11,7 @@ private struct PlaceCacheKey: Hashable {
 }
 
 final class PlaceManager: ObservableObject {
-  @Published private(set) var cachedPlaces: [PlaceData] = [] {
+  @Published private(set) var cachedPlaces: [PlaceSummary] = [] {
     didSet {
       totalCommitCount = cachedPlaces.reduce(0) { $0 + $1.commitCount }
     }
@@ -22,7 +22,7 @@ final class PlaceManager: ObservableObject {
   @Published var placeScope: PlaceScope = .main
   @Published var placeLocation: Location?
 
-  private var cache: [PlaceCacheKey: [PlaceData]] = [:]
+  private var cache: [PlaceCacheKey: [PlaceSummary]] = [:]
     
   @Published var placeDetail: PlaceDetail?
 
@@ -97,7 +97,7 @@ final class PlaceManager: ObservableObject {
     do {
       let sortParam = (sort == .recent) ? "recent" : "popular"
 
-      let places: [PlaceData]
+      let places: [PlaceSummary]
       switch scope {
       case .main:
         let res = try await PlaceAPI.getMainPlace(
@@ -129,7 +129,7 @@ final class PlaceManager: ObservableObject {
     }
   }
 
-  func addPlace(of placeData: AddPlaceData) async {
+  func addPlace(of placeData: PlaceData) async {
     do {
       _ = try await PlaceAPI.addPlace(placeData)
     } catch {
