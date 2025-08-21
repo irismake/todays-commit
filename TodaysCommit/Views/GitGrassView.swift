@@ -33,7 +33,7 @@ struct GitGrassView: View {
             GpsButton()
           }
 
-          TotalRankingView()
+          PlaceView()
         }
         .padding()
       }

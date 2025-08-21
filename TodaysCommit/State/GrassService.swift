@@ -13,7 +13,7 @@ final class GrassService {
 
   func addGrassData(of pnu: String) async {
     do {
-      let response = try await GrassAPI.addGrass(pnu)
+      _ = try await GrassAPI.addGrass(pnu)
     } catch {
       print("❌ fetchGrassData : \(error.localizedDescription)")
     }

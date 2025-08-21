@@ -1,5 +1,3 @@
-import SwiftUI
-
 struct CommitData: Decodable {
   let commitId: Int
   let userId: Int

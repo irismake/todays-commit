@@ -1,6 +1,6 @@
 import SwiftUI
 
-class LayoutMetrics: ObservableObject {
+class LayoutManager: ObservableObject {
   @Published var appBarHeight: CGFloat = 0
   @Published var bottomSafeAreaHeight: CGFloat = 0
   @Published var isOverlayActive: Bool = false

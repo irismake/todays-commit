@@ -1,13 +1,18 @@
 import SwiftUI
 
 struct PlaceItem: View {
+  var onTap: () async -> Void
   let placeName: String
   let distance: String
   let commitCount: Int
   let grassColor: Color
     
   var body: some View {
-    Button(action: {}) {
+    Button(action: {
+      Task {
+        await onTap()
+      }
+    }) {
       HStack {
         VStack(alignment: .leading, spacing: 20) {
           Text(placeName)
@@ -19,19 +24,22 @@ struct PlaceItem: View {
             HStack(spacing: 4) {
               Image(systemName: "location.fill")
                 .font(.system(size: 10, weight: .semibold))
-                .foregroundColor(Color(red: 194 / 255, green: 194 / 255, blue: 194 / 255))
+                .foregroundColor(.secondary)
               Text(distance)
                 .font(.caption)
-                .foregroundColor(.gray.opacity(0.6))
+                .foregroundColor(.secondary)
             }
 
             HStack(spacing: 4) {
               Image("icon_commit")
-                .font(.system(size: 10, weight: .semibold))
+                .renderingMode(.template)
+                .foregroundColor(.secondary)
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 10)
                
               Text("\(commitCount)회")
                 .font(.caption)
-                .foregroundColor(.gray.opacity(0.6))
+                .foregroundColor(.secondary)
             }
           }
         }
@@ -58,8 +66,8 @@ struct PlaceItem: View {
 struct PlaceItem_Previews: PreviewProvider {
   static var previews: some View {
     VStack(spacing: 20) {
-      PlaceItem(placeName: "커피스토어", distance: "123m", commitCount: 125, grassColor: .lv_4)
-      PlaceItem(placeName: "스타벅스 성신여대점", distance: "9m", commitCount: 42, grassColor: .lv_1)
+      PlaceItem(onTap: {}, placeName: "커피스토어", distance: "123m", commitCount: 125, grassColor: .lv_4)
+      PlaceItem(onTap: {}, placeName: "스타벅스 성신여대점", distance: "9m", commitCount: 42, grassColor: .lv_1)
     }
     .padding()
   }

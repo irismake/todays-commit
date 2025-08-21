@@ -1,5 +1,3 @@
-import SwiftUI
-
 struct GrassTaskID: Equatable {
   let mapId: Int?
   let showMyMap: Bool

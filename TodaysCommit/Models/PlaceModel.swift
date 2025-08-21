@@ -1,11 +1,9 @@
-import SwiftUI
-
 struct PlaceChcek: Decodable {
   let exists: Bool
   let name: String?
 }
 
-struct AddPlaceData: Codable, Identifiable {
+struct PlaceData: Codable, Identifiable {
   var id: String { pnu }
   let pnu: String
   let name: String
@@ -14,7 +12,7 @@ struct AddPlaceData: Codable, Identifiable {
   let y: Double
 }
 
-struct PlaceData: Decodable {
+struct PlaceSummary: Decodable {
   let pnu: String
   let name: String
   let distance: String
@@ -22,5 +20,23 @@ struct PlaceData: Decodable {
 }
 
 struct PlaceResponse: Decodable {
-  let places: [PlaceData]
+  let places: [PlaceSummary]
+}
+
+struct PlaceDetail: Decodable {
+  var distance: String?
+  var commitCount: Int?
+  let pnu: String
+  let name: String
+  let address: String
+  let x: Double
+  let y: Double
+  let commits: [PlaceCommitData]
+}
+
+struct PlaceCommitData: Decodable, Identifiable {
+  var id: Int { commitId }
+  let commitId: Int
+  let userName: String
+  let createdAt: String
 }

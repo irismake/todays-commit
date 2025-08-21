@@ -38,9 +38,10 @@ private struct SortChips: View {
   }
 }
 
-struct TotalRankingView: View {
+struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
+  @State private var showFull = false
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -69,9 +70,16 @@ struct TotalRankingView: View {
       Group {
         if !placeManager.cachedPlaces.isEmpty {
           VStack(spacing: 12) {
-            ForEach(placeManager.cachedPlaces.indices, id: \.self) { idx in
-              let place = placeManager.cachedPlaces[idx]
+            ForEach(placeManager.cachedPlaces, id: \.pnu) { place in
               PlaceItem(
+                onTap: {
+                  Task {
+                    await placeManager.fetchPlaceDetail(of: place.pnu)
+                    placeManager.placeDetail?.commitCount = place.commitCount
+                    placeManager.placeDetail?.distance = place.distance
+                    showFull = true
+                  }
+                },
                 placeName: place.name,
                 distance: place.distance,
                 commitCount: place.commitCount,
@@ -83,6 +91,8 @@ struct TotalRankingView: View {
           EmptyGrassCard()
         }
       }
+    }.fullScreenCover(isPresented: $showFull) {
+      PlaceDetailView()
     }
   }
 }
