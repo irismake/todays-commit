@@ -48,7 +48,7 @@ struct PlaceDetailView: View {
                         
             VStack(spacing: 10) {
               Button(action: {
-                print("주소 버튼 탭됨")
+                openKakaoMap(lat: placeDetail.x, lng: placeDetail.y)
               }) {
                 HStack(spacing: 8) {
                   Image(systemName: "arrow.up.forward")
@@ -89,12 +89,7 @@ struct PlaceDetailView: View {
         }
 
         CompleteButton(onComplete: {
-          let name = placeDetail.name
-          let pnu = placeDetail.pnu
-          let address = placeDetail.address
-          let x = placeDetail.x
-          let y = placeDetail.y
-          placeData = PlaceData(pnu: pnu, name: name, address: address, x: x, y: y)
+          placeData = PlaceData(pnu: placeDetail.pnu, name: placeDetail.name, address: placeDetail.address, x: placeDetail.x, y: placeDetail.y)
         }, title: "커밋하기", color: Color.green)
           .padding(.bottom)
       }
@@ -107,6 +102,19 @@ struct PlaceDetailView: View {
        
     } else {
       ProgressView("Loading...")
+    }
+  }
+
+  private func openKakaoMap(lat: Double, lng: Double) {
+    let urlString = "kakaomap://look?p=\(lat),\(lng)"
+    if let url = URL(string: urlString) {
+      if UIApplication.shared.canOpenURL(url) {
+        UIApplication.shared.open(url)
+      } else {
+        if let appStoreURL = URL(string: "itms-apps://itunes.apple.com/app/id304608425") {
+          UIApplication.shared.open(appStoreURL)
+        }
+      }
     }
   }
 }
