@@ -38,17 +38,15 @@ enum UserAPI {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
 
-    var bodyComponents: [String: String] = ["code": authorizationCode]
+    var components = URLComponents()
+    var items = [URLQueryItem(name: "code", value: authorizationCode)]
     if let userName, !userName.isEmpty {
-      bodyComponents["user_name"] = userName
+      items.append(URLQueryItem(name: "user_name", value: userName))
     }
-      
-    request.httpBody = bodyComponents
-      .map { "\($0.key)=\($0.value)" }
-      .joined(separator: "&")
-      .data(using: .utf8)
+    components.queryItems = items
 
-    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+    request.httpBody = components.percentEncodedQuery?.data(using: .utf8)
+    request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
     let task = URLSession.shared.dataTask(with: request) { data, _, error in
       if let error {
