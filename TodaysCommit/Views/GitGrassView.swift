@@ -38,7 +38,7 @@ struct MainView: View {
             Text(mapManager.mapName)
               .font(.headline)
               .fontWeight(.semibold)
-              .foregroundColor(Color(.black))
+              .foregroundColor(.primary)
                             
             ZoomButton(zoomingIn: true)
           }
