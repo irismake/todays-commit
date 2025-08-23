@@ -58,6 +58,10 @@ struct PlaceView: View {
         Text("총 커밋 \(placeManager.totalCommitCount)회")
           .font(.subheadline)
           .foregroundColor(.secondary)
+          
+        Spacer()
+          
+        GpsButton()
       }
 
       SortChips(
