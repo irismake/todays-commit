@@ -3,51 +3,54 @@ import SwiftUI
 struct GitGrassView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
-
+  @EnvironmentObject var locationManager: LocationManager
   var body: some View {
-    NavigationView {
+    VStack(spacing: 0) {
+      HStack(spacing: 10) {
+        Image("center")
+          .resizable()
+          .scaledToFit()
+          .frame(width: 20, height: 20)
+
+        Text("장위동 34-5")
+          .font(.subheadline)
+          .foregroundColor(.primary)
+          .fontWeight(.semibold)
+          
+        Image(systemName: "chevron.right")
+          .imageScale(.small)
+          .foregroundColor(.secondary)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .padding()
+        
       ScrollView {
         VStack {
-          CommitBanner(commitState: false)
-
+          CommitBanner()
           Picker("범위", selection: $placeManager.placeScope) {
             Text("전체").tag(PlaceScope.main)
             Text("나의 지도").tag(PlaceScope.my)
           }
           .pickerStyle(.segmented)
-          .padding(.vertical, 20)
 
           HStack(spacing: 12) {
             ZoomButton(zoomingIn: false)
-                        
             Text(mapManager.mapName)
               .font(.headline)
               .fontWeight(.semibold)
               .foregroundColor(Color(.black))
-       
+                            
             ZoomButton(zoomingIn: true)
           }
-
-          ZStack(alignment: .bottomTrailing) {
-            GrassMapView(showMyMap: placeManager.placeScope == .my)
-            GpsButton()
-          }
+          .padding(.top)
+            
+          GrassMapView(showMyMap: placeManager.placeScope == .my)
 
           PlaceView()
         }
+            
         .padding()
       }
-      .navigationTitle("🌱 Git Grass")
-      .navigationBarItems(trailing:
-        Button(action: {
-          print("플러스 버튼 클릭")
-        }) {
-          Image(systemName: "plus.circle.fill")
-            .resizable()
-            .frame(width: 24, height: 24)
-            .foregroundColor(.blue)
-        }
-      )
     }
   }
 }

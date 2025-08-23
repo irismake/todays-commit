@@ -2,20 +2,27 @@ import SwiftUI
 
 struct ContentView: View {
   var body: some View {
-    ZStack {
-      TabView {
+    TabView {
+      NavigationStack {
         GitGrassView()
-          .tabItem {
-            Image(systemName: "square.grid.3x3.fill")
-            Text("GitGrass")
-          }
+          .navigationBarHidden(true)
+      }
+      .tabItem {
+        Image(systemName: "square.grid.3x3.fill")
+        Text("GitGrass")
+      }
 
+      NavigationStack {
         SettingsView()
-          .tabItem {
-            Image(systemName: "gearshape.fill")
-            Text("Settings")
-          }
+          .navigationTitle("Settings")
+      }
+      .tabItem {
+        Image(systemName: "gearshape.fill")
+        Text("Settings")
       }
     }
+    .toolbar(.visible, for: .tabBar)
+    .background(Color(.systemBackground))
+    .ignoresSafeArea(edges: .bottom)
   }
 }
