@@ -4,7 +4,7 @@ struct ContentView: View {
   var body: some View {
     TabView {
       NavigationStack {
-        GitGrassView()
+        MainView()
           .navigationBarHidden(true)
       }
       .tabItem {

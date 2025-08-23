@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct GitGrassView: View {
+struct MainView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
   @EnvironmentObject var locationManager: LocationManager
@@ -55,9 +55,9 @@ struct GitGrassView: View {
   }
 }
 
-struct GitGrassView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
   static var previews: some View {
-    GitGrassView()
+    MainView()
   }
 }
  
