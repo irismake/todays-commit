@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension Color {
-  static let lv_0 = Color(hex: "#EBEDF0")
+  static let lv_0 = Color(UIColor.systemGray5).opacity(0.9)
   static let lv_1 = Color(hex: "#9BE9A8")
   static let lv_2 = Color(hex: "#41C464")
   static let lv_3 = Color(hex: "#31A14E")

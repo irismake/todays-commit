@@ -8,7 +8,7 @@ final class GlobalStore {
     screenHeight = UIScreen.main.bounds.height
   }
     
-  var gridSize: Int = 25
+  var gridSize: Int = 22
   var screenWidth: CGFloat
   var screenHeight: CGFloat
   var currentLocation: Location?
