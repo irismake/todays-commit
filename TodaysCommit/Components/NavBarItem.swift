@@ -1,23 +1,18 @@
 import SwiftUI
 
 struct NavBarItem: View {
-  let icon: String
-  let label: String
-
+  let name: String
+    
   var body: some View {
-    VStack {
-      Image(systemName: icon)
-        .resizable()
-        .frame(width: 25, height: 25)
-      Text(label)
-        .font(.caption)
-    }
-    .foregroundColor(.blue)
+    Image(name)
+      .renderingMode(.template)
+      .foregroundColor(.white)
+      .frame(width: 40, height: 40)
   }
 }
 
 struct NavBarItem_Previews: PreviewProvider {
   static var previews: some View {
-    NavBarItem(icon: "house.fill", label: "Home")
+    NavBarItem(name: "icon_commit")
   }
 }

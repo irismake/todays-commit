@@ -5,11 +5,9 @@ struct ContentView: View {
     TabView {
       NavigationStack {
         MainView()
-          .navigationBarHidden(true)
       }
       .tabItem {
-        Image(systemName: "square.grid.3x3.fill")
-        Text("GitGrass")
+        NavBarItem(name: "nav_main")
       }
 
       NavigationStack {
@@ -17,10 +15,10 @@ struct ContentView: View {
           .navigationTitle("Settings")
       }
       .tabItem {
-        Image(systemName: "gearshape.fill")
-        Text("Settings")
+        NavBarItem(name: "nav_user")
       }
     }
+    .tint(.primary)
     .toolbar(.visible, for: .tabBar)
     .background(Color(.systemBackground))
     .ignoresSafeArea(edges: .bottom)
