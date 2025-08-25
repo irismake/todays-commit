@@ -23,7 +23,7 @@ struct RootView: View {
             }
         } else {
           ZStack {
-            ContentView()
+            MainView()
             overlayView(for: locationManager.authorizationStatus ?? .notDetermined)
           }
         }
