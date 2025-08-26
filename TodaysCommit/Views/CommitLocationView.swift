@@ -7,7 +7,7 @@ struct CommitLocationView: View {
   @EnvironmentObject var placeManager: PlaceManager
   @State var placeAddress: String?
   @State var placePnu: String?
-  @State private var placeData: PlaceData?
+  @State private var placeData: PlaceBase?
     
   var body: some View {
     VStack {
@@ -51,7 +51,7 @@ struct CommitLocationView: View {
                 else {
                   return
                 }
-                placeData = PlaceData(
+                placeData = PlaceBase(
                   pnu: placePnu,
                   name: "",
                   address: placeAddress,
@@ -99,7 +99,7 @@ struct CommitLocationView: View {
             
       let placeName = placeCheck.name ?? ""
    
-      placeData = PlaceData(
+      placeData = PlaceBase(
         pnu: placePnu,
         name: placeName,
         address: placeAddress,
@@ -130,7 +130,7 @@ struct CommitLocationView: View {
   }
 }
 
-func getLocationData(_ location: Location?) async throws -> LocationResponse {
+func getLocationData(_ location: LocationBase?) async throws -> LocationResponse {
   guard let location else {
     throw URLError(.badURL)
   }

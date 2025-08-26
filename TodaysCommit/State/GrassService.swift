@@ -5,11 +5,11 @@ final class GrassService {
   static let shared = GrassService()
   private init() {}
 
-  private var cachedTotalGrass: GrassDataResponse?
-  private var cachedMyGrass: GrassDataResponse?
+  private var cachedTotalGrass: GrassResponse?
+  private var cachedMyGrass: GrassResponse?
 
-  func getTotalCachedGrass() -> GrassDataResponse? { cachedTotalGrass }
-  func getMyCachedGrass() -> GrassDataResponse? { cachedMyGrass }
+  func getTotalCachedGrass() -> GrassResponse? { cachedTotalGrass }
+  func getMyCachedGrass() -> GrassResponse? { cachedMyGrass }
 
   func addGrassData(of pnu: String) async {
     do {

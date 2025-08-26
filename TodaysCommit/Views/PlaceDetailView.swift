@@ -3,7 +3,7 @@ import SwiftUI
 struct PlaceDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var placeManager: PlaceManager
-  @State private var placeData: PlaceData?
+  @State private var placeData: PlaceBase?
         
   var body: some View {
     if let placeDetail = placeManager.placeDetail {
@@ -89,7 +89,7 @@ struct PlaceDetailView: View {
         }
 
         CompleteButton(onComplete: {
-          placeData = PlaceData(pnu: placeDetail.pnu, name: placeDetail.name, address: placeDetail.address, x: placeDetail.x, y: placeDetail.y)
+          placeData = PlaceBase(pnu: placeDetail.pnu, name: placeDetail.name, address: placeDetail.address, x: placeDetail.x, y: placeDetail.y)
         }, title: "커밋하기", color: Color.green)
           .padding(.bottom)
       }

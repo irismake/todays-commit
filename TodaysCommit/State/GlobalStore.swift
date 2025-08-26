@@ -11,5 +11,5 @@ final class GlobalStore {
   var gridSize: Int = 22
   var screenWidth: CGFloat
   var screenHeight: CGFloat
-  var currentLocation: Location?
+  var currentLocation: LocationBase?
 }

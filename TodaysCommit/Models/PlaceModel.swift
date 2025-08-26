@@ -3,7 +3,7 @@ struct PlaceChcek: Decodable {
   let name: String?
 }
 
-struct PlaceData: Codable, Identifiable {
+struct PlaceBase: Codable, Identifiable {
   var id: String { pnu }
   let pnu: String
   let name: String
@@ -12,7 +12,7 @@ struct PlaceData: Codable, Identifiable {
   let y: Double
 }
 
-struct PlaceSummary: Decodable {
+struct PlaceData: Decodable {
   let pnu: String
   let name: String
   let distance: String
@@ -20,7 +20,7 @@ struct PlaceSummary: Decodable {
 }
 
 struct PlaceResponse: Decodable {
-  let places: [PlaceSummary]
+  let places: [PlaceData]
 }
 
 struct PlaceDetail: Decodable {

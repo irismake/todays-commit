@@ -10,7 +10,7 @@ enum PlaceAPI {
     )
   }
     
-  static func addPlace(_ placeData: PlaceData) async throws -> PostResponse {
+  static func addPlace(_ placeData: PlaceBase) async throws -> PostResponse {
     let bodyData = try? JSONEncoder().encode(
       placeData
     )

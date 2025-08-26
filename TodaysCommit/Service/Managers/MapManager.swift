@@ -5,7 +5,7 @@ final class MapManager: ObservableObject {
   @Published var currentMapData: [Int: [CellData]]?
   @Published var currentMapId: Int?
   @Published var mapLevel: Int = 1
-  @Published var gpsCells: [CellDataResponse] = []
+  @Published var gpsCells: [CellResponse] = []
   @Published var selectedCell: CellData?
   @Published var selectedGrassColor: Color = .lv_0
 
