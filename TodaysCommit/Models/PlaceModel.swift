@@ -31,12 +31,5 @@ struct PlaceDetail: Decodable {
   let address: String
   let x: Double
   let y: Double
-  let commits: [PlaceCommitData]
-}
-
-struct PlaceCommitData: Decodable, Identifiable {
-  var id: Int { commitId }
-  let commitId: Int
-  let userName: String
-  let createdAt: String
+  let commits: [CommitData]
 }

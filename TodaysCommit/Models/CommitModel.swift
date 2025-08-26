@@ -1,11 +1,20 @@
-struct CommitData: Decodable {
+struct CommitBase: Decodable {
   let commitId: Int
   let userId: Int
   let pnu: Int
   let createdAt: String
 }
 
-struct CommitResponse: Decodable {
+struct PostResponse: Decodable {
   let message: String
-  let commit: CommitData
+}
+
+struct CommitData: Decodable, Identifiable {
+  var id: Int { commitId }
+  let commitId: Int
+  let userName: String?
+  let createdAt: String
+  let pnu: Int?
+  let name: String?
+  let address: String?
 }

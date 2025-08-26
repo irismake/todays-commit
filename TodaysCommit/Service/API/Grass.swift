@@ -1,11 +1,11 @@
 import SwiftUI
 
 enum GrassAPI {
-  static func addGrass(_ pnu: String) async throws -> CommitResponse {
+  static func addGrass(_ pnu: String) async throws -> PostResponse {
     try await APIClient.shared.requestJSON(
       path: "/grass/\(pnu)",
       method: "POST",
-      response: CommitResponse.self,
+      response: PostResponse.self,
       authRequired: true
     )
   }
