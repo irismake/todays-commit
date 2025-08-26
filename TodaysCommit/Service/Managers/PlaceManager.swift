@@ -131,7 +131,8 @@ final class PlaceManager: ObservableObject {
 
   func addPlace(of placeData: PlaceData) async {
     do {
-      _ = try await PlaceAPI.addPlace(placeData)
+      let res = try await PlaceAPI.addPlace(placeData)
+      print("✅ addPlace: \(res.message)")
     } catch {
       print("❌ addPlace : \(error.localizedDescription)")
     }

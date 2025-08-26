@@ -5,10 +5,6 @@ struct CommitBase: Decodable {
   let createdAt: String
 }
 
-struct PostResponse: Decodable {
-  let message: String
-}
-
 struct CommitData: Decodable, Identifiable {
   var id: Int { commitId }
   let commitId: Int
