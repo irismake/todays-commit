@@ -15,6 +15,9 @@ struct CommitData: Decodable, Identifiable {
   let userName: String?
   let createdAt: String
   let pnu: Int?
-  let name: String?
-  let address: String?
+  let placeName: String?
+}
+
+struct CommitResponse: Decodable {
+  let commits: [CommitData]
 }
