@@ -41,7 +41,7 @@ private struct SortChips: View {
 struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
-  @State private var showFull = false
+  @State private var activeSheet: Route?
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -77,11 +77,16 @@ struct PlaceView: View {
             ForEach(placeManager.cachedPlaces, id: \.pnu) { place in
               PlaceItem(
                 onTap: {
-                  Task {
-                    await placeManager.fetchPlaceDetail(of: place.pnu)
-                    placeManager.placeDetail?.commitCount = place.commitCount
-                    placeManager.placeDetail?.distance = place.distance
-                    showFull = true
+                  if UserSessionManager.isGuest {
+                    activeSheet = .login
+                        
+                  } else {
+                    Task {
+                      await placeManager.fetchPlaceDetail(of: place.pnu)
+                      placeManager.placeDetail?.commitCount = place.commitCount
+                      placeManager.placeDetail?.distance = place.distance
+                      activeSheet = .commit
+                    }
                   }
                 },
                 placeName: place.name,
@@ -95,8 +100,15 @@ struct PlaceView: View {
           EmptyGrassCard()
         }
       }
-    }.fullScreenCover(isPresented: $showFull) {
-      PlaceDetailView()
+    }
+    
+    .fullScreenCover(item: $activeSheet) { sheet in
+      switch sheet {
+      case .commit:
+        PlaceDetailView()
+      case .login:
+        LoginView(isSheet: true)
+      }
     }
   }
 }

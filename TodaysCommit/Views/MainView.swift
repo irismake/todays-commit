@@ -4,6 +4,8 @@ struct MainView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
   @EnvironmentObject var locationManager: LocationManager
+  @State private var activeSheet: Route?
+    
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 10) {
@@ -20,6 +22,29 @@ struct MainView: View {
         Image(systemName: "chevron.right")
           .imageScale(.small)
           .foregroundColor(.secondary)
+          
+        Spacer()
+        Button(action: {
+          if UserSessionManager.isGuest {
+            activeSheet = .login
+              
+          } else {
+            activeSheet = .commit
+          }
+        }) {
+          Image(systemName: "person.crop.circle")
+            .imageScale(.large)
+            .foregroundColor(.secondary)
+        }
+          
+        .fullScreenCover(item: $activeSheet) { sheet in
+          switch sheet {
+          case .commit:
+            UserView()
+          case .login:
+            LoginView(isSheet: true)
+          }
+        }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding()
