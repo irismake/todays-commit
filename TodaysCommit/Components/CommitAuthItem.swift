@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CommitAuthItem: View {
   let createdAt: String
-  let userName: String
+  var userName: String?
     
   func formatCreatedAt(_ raw: String) -> String {
     let inputFormatter = DateFormatter()
@@ -32,15 +32,17 @@ struct CommitAuthItem: View {
         Text(formatCreatedAt(createdAt))
           .font(.caption)
           .foregroundColor(.secondary)
-          
-        Text(userName)
-          .font(.caption)
-          .foregroundColor(.primary)
-          .fontWeight(.bold)
+         
+        if let unwrappedUserName = userName {
+          Text(unwrappedUserName)
+            .font(.caption)
+            .foregroundColor(.primary)
+            .fontWeight(.bold)
+        }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
-      .padding(10)
-      .background(Color.gray.opacity(0.1))
+      .padding(userName != nil ? 10 : 4)
+      .background(Color.green.opacity(0.1))
       .cornerRadius(200)
     }
   }

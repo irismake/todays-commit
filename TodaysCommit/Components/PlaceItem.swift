@@ -14,7 +14,7 @@ struct PlaceItem: View {
       }
     }) {
       HStack {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 24) {
           Text(placeName)
             .font(.headline)
             .foregroundColor(.primary)
