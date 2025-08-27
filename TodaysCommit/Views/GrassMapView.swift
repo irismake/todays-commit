@@ -92,7 +92,6 @@ struct GrassMapView: View {
     }
     .aspectRatio(1, contentMode: .fit)
     .task(id: GrassTaskID(mapId: mapManager.currentMapId, showMyMap: showMyMap)) {
-      print("task")
       guard let mapId = mapManager.currentMapId else {
         return
       }

@@ -1,9 +1,4 @@
-struct Coord: Hashable {
-  let x: Int
-  let y: Int
-}
-
-struct CellDataResponse: Decodable {
+struct CellResponse: Decodable {
   let mapLevel: Int
   let mapId: Int
   let cellData: CellData
@@ -14,12 +9,12 @@ struct CellData: Decodable, Equatable {
   let zoneCode: Int
 }
 
-struct MapDataResponse: Decodable {
+struct MapResponse: Decodable {
   let mapCode: Int
   let mapData: [CellData]
 }
 
-struct MapData: Decodable {
+struct MapBase: Decodable {
   let mapId: Int
   let mapLevel: Int
 }

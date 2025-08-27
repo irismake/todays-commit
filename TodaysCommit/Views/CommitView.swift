@@ -6,9 +6,9 @@ struct CommitView: View {
   var onFinish: () -> Void = {}
   @State private var inputPlaceName: String
   private let isEditable: Bool
-  private let placeData: PlaceData
+  private let placeData: PlaceBase
  
-  init(placeData: PlaceData, onFinish: @escaping () -> Void) {
+  init(placeData: PlaceBase, onFinish: @escaping () -> Void) {
     self.placeData = placeData
     self.onFinish = onFinish
     _inputPlaceName = State(initialValue: placeData.name)
@@ -105,7 +105,7 @@ struct CommitView: View {
           return
         }
           
-        let updatedData = PlaceData(
+        let updatedData = PlaceBase(
           pnu: placeData.pnu,
           name: inputPlaceName,
           address: placeData.address,
@@ -123,7 +123,7 @@ struct CommitView: View {
     .background(Color.white)
   }
 
-  func fetchPlantingGrass(of addPlaceData: PlaceData) async {
+  func fetchPlantingGrass(of addPlaceData: PlaceBase) async {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
 
@@ -140,7 +140,7 @@ struct CommitView: View {
 
 struct CommitView_Previews: PreviewProvider {
   static var previews: some View {
-    CommitView(placeData: PlaceData(
+    CommitView(placeData: PlaceBase(
       pnu: "pnu",
       name: "placeName",
       address: "placeAddress",

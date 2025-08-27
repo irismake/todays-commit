@@ -3,9 +3,9 @@ import CoreLocation
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
-  @Published var currentLocation: Location?
+  @Published var currentLocation: LocationBase?
   @Published var authorizationStatus: CLAuthorizationStatus?
-  private let defaultLocation = Location(lat: 37.5665, lon: 126.9780)
+  private let defaultLocation = LocationBase(lat: 37.5665, lon: 126.9780)
 
   override init() {
     super.init()
@@ -23,7 +23,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     let location = loc.coordinate
       
-    currentLocation = Location(lat: location.latitude, lon: location.longitude)
+    currentLocation = LocationBase(lat: location.latitude, lon: location.longitude)
     GlobalStore.shared.currentLocation = currentLocation
   }
 

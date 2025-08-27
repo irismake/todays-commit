@@ -8,7 +8,7 @@ struct GrassData: Decodable {
   let commitCount: Int
 }
 
-struct GrassDataResponse: Decodable {
+struct GrassResponse: Decodable {
   let mapId: Int
   let grassData: [GrassData]
 }

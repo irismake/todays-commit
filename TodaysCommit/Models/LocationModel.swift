@@ -1,4 +1,4 @@
-struct Location: Hashable {
+struct LocationBase: Hashable {
   let lat: Double
   let lon: Double
 }

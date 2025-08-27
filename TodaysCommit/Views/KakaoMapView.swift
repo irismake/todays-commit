@@ -181,7 +181,7 @@ struct KakaoMapView: UIViewRepresentable {
       let center = CGPoint(x: size.width / 2, y: (size.height - bottomMargin) / 2)
       let centerMapPoint = mapView.getPosition(center)
      
-      let loc = Location(
+      let loc = LocationBase(
         lat: centerMapPoint.wgsCoord.latitude,
         lon: centerMapPoint.wgsCoord.longitude
       )

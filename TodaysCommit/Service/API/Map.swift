@@ -1,18 +1,18 @@
 import SwiftUI
 
 enum MapAPI {
-  static func getCell(_ pnu: String) async throws -> [CellDataResponse] {
+  static func getCell(_ pnu: String) async throws -> [CellResponse] {
     try await APIClient.shared.requestJSON(
       path: "/map/cell",
       query: [URLQueryItem(name: "pnu", value: pnu)],
-      response: [CellDataResponse].self
+      response: [CellResponse].self
     )
   }
     
-  static func getMap(_ mapId: Int) async throws -> MapDataResponse {
+  static func getMap(_ mapId: Int) async throws -> MapResponse {
     try await APIClient.shared.requestJSON(
       path: "/map/\(mapId)",
-      response: MapDataResponse.self
+      response: MapResponse.self
     )
   }
 }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CommitItem: View {
   var onTap: () async -> Void
-  let placeName: String
+  let commitData: CommitData
   
   var body: some View {
     Button(action: {
@@ -12,7 +12,7 @@ struct CommitItem: View {
     }) {
       VStack(alignment: .leading, spacing: 20) {
         HStack {
-          Text(placeName)
+          Text(commitData.placeName ?? "N/A")
             .font(.headline)
             .foregroundColor(.primary)
             .lineLimit(1)
@@ -24,7 +24,7 @@ struct CommitItem: View {
             .foregroundColor(.gray.opacity(0.6))
         }
       
-        CommitAuthItem(createdAt: "2025-08-24 16:09")
+        CommitAuthItem(createdAt: commitData.createdAt)
       }
 
       .padding()
@@ -45,8 +45,26 @@ struct CommitItem: View {
 struct CommitItem_Previews: PreviewProvider {
   static var previews: some View {
     VStack(spacing: 20) {
-      CommitItem(onTap: {}, placeName: "커피스토어")
-      CommitItem(onTap: {}, placeName: "스타벅스 성신여대점")
+      CommitItem(
+        onTap: {},
+        commitData: CommitData(
+          commitId: 2,
+          userName: nil,
+          createdAt: "2025-08-26T06:07:25.470490",
+          pnu: Optional(1129013300106540034),
+          placeName: Optional("라미카페")
+        )
+      )
+      CommitItem(
+        onTap: {},
+        commitData: CommitData(
+          commitId: 2,
+          userName: nil,
+          createdAt: "2025-08-26T06:07:25.470490",
+          pnu: Optional(1129013300106540034),
+          placeName: Optional("라미카페")
+        )
+      )
     }
     .padding()
   }

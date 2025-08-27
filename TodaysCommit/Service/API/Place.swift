@@ -10,7 +10,7 @@ enum PlaceAPI {
     )
   }
     
-  static func addPlace(_ placeData: PlaceData) async throws -> PlaceData {
+  static func addPlace(_ placeData: PlaceBase) async throws -> PostResponse {
     let bodyData = try? JSONEncoder().encode(
       placeData
     )
@@ -18,23 +18,23 @@ enum PlaceAPI {
       path: "/place",
       method: "POST",
       body: bodyData,
-      response: PlaceData.self,
+      response: PostResponse.self,
       authRequired: true
     )
   }
     
-  static func getMainPlace(mapId: Int, coordId: Int, x: Double, y: Double, sort: String) async throws -> PlaceResponse {
+  static func getMainPlace(mapId: Int, coordId: Int, sort: String) async throws -> PlaceResponse {
     try await APIClient.shared.requestJSON(
       path: "/place/main",
-      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "x", value: String(x)), URLQueryItem(name: "y", value: String(y)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
+      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
       response: PlaceResponse.self,
     )
   }
     
-  static func getMyPlace(mapId: Int, coordId: Int, x: Double, y: Double, sort: String) async throws -> PlaceResponse {
+  static func getMyPlace(mapId: Int, coordId: Int, sort: String) async throws -> PlaceResponse {
     try await APIClient.shared.requestJSON(
       path: "/place/myplace",
-      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "x", value: String(x)), URLQueryItem(name: "y", value: String(y)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
+      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
       response: PlaceResponse.self,
       authRequired: true
     )
