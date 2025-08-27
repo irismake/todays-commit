@@ -74,25 +74,21 @@ struct PlaceView: View {
       Group {
         if !placeManager.cachedPlaces.isEmpty {
           VStack(spacing: 12) {
-            ForEach(placeManager.cachedPlaces, id: \.pnu) { place in
+            ForEach(placeManager.cachedPlaces, id: \.pnu) { placeData in
               PlaceItem(
+                placeData: placeData,
+                grassColor: mapManager.selectedGrassColor,
                 onTap: {
                   if UserSessionManager.isGuest {
                     activeSheet = .login
                         
                   } else {
                     Task {
-                      await placeManager.fetchPlaceDetail(of: place.pnu)
-                      placeManager.placeDetail?.commitCount = place.commitCount
-                      placeManager.placeDetail?.distance = place.distance
+                      await placeManager.fetchPlaceDetail(of: placeData.pnu)
                       activeSheet = .commit
                     }
                   }
                 },
-                placeName: place.name,
-                distance: place.distance,
-                commitCount: place.commitCount,
-                grassColor: mapManager.selectedGrassColor
               )
             }
           }

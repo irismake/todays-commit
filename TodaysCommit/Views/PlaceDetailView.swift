@@ -4,7 +4,9 @@ struct PlaceDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var placeManager: PlaceManager
   @State private var placeData: PlaceBase?
-        
+  @State private var distance: String = "? m"
+  @State private var commitCount: Int = 0
+
   var body: some View {
     if let placeDetail = placeManager.placeDetail {
       VStack(alignment: .leading) {
@@ -24,7 +26,10 @@ struct PlaceDetailView: View {
                 Image(systemName: "location.fill")
                   .font(.system(size: 10, weight: .semibold))
                   .foregroundColor(.secondary)
-                Text(placeDetail.distance ?? "")
+                Text(distance)
+                  .onAppear {
+                    distance = GlobalStore.shared.getDistance(lat: placeDetail.x, lon: placeDetail.y)
+                  }
                   .font(.caption)
                   .foregroundColor(.secondary)
               }
@@ -36,7 +41,8 @@ struct PlaceDetailView: View {
                   .aspectRatio(contentMode: .fit)
                   .frame(height: 10)
                                 
-                Text("\(placeDetail.commitCount ?? 0)회")
+                Text("\(commitCount)회")
+                  .onAppear { commitCount = placeDetail.commits.count }
                   .font(.caption)
                   .foregroundColor(.secondary)
               }

@@ -15,7 +15,8 @@ struct PlaceBase: Codable, Identifiable {
 struct PlaceData: Decodable {
   let pnu: String
   let name: String
-  let distance: String
+  let x: Double
+  let y: Double
   let commitCount: Int
 }
 
@@ -24,8 +25,6 @@ struct PlaceResponse: Decodable {
 }
 
 struct PlaceDetail: Decodable {
-  var distance: String?
-  var commitCount: Int?
   let pnu: String
   let name: String
   let address: String
