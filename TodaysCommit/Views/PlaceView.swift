@@ -93,7 +93,7 @@ struct PlaceView: View {
             }
           }
         } else {
-          EmptyGrassCard()
+          EmptyCard(title: "아직 잔디가 심어지기 전이에요. 😅", subtitle: "다른 곳을 눌러 잔디를 확인해보세요!")
         }
       }
     }
@@ -106,22 +106,5 @@ struct PlaceView: View {
         LoginView(isSheet: true)
       }
     }
-  }
-}
-
-private struct EmptyGrassCard: View {
-  var body: some View {
-    VStack(spacing: 12) {
-      Text("아직 잔디가 심어지기 전이에요. 😅")
-        .font(.headline)
-        .foregroundColor(.secondary)
-      Text("다른 곳을 눌러 잔디를 확인해보세요!")
-        .font(.subheadline)
-        .foregroundColor(.secondary)
-    }
-    .padding()
-    .frame(maxWidth: .infinity)
-    .background(Color.lv_0.opacity(0.4))
-    .cornerRadius(16)
   }
 }

@@ -3,13 +3,9 @@ import SwiftUI
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var myCommits: [CommitData] = []
+  @State private var myPlaces: [PlaceData] = []
   let placeColor: [Color] = [.yellow, .gray, .brown]
-
-  let colorMap: [Color: String] = [
-    .yellow: "gold",
-    .gray: "silver",
-    .brown: "bronze"
-  ]
+  let placeImage: [String] = ["gold", "silver", "bronze"]
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -64,11 +60,12 @@ struct UserView: View {
               .padding()
             }
           } else {
-            // 커밋 내역 없을때 보여주기뷰
+            EmptyCard(title: "아직 커밋한 내역이 없어요.", subtitle: "오늘의 커밋을 시작해보세요.")
+              .padding()
           }
             
           HStack {
-            Text("나의 랭킹 장소")
+            Text("랭킹 커밋 장소")
               .font(.subheadline)
               .fontWeight(.semibold)
               .foregroundColor(.primary)
@@ -79,16 +76,19 @@ struct UserView: View {
           }
           .padding(.top)
           .padding(.horizontal)
-                  
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-              ForEach(placeColor, id: \.self) { color in
-                if let imageName = colorMap[color] {
+          if !myPlaces.isEmpty {
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack {
+                ForEach(Array(myPlaces.enumerated()), id: \.element.id) { index, placeData in
                   ZStack(alignment: .topLeading) {
-                    PlaceItem(onTap: {}, placeName: "파머스 카페", distance: "20m", commitCount: 3, grassColor: color)
-                      .frame(width: 240)
-                                      
-                    Image(imageName)
+                    PlaceItem(
+                      placeData: placeData,
+                      grassColor: placeColor[index],
+                      onTap: {}
+                    )
+                    .frame(width: 240)
+                        
+                    Image(placeImage[index])
                       .resizable()
                       .aspectRatio(contentMode: .fit)
                       .frame(width: 22, height: 22)
@@ -96,8 +96,12 @@ struct UserView: View {
                   }
                 }
               }
+              .padding()
             }
-            .padding()
+           
+          } else {
+            EmptyCard(title: "아직 심어진 잔디가 없어요.", subtitle: "오늘의 커밋을 완료해보세요.")
+              .padding()
           }
         }
       }
@@ -107,8 +111,11 @@ struct UserView: View {
         let overlayVC = Overlay.show(LoadingView())
         defer { overlayVC.dismiss(animated: true) }
         do {
-          let res = try await CommitAPI.getMyCommit(of: 10)
-          myCommits = res.commits
+          let commitRes = try await CommitAPI.getMyCommit(of: 10)
+          let placeRes = try await PlaceAPI.getMyPlaces(limit: 3)
+  
+          myCommits = commitRes.commits
+          myPlaces = placeRes.places
         } catch {
           print("❌ getMyCommit: \(error.localizedDescription)")
         }
