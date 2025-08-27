@@ -12,7 +12,8 @@ struct PlaceBase: Codable, Identifiable {
   let y: Double
 }
 
-struct PlaceData: Decodable {
+struct PlaceData: Decodable, Identifiable {
+  var id: String { pnu }
   let pnu: String
   let name: String
   let x: Double

@@ -39,6 +39,15 @@ enum PlaceAPI {
       authRequired: true
     )
   }
+
+  static func getMyPlaces(limit: Int) async throws -> PlaceResponse {
+    try await APIClient.shared.requestJSON(
+      path: "/place/myplaces",
+      query: [URLQueryItem(name: "limit", value: String(limit))],
+      response: PlaceResponse.self,
+      authRequired: true
+    )
+  }
     
   static func getPlaceDetail(_ pnu: String) async throws -> PlaceDetail {
     try await APIClient.shared.requestJSON(
