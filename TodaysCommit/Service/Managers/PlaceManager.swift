@@ -89,11 +89,6 @@ final class PlaceManager: ObservableObject {
       return
     }
 
-    guard let currentLocation = GlobalStore.shared.currentLocation else {
-      print("⚠️ [NO LOCATION] cannot fetch")
-      return
-    }
-
     do {
       let sortParam = (sort == .recent) ? "recent" : "popular"
 
@@ -103,8 +98,6 @@ final class PlaceManager: ObservableObject {
         let res = try await PlaceAPI.getMainPlace(
           mapId: mapId,
           coordId: coordId,
-          x: currentLocation.lat,
-          y: currentLocation.lon,
           sort: sortParam
         )
         places = res.places
@@ -113,8 +106,6 @@ final class PlaceManager: ObservableObject {
         let res = try await PlaceAPI.getMyPlace(
           mapId: mapId,
           coordId: coordId,
-          x: currentLocation.lat,
-          y: currentLocation.lon,
           sort: sortParam
         )
         places = res.places
