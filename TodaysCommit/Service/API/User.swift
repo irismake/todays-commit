@@ -69,4 +69,12 @@ enum UserAPI {
 
     task.resume()
   }
+
+  static func getUserInfo() async throws -> UserData {
+    try await APIClient.shared.requestJSON(
+      path: "/user/info",
+      response: UserData.self,
+      authRequired: true
+    )
+  }
 }
