@@ -5,12 +5,15 @@ import KakaoSDKUser
 import SwiftUI
 
 struct KakaoLoginButton: View {
+  @Environment(\.dismiss) private var dismiss
+
   var body: some View {
     Button(action: {
       AuthService.shared.kakaoAuth { result in
         switch result {
         case let .success(user):
           UserSessionManager.saveUserSession(user)
+          dismiss()
         case let .failure(error):
           print("❌ 로그인 실패: \(error.localizedDescription)")
         }

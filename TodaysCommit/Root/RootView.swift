@@ -1,5 +1,4 @@
 import CoreLocation
-import KakaoSDKAuth
 import SwiftUI
 
 struct RootView: View {
@@ -30,11 +29,6 @@ struct RootView: View {
       }
     } else {
       LoginView()
-        .onOpenURL { url in
-          if AuthApi.isKakaoTalkLoginUrl(url) {
-            _ = AuthController.handleOpenUrl(url: url)
-          }
-        }
     }
   }
 

@@ -4,6 +4,7 @@ struct UserView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var myCommits: [CommitData] = []
   @State private var myPlaces: [PlaceData] = []
+  @State private var userInfo: UserData?
   let placeColor: [Color] = [.yellow, .gray, .brown]
   let placeImage: [String] = ["gold", "silver", "bronze"]
 
@@ -26,15 +27,22 @@ struct UserView: View {
           
       ScrollView {
         VStack {
-          VStack {
-            ProviderBadge(provider: "kakao")
-            Text("김가희")
+          if let userInfo {
+            VStack {
+              ProviderBadge(provider: userInfo.provider)
+              Text(userInfo.userName)
+                .font(.title)
+                .foregroundColor(.primary)
+                .fontWeight(.bold)
+                .padding()
+            }
+            .padding(.vertical)
+          } else {
+            Text("사용자 정보 불러오는 중...")
               .font(.title)
-              .foregroundColor(.primary)
-              .fontWeight(.bold)
+              .foregroundColor(.gray)
               .padding()
           }
-          .padding(.vertical)
                   
           HStack {
             Text("커밋 히스토리")
@@ -111,9 +119,11 @@ struct UserView: View {
         let overlayVC = Overlay.show(LoadingView())
         defer { overlayVC.dismiss(animated: true) }
         do {
+          let userRes = try await UserAPI.getUserInfo()
           let commitRes = try await CommitAPI.getMyCommit(of: 10)
           let placeRes = try await PlaceAPI.getMyPlaces(limit: 3)
-  
+   
+          userInfo = userRes
           myCommits = commitRes.commits
           myPlaces = placeRes.places
         } catch {

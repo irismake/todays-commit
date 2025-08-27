@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AppleLoginButton: View {
   @Environment(\.colorScheme) var colorScheme
+  @Environment(\.dismiss) private var dismiss
 
   var body: some View {
     Button(action: {
@@ -9,6 +10,7 @@ struct AppleLoginButton: View {
         switch result {
         case let .success(user):
           UserSessionManager.saveUserSession(user)
+          dismiss()
         case let .failure(error):
           print("❌ 로그인 실패: \(error.localizedDescription)")
         }

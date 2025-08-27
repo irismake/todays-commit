@@ -1,4 +1,4 @@
-struct UserBase: Codable {
+struct UserData: Codable {
   let userName: String
   let provider: String
 }
