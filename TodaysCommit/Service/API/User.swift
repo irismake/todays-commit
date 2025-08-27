@@ -2,12 +2,18 @@ import SwiftUI
 
 enum UserAPI {
   static func loginWithKakao(_ token: String, completion: @escaping (Result<UserResponse, KakaoLoginError>) -> Void) {
+    let overlayVC = Overlay.show(LoadingView())
+      
     let base_url = AppConfig.baseURL
     guard let url = URL(string: "\(base_url)/user/login/kakao?access_token=\(token)") else {
       return completion(.failure(.networkError(NSError(domain: "URL 생성 실패", code: -1))))
     }
 
     let task = URLSession.shared.dataTask(with: url) { data, _, error in
+      DispatchQueue.main.async {
+        overlayVC.dismiss(animated: true)
+      }
+    
       if let error {
         return completion(.failure(.serverError(error)))
       }
@@ -30,6 +36,8 @@ enum UserAPI {
   }
 
   static func loginWithApple(authorizationCode: String, userName: String?, completion: @escaping (Result<UserResponse, AppleLoginError>) -> Void) {
+    let overlayVC = Overlay.show(LoadingView())
+   
     let baseURL = AppConfig.baseURL
     guard let url = URL(string: "\(baseURL)/oauth/apple/token") else {
       return completion(.failure(.networkError(NSError(domain: "URL 생성 실패", code: -1))))
@@ -49,6 +57,10 @@ enum UserAPI {
     request.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
 
     let task = URLSession.shared.dataTask(with: request) { data, _, error in
+      DispatchQueue.main.async {
+        overlayVC.dismiss(animated: true)
+      }
+      
       if let error {
         return completion(.failure(.serverError(error)))
       }
