@@ -2,13 +2,13 @@ import SwiftUI
 
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
-  @State private var myCommits: [CommitData] = []
+  @State private var myCommitData: CommitResponse?
   @State private var myPlaces: [PlaceData] = []
   @State private var userInfo: UserData?
   let placeColor: [Color] = [.yellow, .gray, .brown]
   let placeImage: [String] = ["gold", "silver", "bronze"]
   @State private var activeSheet: Route?
-
+    
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
@@ -62,10 +62,10 @@ struct UserView: View {
           .padding(.top)
           .padding(.horizontal)
                   
-          if !myCommits.isEmpty {
+          if let commitData = myCommitData {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
-                ForEach(myCommits, id: \.id) { commit in
+                ForEach(commitData.commits, id: \.id) { commit in
                   CommitItem(onTap: {}, commitData: commit)
                     .frame(width: 240)
                 }
@@ -126,7 +126,7 @@ struct UserView: View {
     .fullScreenCover(item: $activeSheet) { sheet in
       switch sheet {
       case .myCommits:
-        MyCommitsView()
+        MyCommitsView(myCommits: myCommitData?.commits ?? [], nextCursor: myCommitData?.nextCursor)
       case .myPlaces:
         MyPlacesView()
       default:
@@ -139,14 +139,14 @@ struct UserView: View {
         defer { overlayVC.dismiss(animated: true) }
         do {
           let userRes = try await UserAPI.getUserInfo()
-          let commitRes = try await CommitAPI.getMyCommit(of: 10)
+          let commitRes = try await CommitAPI.getMyCommit(cursor: nil)
           let placeRes = try await PlaceAPI.getMyPlaces(limit: 3)
    
           userInfo = userRes
-          myCommits = commitRes.commits
+          myCommitData = commitRes
           myPlaces = placeRes.places
         } catch {
-          print("❌ getMyCommit: \(error.localizedDescription)")
+          print("❌ getUserData: \(error.localizedDescription)")
         }
       }
     }
