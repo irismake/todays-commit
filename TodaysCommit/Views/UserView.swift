@@ -7,6 +7,7 @@ struct UserView: View {
   @State private var userInfo: UserData?
   let placeColor: [Color] = [.yellow, .gray, .brown]
   let placeImage: [String] = ["gold", "silver", "bronze"]
+  @State private var activeSheet: Route?
 
   var body: some View {
     VStack(alignment: .leading) {
@@ -50,9 +51,13 @@ struct UserView: View {
               .fontWeight(.semibold)
               .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right")
-              .font(.system(size: 12, weight: .semibold))
-              .foregroundColor(.gray.opacity(0.6))
+            Button(action: {
+              activeSheet = .myCommits
+            }) {
+              Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.gray.opacity(0.6))
+            }
           }
           .padding(.top)
           .padding(.horizontal)
@@ -78,9 +83,13 @@ struct UserView: View {
               .fontWeight(.semibold)
               .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right")
-              .font(.system(size: 12, weight: .semibold))
-              .foregroundColor(.gray.opacity(0.6))
+            Button(action: {
+              activeSheet = .myPlaces
+            }) {
+              Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.gray.opacity(0.6))
+            }
           }
           .padding(.top)
           .padding(.horizontal)
@@ -112,6 +121,16 @@ struct UserView: View {
               .padding()
           }
         }
+      }
+    }
+    .fullScreenCover(item: $activeSheet) { sheet in
+      switch sheet {
+      case .myCommits:
+        MyCommitsView()
+      case .myPlaces:
+        MyPlacesView()
+      default:
+        EmptyView()
       }
     }
     .onAppear {

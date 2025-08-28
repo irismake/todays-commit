@@ -9,7 +9,7 @@ struct CommitBanner: View {
         activeSheet = .login
         
       } else {
-        activeSheet = .commit
+        activeSheet = .commitLocation
       }
     }) {
       VStack(spacing: 12) {
@@ -37,10 +37,12 @@ struct CommitBanner: View {
     }
     .fullScreenCover(item: $activeSheet) { sheet in
       switch sheet {
-      case .commit:
+      case .commitLocation:
         CommitLocationView()
       case .login:
         LoginView(isSheet: true)
+      default:
+        EmptyView()
       }
     }
   }

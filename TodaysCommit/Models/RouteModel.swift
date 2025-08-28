@@ -1,11 +1,19 @@
 enum Route: Identifiable {
   case login
-  case commit
+  case commitLocation
+  case myCommits
+  case myPlaces
+  case user
+  case placeDetail
 
   var id: String {
     switch self {
     case .login: "login"
-    case .commit: "commit"
+    case .commitLocation: "commitLocation"
+    case .myCommits: "myCommits"
+    case .myPlaces: "myPlaces"
+    case .user: "user"
+    case .placeDetail: "placeDetail"
     }
   }
 }

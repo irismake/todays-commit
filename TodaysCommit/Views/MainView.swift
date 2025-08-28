@@ -29,7 +29,7 @@ struct MainView: View {
             activeSheet = .login
               
           } else {
-            activeSheet = .commit
+            activeSheet = .user
           }
         }) {
           Image(systemName: "person.crop.circle")
@@ -39,10 +39,12 @@ struct MainView: View {
           
         .fullScreenCover(item: $activeSheet) { sheet in
           switch sheet {
-          case .commit:
+          case .user:
             UserView()
           case .login:
             LoginView(isSheet: true)
+          default:
+            EmptyView()
           }
         }
       }

@@ -85,7 +85,7 @@ struct PlaceView: View {
                   } else {
                     Task {
                       await placeManager.fetchPlaceDetail(of: placeData.pnu)
-                      activeSheet = .commit
+                      activeSheet = .placeDetail
                     }
                   }
                 },
@@ -100,10 +100,12 @@ struct PlaceView: View {
     
     .fullScreenCover(item: $activeSheet) { sheet in
       switch sheet {
-      case .commit:
+      case .placeDetail:
         PlaceDetailView()
       case .login:
         LoginView(isSheet: true)
+      default:
+        EmptyView()
       }
     }
   }
