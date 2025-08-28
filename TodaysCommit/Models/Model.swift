@@ -6,6 +6,8 @@ enum SortOption: String, CaseIterable, Identifiable {
   var id: String { rawValue }
 }
 
+enum PlaceScope: Hashable { case main, my }
+
 struct MailData {
   let recipient: String = "gitgrassgrowing@gmail.com"
   let subject: String
