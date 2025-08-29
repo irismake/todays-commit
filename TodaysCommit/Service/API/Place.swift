@@ -23,27 +23,44 @@ enum PlaceAPI {
     )
   }
     
-  static func getMainPlace(mapId: Int, coordId: Int, sort: String) async throws -> PlaceResponse {
-    try await APIClient.shared.requestJSON(
+  static func getMainPlace(mapId: Int, coordId: Int, sort: String, cursor: String?) async throws -> PlaceResponse {
+    var queryItems: [URLQueryItem] = [
+      URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")
+    ]
+    if let cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+
+    return try await APIClient.shared.requestJSON(
       path: "/place/main",
-      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
+      query: queryItems,
       response: PlaceResponse.self,
     )
   }
     
-  static func getMyPlace(mapId: Int, coordId: Int, sort: String) async throws -> PlaceResponse {
-    try await APIClient.shared.requestJSON(
+  static func getMyPlace(mapId: Int, coordId: Int, sort: String, cursor: String?) async throws -> PlaceResponse {
+    var queryItems: [URLQueryItem] = [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")]
+    if let cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+   
+    return try await APIClient.shared.requestJSON(
       path: "/place/myplace",
-      query: [URLQueryItem(name: "map_id", value: String(mapId)), URLQueryItem(name: "coord_id", value: String(coordId)), URLQueryItem(name: "sort", value: sort), URLQueryItem(name: "limit", value: "10")],
+      query: queryItems,
       response: PlaceResponse.self,
       authRequired: true
     )
   }
 
-  static func getMyPlaces(limit: Int) async throws -> PlaceResponse {
-    try await APIClient.shared.requestJSON(
+  static func getMyPlaces(limit: Int = 10, cursor: String?) async throws -> PlaceResponse {
+    var queryItems: [URLQueryItem] = [URLQueryItem(name: "limit", value: String(limit))]
+    if let cursor {
+      queryItems.append(URLQueryItem(name: "cursor", value: cursor))
+    }
+   
+    return try await APIClient.shared.requestJSON(
       path: "/place/myplaces",
-      query: [URLQueryItem(name: "limit", value: String(limit))],
+      query: queryItems,
       response: PlaceResponse.self,
       authRequired: true
     )

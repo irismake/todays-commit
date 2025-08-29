@@ -38,7 +38,7 @@ struct CommitView: View {
       }
       .padding(.vertical)
 
-      ScrollView {
+      ScrollView(showsIndicators: false) {
         VStack(spacing: 20) {
           Group {
             KakaoMapButton()
@@ -97,7 +97,7 @@ struct CommitView: View {
           }
           Spacer(minLength: 80)
         }
-      }.scrollIndicators(.hidden)
+      }
 
       CompleteButton(onComplete: {
         guard !inputPlaceName.isEmpty else {

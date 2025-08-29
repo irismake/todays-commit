@@ -1,8 +1,6 @@
 import Combine
 import SwiftUI
 
-enum PlaceScope: Hashable { case main, my }
-
 private struct PlaceCacheKey: Hashable {
   let mapId: Int
   let coordId: Int
@@ -35,31 +33,21 @@ final class PlaceManager: ObservableObject {
   }
 
   private func bindMapChanges() {
-    let cell = mapManager.$selectedCell
-      .removeDuplicates()
-      .handleEvents(receiveOutput: { [weak self] value in
-        if value == nil {
-          Task { @MainActor in self?.cachedPlaces = [] }
-        }
-      })
-      .compactMap { $0 }
-
+    let cell = mapManager.$selectedCell.removeDuplicates()
     let sort = $placeSort.removeDuplicates()
     let scope = $placeScope.removeDuplicates()
 
     Publishers.CombineLatest3(cell, sort, scope)
       .receive(on: RunLoop.main)
-      .sink { [weak self] cell, sort, scope in
+      .sink { [weak self] _, sort, scope in
         guard let self else {
           return
         }
-
-        if self.mapManager.selectedGrassColor == .lv_0 {
-          Task { @MainActor in self.cachedPlaces = [] }
-          return
-        }
-        guard let mapId = self.mapManager.currentMapId else {
-          Task { @MainActor in self.cachedPlaces = [] }
+        guard let cell = self.mapManager.selectedCell,
+              let mapId = self.mapManager.currentMapId,
+              self.mapManager.selectedGrassColor != .lv_0
+        else {
+          self.cachedPlaces = []
           return
         }
 
@@ -98,7 +86,8 @@ final class PlaceManager: ObservableObject {
         let res = try await PlaceAPI.getMainPlace(
           mapId: mapId,
           coordId: coordId,
-          sort: sortParam
+          sort: sortParam,
+          cursor: nil
         )
         places = res.places
 
@@ -106,7 +95,8 @@ final class PlaceManager: ObservableObject {
         let res = try await PlaceAPI.getMyPlace(
           mapId: mapId,
           coordId: coordId,
-          sort: sortParam
+          sort: sortParam,
+          cursor: nil
         )
         places = res.places
       }

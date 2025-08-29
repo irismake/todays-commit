@@ -15,5 +15,6 @@ struct CommitData: Decodable, Identifiable {
 }
 
 struct CommitResponse: Decodable {
+  let nextCursor: Int?
   let commits: [CommitData]
 }

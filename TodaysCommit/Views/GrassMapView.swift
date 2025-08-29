@@ -99,7 +99,6 @@ struct GrassMapView: View {
       if showMyMap {
         if let cachedMyData = grassService.getMyCachedGrass() {
           if cachedMyData.mapId == mapId {
-            print("cached My data")
             grassData = cachedMyData.grassData
             return
           }
@@ -111,7 +110,6 @@ struct GrassMapView: View {
       } else {
         if let cachedTotalData = grassService.getTotalCachedGrass() {
           if cachedTotalData.mapId == mapId {
-            print("cached Total data")
             grassData = cachedTotalData.grassData
             return
           }

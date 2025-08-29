@@ -2,12 +2,13 @@ import SwiftUI
 
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
-  @State private var myCommits: [CommitData] = []
-  @State private var myPlaces: [PlaceData] = []
+  @State private var myCommitData: CommitResponse?
+  @State private var myPlaceData: PlaceResponse?
   @State private var userInfo: UserData?
   let placeColor: [Color] = [.yellow, .gray, .brown]
   let placeImage: [String] = ["gold", "silver", "bronze"]
-
+  @State private var activeSheet: Route?
+    
   var body: some View {
     VStack(alignment: .leading) {
       HStack {
@@ -39,8 +40,9 @@ struct UserView: View {
             .padding(.vertical)
           } else {
             Text("사용자 정보 불러오는 중...")
-              .font(.title)
-              .foregroundColor(.gray)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+              .fontWeight(.semibold)
               .padding()
           }
                   
@@ -50,17 +52,21 @@ struct UserView: View {
               .fontWeight(.semibold)
               .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right")
-              .font(.system(size: 12, weight: .semibold))
-              .foregroundColor(.gray.opacity(0.6))
+            Button(action: {
+              activeSheet = .myCommits
+            }) {
+              Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.gray.opacity(0.6))
+            }
           }
           .padding(.top)
           .padding(.horizontal)
                   
-          if !myCommits.isEmpty {
+          if let commitData = myCommitData {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
-                ForEach(myCommits, id: \.id) { commit in
+                ForEach(commitData.commits, id: \.id) { commit in
                   CommitItem(onTap: {}, commitData: commit)
                     .frame(width: 240)
                 }
@@ -78,19 +84,23 @@ struct UserView: View {
               .fontWeight(.semibold)
               .foregroundColor(.primary)
             Spacer()
-            Image(systemName: "chevron.right")
-              .font(.system(size: 12, weight: .semibold))
-              .foregroundColor(.gray.opacity(0.6))
+            Button(action: {
+              activeSheet = .myPlaces
+            }) {
+              Image(systemName: "chevron.right")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.gray.opacity(0.6))
+            }
           }
           .padding(.top)
           .padding(.horizontal)
-          if !myPlaces.isEmpty {
+          if let placeData = myPlaceData {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
-                ForEach(Array(myPlaces.enumerated()), id: \.element.id) { index, placeData in
+                ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in
                   ZStack(alignment: .topLeading) {
                     PlaceItem(
-                      placeData: placeData,
+                      placeData: place,
                       grassColor: placeColor[index],
                       onTap: {}
                     )
@@ -114,20 +124,30 @@ struct UserView: View {
         }
       }
     }
+    .fullScreenCover(item: $activeSheet) { sheet in
+      switch sheet {
+      case .myCommits:
+        MyCommitsView(myCommits: myCommitData?.commits ?? [], nextCursor: myCommitData?.nextCursor)
+      case .myPlaces:
+        MyPlacesView(myPlaces: myPlaceData?.places ?? [], nextCursor: myPlaceData?.nextCursor)
+      default:
+        EmptyView()
+      }
+    }
     .onAppear {
       Task {
         let overlayVC = Overlay.show(LoadingView())
         defer { overlayVC.dismiss(animated: true) }
         do {
           let userRes = try await UserAPI.getUserInfo()
-          let commitRes = try await CommitAPI.getMyCommit(of: 10)
-          let placeRes = try await PlaceAPI.getMyPlaces(limit: 3)
-   
+          let commitRes = try await CommitAPI.getMyCommit(cursor: nil)
+          let placeRes = try await PlaceAPI.getMyPlaces(limit: 3, cursor: nil)
+
           userInfo = userRes
-          myCommits = commitRes.commits
-          myPlaces = placeRes.places
+          myCommitData = commitRes
+          myPlaceData = placeRes
         } catch {
-          print("❌ getMyCommit: \(error.localizedDescription)")
+          print("❌ getUserData: \(error.localizedDescription)")
         }
       }
     }
