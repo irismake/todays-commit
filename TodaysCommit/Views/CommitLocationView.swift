@@ -3,6 +3,7 @@ import SwiftUI
 struct CommitLocationView: View {
   @Environment(\.dismiss) private var dismiss
   @State var draw: Bool = false
+  @Environment(\.colorScheme) var colorScheme
   @EnvironmentObject var layoutManager: LayoutManager
   @EnvironmentObject var placeManager: PlaceManager
   @State var placeAddress: String?
@@ -19,7 +20,7 @@ struct CommitLocationView: View {
           Spacer()
           Button(action: { dismiss() }) {
             Image(systemName: "xmark")
-              .foregroundColor(.black)
+              .foregroundColor(colorScheme == .dark ? .white : .black)
               .padding(8)
           }
         }
