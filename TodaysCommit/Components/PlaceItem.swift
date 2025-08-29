@@ -60,7 +60,7 @@ struct PlaceItem: View {
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
           RoundedRectangle(cornerRadius: 16, style: .continuous)
-            .stroke(grassColor.opacity(0.3), lineWidth: 1)
+            .stroke(grassColor.opacity(0.3), lineWidth: 1.5)
         )
         .shadow(color: grassColor.opacity(0.1), radius: 6, x: 0, y: 0)
       } else {

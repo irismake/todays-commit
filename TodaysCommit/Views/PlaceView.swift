@@ -1,43 +1,5 @@
 import SwiftUI
 
-private struct SortChips: View {
-  @Binding var selection: SortOption
-  @Namespace private var underlineNS
-
-  var body: some View {
-    HStack(spacing: 16) {
-      ForEach(SortOption.allCases) { option in
-        let isSelected = (option == selection)
-
-        Button {
-          if selection != option {
-            selection = option
-          }
-        } label: {
-          VStack(spacing: 6) {
-            Text(option.rawValue)
-              .font(.footnote)
-              .fontWeight(.bold)
-              .foregroundColor(isSelected ? .primary : .secondary)
-              .padding(.horizontal, 6)
-            if isSelected {
-              Capsule()
-                .fill(Color.primary)
-                .frame(height: 2)
-                .matchedGeometryEffect(id: "sort_underline", in: underlineNS)
-            } else {
-              Color.clear.frame(height: 2)
-            }
-          }
-          .padding(.vertical, 4)
-        }
-        .buttonStyle(.plain)
-      }
-    }
-    .fixedSize(horizontal: true, vertical: false)
-  }
-}
-
 struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
@@ -63,14 +25,19 @@ struct PlaceView: View {
           
         GpsButton()
       }
+        
+      HStack(spacing: 16) {
+        TotalViewButton()
+        HStack {
+          SortOptionButton(
+            selection: Binding(
+              get: { placeManager.placeSort },
+              set: { placeManager.placeSort = $0 }
+            )
+          )
+        }
+      }
 
-      SortChips(
-        selection: Binding(
-          get: { placeManager.placeSort },
-          set: { placeManager.placeSort = $0 }
-        )
-      )
-       
       Group {
         if !placeManager.cachedPlaces.isEmpty {
           VStack(spacing: 12) {
