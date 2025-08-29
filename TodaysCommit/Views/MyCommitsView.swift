@@ -41,7 +41,8 @@ struct MyCommitsView: View {
                 }
             } else {
               Text("모든 커밋을 불러왔습니다.")
-                .foregroundColor(.gray)
+                .font(.subheadline)
+                .foregroundColor(.secondary.opacity(0.5))
                 .padding()
             }
           }.padding(.top, 20)
@@ -49,6 +50,7 @@ struct MyCommitsView: View {
       } else {
         EmptyCard(title: "아직 커밋한 내역이 없어요.", subtitle: "오늘의 커밋을 시작해보세요.")
           .padding()
+        Spacer()
       }
     }
   }
