@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MyCommitsView: View {
   @Environment(\.dismiss) private var dismiss
-  @State var myCommits: [CommitData] = []
+  @State var myCommits: [CommitData]
   @State var nextCursor: Int?
     
   @State private var isLoading = false
@@ -63,7 +63,6 @@ struct MyCommitsView: View {
         
     Task {
       let overlayVC = Overlay.show(LoadingView())
-      try? await Task.sleep(nanoseconds: 1_000_000_000)
       defer {
         overlayVC.dismiss(animated: true)
         isLoading = false

@@ -8,6 +8,13 @@ enum SortOption: String, CaseIterable, Identifiable {
 
 enum PlaceScope: Hashable { case main, my }
 
+struct PlaceCacheKey: Hashable {
+  let mapId: Int
+  let coordId: Int
+  let sort: SortOption
+  let scope: PlaceScope
+}
+
 struct MailData {
   let recipient: String = "gitgrassgrowing@gmail.com"
   let subject: String

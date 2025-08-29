@@ -27,7 +27,7 @@ struct PlaceView: View {
       }
         
       HStack(spacing: 16) {
-        TotalViewButton()
+        TotalPlaceButton()
         HStack {
           SortOptionButton(
             selection: Binding(
@@ -39,23 +39,22 @@ struct PlaceView: View {
       }
 
       Group {
-        if !placeManager.cachedPlaces.isEmpty {
+        if !placeManager.cachedPlaces.places.isEmpty {
           VStack(spacing: 12) {
-            ForEach(placeManager.cachedPlaces, id: \.pnu) { placeData in
+            ForEach(placeManager.cachedPlaces.places, id: \.pnu) { place in
               PlaceItem(
-                placeData: placeData,
+                placeData: place,
                 grassColor: mapManager.selectedGrassColor,
                 onTap: {
                   if UserSessionManager.isGuest {
                     activeSheet = .login
-                        
                   } else {
                     Task {
-                      await placeManager.fetchPlaceDetail(of: placeData.pnu)
+                      await placeManager.fetchPlaceDetail(of: place.pnu)
                       activeSheet = .placeDetail
                     }
                   }
-                },
+                }
               )
             }
           }
@@ -64,7 +63,6 @@ struct PlaceView: View {
         }
       }
     }
-    
     .fullScreenCover(item: $activeSheet) { sheet in
       switch sheet {
       case .placeDetail:

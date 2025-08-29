@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MyPlacesView: View {
   @Environment(\.dismiss) private var dismiss
-  @State var myPlaces: [PlaceData] = []
+  @State var myPlaces: [PlaceData]
   @State var nextCursor: String?
     
   @State private var isLoading = false
@@ -70,7 +70,6 @@ struct MyPlacesView: View {
         
     Task {
       let overlayVC = Overlay.show(LoadingView())
-      try? await Task.sleep(nanoseconds: 1_000_000_000)
       defer {
         overlayVC.dismiss(animated: true)
         isLoading = false
