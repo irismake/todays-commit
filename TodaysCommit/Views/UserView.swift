@@ -3,7 +3,7 @@ import SwiftUI
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var myCommitData: CommitResponse?
-  @State private var myPlaces: [PlaceData] = []
+  @State private var myPlaceData: PlaceResponse?
   @State private var userInfo: UserData?
   let placeColor: [Color] = [.yellow, .gray, .brown]
   let placeImage: [String] = ["gold", "silver", "bronze"]
@@ -40,8 +40,9 @@ struct UserView: View {
             .padding(.vertical)
           } else {
             Text("사용자 정보 불러오는 중...")
-              .font(.title)
-              .foregroundColor(.gray)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+              .fontWeight(.semibold)
               .padding()
           }
                   
@@ -93,13 +94,13 @@ struct UserView: View {
           }
           .padding(.top)
           .padding(.horizontal)
-          if !myPlaces.isEmpty {
+          if let placeData = myPlaceData {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
-                ForEach(Array(myPlaces.enumerated()), id: \.element.id) { index, placeData in
+                ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in
                   ZStack(alignment: .topLeading) {
                     PlaceItem(
-                      placeData: placeData,
+                      placeData: place,
                       grassColor: placeColor[index],
                       onTap: {}
                     )
@@ -128,7 +129,7 @@ struct UserView: View {
       case .myCommits:
         MyCommitsView(myCommits: myCommitData?.commits ?? [], nextCursor: myCommitData?.nextCursor)
       case .myPlaces:
-        MyPlacesView()
+        MyPlacesView(myPlaces: myPlaceData?.places ?? [], nextCursor: myPlaceData?.nextCursor)
       default:
         EmptyView()
       }
@@ -140,11 +141,11 @@ struct UserView: View {
         do {
           let userRes = try await UserAPI.getUserInfo()
           let commitRes = try await CommitAPI.getMyCommit(cursor: nil)
-          let placeRes = try await PlaceAPI.getMyPlaces(limit: 3)
-   
+          let placeRes = try await PlaceAPI.getMyPlaces(limit: 3, cursor: nil)
+
           userInfo = userRes
           myCommitData = commitRes
-          myPlaces = placeRes.places
+          myPlaceData = placeRes
         } catch {
           print("❌ getUserData: \(error.localizedDescription)")
         }

@@ -95,7 +95,8 @@ final class PlaceManager: ObservableObject {
         let res = try await PlaceAPI.getMyPlace(
           mapId: mapId,
           coordId: coordId,
-          sort: sortParam
+          sort: sortParam,
+          cursor: nil
         )
         places = res.places
       }

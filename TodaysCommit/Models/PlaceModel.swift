@@ -22,6 +22,7 @@ struct PlaceData: Decodable, Identifiable {
 }
 
 struct PlaceResponse: Decodable {
+  let nextCursor: String?
   let places: [PlaceData]
 }
 
