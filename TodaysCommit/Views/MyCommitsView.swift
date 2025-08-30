@@ -16,9 +16,9 @@ struct MyCommitsView: View {
         }
         Spacer()
         Text("커밋 히스토리")
-          .font(.subheadline)
-          .foregroundColor(.primary)
+          .font(.headline)
           .fontWeight(.semibold)
+          .foregroundColor(.primary)
                 
         Spacer()
       }

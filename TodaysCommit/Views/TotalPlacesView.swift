@@ -60,7 +60,7 @@ struct TotalPlacesView: View {
                                 
                 PlaceItem(
                   placeData: place,
-                  grassColor: Color.green,
+                  grassColor: mapManager.selectedGrassColor,
                   onTap: {
                     if UserSessionManager.isGuest {
                       activeSheet = .login

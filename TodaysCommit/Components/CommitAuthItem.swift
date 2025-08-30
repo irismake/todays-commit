@@ -26,7 +26,8 @@ struct CommitAuthItem: View {
     HStack {
       HStack(spacing: 10) {
         Image("icon_commit")
-          .aspectRatio(contentMode: .fit)
+          .resizable()
+          .scaledToFit()
           .frame(height: 10)
           
         Text(formatCreatedAt(createdAt))

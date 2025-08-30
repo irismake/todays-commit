@@ -16,9 +16,9 @@ struct MyPlacesView: View {
         }
         Spacer()
         Text("랭킹 커밋 장소")
-          .font(.subheadline)
-          .foregroundColor(.primary)
+          .font(.headline)
           .fontWeight(.semibold)
+          .foregroundColor(.primary)
                 
         Spacer()
       }

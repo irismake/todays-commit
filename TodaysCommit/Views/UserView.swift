@@ -18,9 +18,9 @@ struct UserView: View {
         }
         Spacer()
         Text("마이페이지")
-          .font(.subheadline)
-          .foregroundColor(.primary)
+          .font(.headline)
           .fontWeight(.semibold)
+          .foregroundColor(.primary)
               
         Spacer()
       }
