@@ -12,6 +12,7 @@ struct CommitData: Decodable, Identifiable {
   let createdAt: String
   let pnu: Int?
   let placeName: String?
+  let address: String?
 }
 
 struct CommitResponse: Decodable {
