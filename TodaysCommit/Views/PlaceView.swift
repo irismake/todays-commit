@@ -1,43 +1,5 @@
 import SwiftUI
 
-private struct SortChips: View {
-  @Binding var selection: SortOption
-  @Namespace private var underlineNS
-
-  var body: some View {
-    HStack(spacing: 16) {
-      ForEach(SortOption.allCases) { option in
-        let isSelected = (option == selection)
-
-        Button {
-          if selection != option {
-            selection = option
-          }
-        } label: {
-          VStack(spacing: 6) {
-            Text(option.rawValue)
-              .font(.footnote)
-              .fontWeight(.bold)
-              .foregroundColor(isSelected ? .primary : .secondary)
-              .padding(.horizontal, 6)
-            if isSelected {
-              Capsule()
-                .fill(Color.primary)
-                .frame(height: 2)
-                .matchedGeometryEffect(id: "sort_underline", in: underlineNS)
-            } else {
-              Color.clear.frame(height: 2)
-            }
-          }
-          .padding(.vertical, 4)
-        }
-        .buttonStyle(.plain)
-      }
-    }
-    .fixedSize(horizontal: true, vertical: false)
-  }
-}
-
 struct PlaceView: View {
   @EnvironmentObject var mapManager: MapManager
   @EnvironmentObject var placeManager: PlaceManager
@@ -63,32 +25,36 @@ struct PlaceView: View {
           
         GpsButton()
       }
+        
+      HStack(spacing: 16) {
+        TotalPlaceButton()
+        HStack {
+          SortOptionButton(
+            selection: Binding(
+              get: { placeManager.placeSort },
+              set: { placeManager.placeSort = $0 }
+            )
+          )
+        }
+      }
 
-      SortChips(
-        selection: Binding(
-          get: { placeManager.placeSort },
-          set: { placeManager.placeSort = $0 }
-        )
-      )
-       
       Group {
-        if !placeManager.cachedPlaces.isEmpty {
+        if !placeManager.cachedPlaces.places.isEmpty {
           VStack(spacing: 12) {
-            ForEach(placeManager.cachedPlaces, id: \.pnu) { placeData in
+            ForEach(placeManager.cachedPlaces.places, id: \.pnu) { place in
               PlaceItem(
-                placeData: placeData,
+                placeData: place,
                 grassColor: mapManager.selectedGrassColor,
                 onTap: {
                   if UserSessionManager.isGuest {
                     activeSheet = .login
-                        
                   } else {
                     Task {
-                      await placeManager.fetchPlaceDetail(of: placeData.pnu)
+                      await placeManager.fetchPlaceDetail(of: place.pnu)
                       activeSheet = .placeDetail
                     }
                   }
-                },
+                }
               )
             }
           }
@@ -97,7 +63,6 @@ struct PlaceView: View {
         }
       }
     }
-    
     .fullScreenCover(item: $activeSheet) { sheet in
       switch sheet {
       case .placeDetail:

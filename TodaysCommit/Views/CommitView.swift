@@ -25,6 +25,8 @@ struct CommitView: View {
         Text("오늘의 커밋 완료")
           .font(.headline)
           .fontWeight(.bold)
+          .foregroundColor(.black)
+          
         HStack {
           Spacer()
           Button(action: {

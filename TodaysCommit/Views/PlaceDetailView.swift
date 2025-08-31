@@ -36,10 +36,11 @@ struct PlaceDetailView: View {
                             
               HStack(spacing: 4) {
                 Image("icon_commit")
+                  .resizable()
                   .renderingMode(.template)
                   .foregroundColor(.secondary)
                   .aspectRatio(contentMode: .fit)
-                  .frame(height: 10)
+                  .frame(height: 14)
                                 
                 Text("\(commitCount)회")
                   .onAppear { commitCount = placeDetail.commits.count }
@@ -89,7 +90,7 @@ struct PlaceDetailView: View {
               .padding(.vertical)
 
             ForEach(placeDetail.commits, id: \.commitId) { commit in
-              CommitAuthItem(createdAt: commit.createdAt, userName: commit.userName)
+              CommitHistoryItem(createdAt: commit.createdAt, userName: commit.userName)
             }
           }
         }

@@ -16,6 +16,7 @@ struct PlaceData: Decodable, Identifiable {
   var id: String { pnu }
   let pnu: String
   let name: String
+  let address: String
   let x: Double
   let y: Double
   let commitCount: Int

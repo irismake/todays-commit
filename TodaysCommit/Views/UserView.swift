@@ -2,6 +2,7 @@ import SwiftUI
 
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var placeManager: PlaceManager
   @State private var myCommitData: CommitResponse?
   @State private var myPlaceData: PlaceResponse?
   @State private var userInfo: UserData?
@@ -18,9 +19,9 @@ struct UserView: View {
         }
         Spacer()
         Text("마이페이지")
-          .font(.subheadline)
-          .foregroundColor(.primary)
+          .font(.headline)
           .fontWeight(.semibold)
+          .foregroundColor(.primary)
               
         Spacer()
       }
@@ -67,8 +68,11 @@ struct UserView: View {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
                 ForEach(commitData.commits, id: \.id) { commit in
-                  CommitItem(onTap: {}, commitData: commit)
-                    .frame(width: 240)
+                  MyCommitItem(onTap: {
+                    await placeManager.fetchPlaceDetail(of: String(commit.pnu ?? 0))
+                    activeSheet = .placeDetail
+                  }, commitData: commit)
+                    .frame(width: 300)
                 }
               }
               .padding()
@@ -79,7 +83,7 @@ struct UserView: View {
           }
             
           HStack {
-            Text("랭킹 커밋 장소")
+            Text("나의 잔디 랭킹")
               .font(.subheadline)
               .fontWeight(.semibold)
               .foregroundColor(.primary)
@@ -99,13 +103,14 @@ struct UserView: View {
               HStack {
                 ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in
                   ZStack(alignment: .topLeading) {
-                    PlaceItem(
-                      placeData: place,
-                      grassColor: placeColor[index],
-                      onTap: {}
+                    MyPlaceItem(
+                      onTap: {
+                        await placeManager.fetchPlaceDetail(of: place.pnu)
+                        activeSheet = .placeDetail
+                      }, placeData: place
                     )
-                    .frame(width: 240)
-                        
+                    .frame(width: 300)
+                      
                     Image(placeImage[index])
                       .resizable()
                       .aspectRatio(contentMode: .fit)
@@ -130,6 +135,8 @@ struct UserView: View {
         MyCommitsView(myCommits: myCommitData?.commits ?? [], nextCursor: myCommitData?.nextCursor)
       case .myPlaces:
         MyPlacesView(myPlaces: myPlaceData?.places ?? [], nextCursor: myPlaceData?.nextCursor)
+      case .placeDetail:
+        PlaceDetailView()
       default:
         EmptyView()
       }

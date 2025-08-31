@@ -1,17 +1,10 @@
 import Combine
 import SwiftUI
 
-private struct PlaceCacheKey: Hashable {
-  let mapId: Int
-  let coordId: Int
-  let sort: SortOption
-  let scope: PlaceScope
-}
-
 final class PlaceManager: ObservableObject {
-  @Published private(set) var cachedPlaces: [PlaceData] = [] {
+  @Published private(set) var cachedPlaces: PlaceResponse = .init(nextCursor: nil, places: []) {
     didSet {
-      totalCommitCount = cachedPlaces.reduce(0) { $0 + $1.commitCount }
+      totalCommitCount = cachedPlaces.places.reduce(0) { $0 + $1.commitCount }
     }
   }
 
@@ -20,7 +13,8 @@ final class PlaceManager: ObservableObject {
   @Published var placeScope: PlaceScope = .main
   @Published var placeLocation: LocationBase?
 
-  private var cache: [PlaceCacheKey: [PlaceData]] = [:]
+  private var cache: [PlaceCacheKey: PlaceResponse] = [:]
+  @Published private(set) var cacheKey: PlaceCacheKey = .init(mapId: 0, coordId: 0, sort: .recent, scope: .main)
     
   @Published var placeDetail: PlaceDetail?
 
@@ -47,62 +41,50 @@ final class PlaceManager: ObservableObject {
               let mapId = self.mapManager.currentMapId,
               self.mapManager.selectedGrassColor != .lv_0
         else {
-          self.cachedPlaces = []
+          self.cachedPlaces = PlaceResponse(nextCursor: nil, places: [])
           return
         }
-
+        cacheKey = PlaceCacheKey(mapId: mapId, coordId: cell.coordId, sort: sort, scope: scope)
+          
         Task {
-          await self.fetchPlaces(
-            mapId: mapId,
-            coordId: cell.coordId,
-            sort: sort,
-            scope: scope
-          )
+          await self.fetchPlaces()
         }
       }
       .store(in: &cancellables)
   }
 
-  private func fetchPlaces(
-    mapId: Int,
-    coordId: Int,
-    sort: SortOption,
-    scope: PlaceScope,
-    ignoreCache: Bool = false
-  ) async {
-    let key = PlaceCacheKey(mapId: mapId, coordId: coordId, sort: sort, scope: scope)
-
-    if !ignoreCache, let hit = cache[key] {
+  private func fetchPlaces() async {
+    if let hit = cache[cacheKey] {
       await MainActor.run { cachedPlaces = hit }
       return
     }
 
     do {
-      let sortParam = (sort == .recent) ? "recent" : "popular"
-
-      let places: [PlaceData]
-      switch scope {
+      let sortParam = (cacheKey.sort == .recent) ? "recent" : "popular"
+      let places: PlaceResponse
+        
+      switch cacheKey.scope {
       case .main:
         let res = try await PlaceAPI.getMainPlace(
-          mapId: mapId,
-          coordId: coordId,
+          mapId: cacheKey.mapId,
+          coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res.places
+        places = res
 
       case .my:
         let res = try await PlaceAPI.getMyPlace(
-          mapId: mapId,
-          coordId: coordId,
+          mapId: cacheKey.mapId,
+          coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res.places
+        places = res
       }
 
       await MainActor.run {
-        cache[key] = places
+        cache[cacheKey] = places
         cachedPlaces = places
       }
     } catch {

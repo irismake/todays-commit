@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MyPlacesView: View {
   @Environment(\.dismiss) private var dismiss
-  @State var myPlaces: [PlaceData] = []
+  @State var myPlaces: [PlaceData]
   @State var nextCursor: String?
     
   @State private var isLoading = false
@@ -15,10 +15,10 @@ struct MyPlacesView: View {
             .foregroundColor(.primary)
         }
         Spacer()
-        Text("랭킹 커밋 장소")
-          .font(.subheadline)
-          .foregroundColor(.primary)
+        Text("나의 잔디 랭킹")
+          .font(.headline)
           .fontWeight(.semibold)
+          .foregroundColor(.primary)
                 
         Spacer()
       }
@@ -26,19 +26,24 @@ struct MyPlacesView: View {
       
       if !myPlaces.isEmpty {
         ScrollView(showsIndicators: false) {
-          LazyVStack(spacing: 20) {
-            ForEach(Array(myPlaces.enumerated()), id: \.element.id) { index, placeData in
-              HStack {
+          LazyVStack {
+            ForEach(Array(myPlaces.enumerated()), id: \.element.id) {
+              index, placeData in
+
+              HStack(alignment: .center, spacing: 12) {
                 Text("\(index + 1)")
                   .font(.headline)
+                                  
+                CommitAuthItem(content: "\(placeData.commitCount)회")
+                  .aspectRatio(1, contentMode: .fit)
+                  .fixedSize(horizontal: true, vertical: false)
                   
-                PlaceItem(
-                  placeData: placeData,
-                  grassColor: Color.green,
-                  onTap: {}
+                HistoryItem(
+                  placeName: placeData.name,
+                  placeAddress: placeData.address,
+                  pnu: placeData.pnu
                 )
               }
-              .padding(.horizontal)
             }
                     
             if nextCursor != nil {
@@ -52,7 +57,8 @@ struct MyPlacesView: View {
                 .foregroundColor(.secondary.opacity(0.5))
                 .padding()
             }
-          }.padding(.top, 20)
+          }
+          .padding()
         }
       } else {
         EmptyCard(title: "아직 심어진 잔디가 없어요.", subtitle: "오늘의 커밋을 완료해보세요.")
@@ -70,7 +76,6 @@ struct MyPlacesView: View {
         
     Task {
       let overlayVC = Overlay.show(LoadingView())
-      try? await Task.sleep(nanoseconds: 1_000_000_000)
       defer {
         overlayVC.dismiss(animated: true)
         isLoading = false
