@@ -70,43 +70,46 @@ struct SettingView: View {
     .sheet(isPresented: $mailHandler.showDefaultMailView) {
       MailView(mailHandler: mailHandler)
     }
-    .overlay {
-      Group {
-        AlertDialog(
-          title: "메일 보내기",
-          message: "메일을 보낼 앱을 선택해주세요",
-          isPresented: $showMailAlert
-        ) {
-          Button("Mail 앱") { mailHandler.sendViaMailApp() }
-          Button("다른 메일 앱") { mailHandler.sendViaOtherMailApp() }
-          Button("취소", role: .cancel) {}
-        }
-        
-        AlertDialog(
-          title: "메일 오류",
-          message: mailHandler.errorMessage,
-          isPresented: $mailHandler.showErrorAlert
-        ) {
-          Button("확인", role: .cancel) {}
-        }
-            
-        AlertDialog(
-          title: "로그아웃",
-          message: "로그아웃 하시겠습니까?",
-          isPresented: $showLogoutAlert
-        ) {
-          Button("확인") {}
-          Button("취소", role: .cancel) {}
-        }
-          
-        AlertDialog(
-          title: "회원탈퇴",
-          message: "회원 탈퇴를 진행하시겠어요? 모든 커밋 기록이 삭제되어 되돌릴 수 없어요.",
-          isPresented: $showWithdrawalAlert
-        ) {
-          Button("확인") {}
-          Button("취소", role: .cancel) {}
-        }
+    .overlay(overlayView)
+  }
+    
+  @ViewBuilder
+  private var overlayView: some View {
+    Group {
+      AlertDialog(
+        title: "메일 보내기",
+        message: "메일을 보낼 앱을 선택해주세요",
+        isPresented: $showMailAlert
+      ) {
+        Button("Mail 앱") { mailHandler.sendViaMailApp() }
+        Button("다른 메일 앱") { mailHandler.sendViaOtherMailApp() }
+        Button("취소", role: .cancel) {}
+      }
+              
+      AlertDialog(
+        title: "메일 오류",
+        message: mailHandler.errorMessage,
+        isPresented: $mailHandler.showErrorAlert
+      ) {
+        Button("확인", role: .cancel) {}
+      }
+              
+      AlertDialog(
+        title: "로그아웃",
+        message: "로그아웃 하시겠습니까?",
+        isPresented: $showLogoutAlert
+      ) {
+        Button("확인") {}
+        Button("취소", role: .cancel) {}
+      }
+              
+      AlertDialog(
+        title: "회원탈퇴",
+        message: "회원 탈퇴를 진행하시겠어요? 모든 커밋 기록이 삭제되어 되돌릴 수 없어요.",
+        isPresented: $showWithdrawalAlert
+      ) {
+        Button("확인") {}
+        Button("취소", role: .cancel) {}
       }
     }
   }
