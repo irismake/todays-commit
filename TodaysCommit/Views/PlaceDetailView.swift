@@ -89,7 +89,7 @@ struct PlaceDetailView: View {
               .padding(.vertical)
 
             ForEach(placeDetail.commits, id: \.commitId) { commit in
-              CommitAuthItem(createdAt: commit.createdAt, userName: commit.userName)
+              CommitHistoryItem(createdAt: commit.createdAt, userName: commit.userName)
             }
           }
         }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CommitBadge: View {
-  let content: String
+  let commitConut: Int
     
   var body: some View {
     ZStack {
@@ -15,7 +15,7 @@ struct CommitBadge: View {
           .scaledToFit()
           .frame(height: 20)
                           
-        Text(content)
+        Text("\(commitConut)회")
           .font(.system(size: 10, weight: .semibold))
           .foregroundColor(.primary)
       }
@@ -24,7 +24,7 @@ struct CommitBadge: View {
   
   struct CommitBadge_Previews: PreviewProvider {
     static var previews: some View {
-      CommitBadge(content: "2회")
+      CommitBadge(commitConut: 2)
     }
   }
 }

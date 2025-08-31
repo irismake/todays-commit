@@ -16,7 +16,7 @@ struct PlaceItem: View {
       if let placeData {
         HStack(alignment: .top, spacing: 16) {
           VStack {
-            CommitBadge(content: "\(placeData.commitCount)회")
+            CommitBadge(commitConut: placeData.commitCount)
             Spacer()
           }
               
