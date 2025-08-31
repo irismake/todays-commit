@@ -24,6 +24,13 @@ struct UserView: View {
           .foregroundColor(.primary)
               
         Spacer()
+        Button(action: {
+          activeSheet = .setting
+        }) {
+          Image(systemName: "gearshape")
+            .imageScale(.medium)
+            .foregroundColor(.secondary)
+        }
       }
       .padding()
           
@@ -137,6 +144,8 @@ struct UserView: View {
         MyPlacesView(myPlaces: myPlaceData?.places ?? [], nextCursor: myPlaceData?.nextCursor)
       case .placeDetail:
         PlaceDetailView()
+      case .setting:
+        SettingView()
       default:
         EmptyView()
       }
