@@ -10,10 +10,10 @@ struct MyPlaceItem: View {
         await onTap()
       }
     }) {
-      HStack(alignment: .top, spacing: 12) {
+      HStack(alignment: .center, spacing: 12) {
         CommitBadge(commitConut: placeData.commitCount)
             
-        VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .leading, spacing: 12) {
           Text(placeData.name)
             .font(.headline)
             .foregroundColor(.primary)

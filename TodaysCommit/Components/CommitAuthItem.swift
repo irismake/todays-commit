@@ -11,7 +11,8 @@ struct CommitAuthItem: View {
         .frame(height: 30)
             
       Text(formatToTime(content))
-        .font(.system(size: 10, weight: .semibold))
+        .font(.caption2)
+        .fontWeight(.semibold)
         .foregroundColor(.primary)
     }
     .padding(10)

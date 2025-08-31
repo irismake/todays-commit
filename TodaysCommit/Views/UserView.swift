@@ -79,7 +79,7 @@ struct UserView: View {
           }
             
           HStack {
-            Text("랭킹 커밋 장소")
+            Text("나의 잔디 랭킹")
               .font(.subheadline)
               .fontWeight(.semibold)
               .foregroundColor(.primary)

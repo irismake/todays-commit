@@ -15,7 +15,7 @@ struct MyPlacesView: View {
             .foregroundColor(.primary)
         }
         Spacer()
-        Text("랭킹 커밋 장소")
+        Text("나의 잔디 랭킹")
           .font(.headline)
           .fontWeight(.semibold)
           .foregroundColor(.primary)
