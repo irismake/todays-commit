@@ -16,7 +16,7 @@ struct PlaceCacheKey: Hashable {
 }
 
 struct MailData {
-  let recipient: String = "gitgrassgrowing@gmail.com"
+  let recipient: String = "todayscommit@gmail.com"
   let subject: String
   let content: String
     
@@ -26,7 +26,7 @@ struct MailData {
     
     **********
     Device: \(UIDevice.current.model), iOS \(UIDevice.current.systemVersion)
-    App: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "알 수 없음")
+    App: \(appVersion)
     """
   }
     
@@ -42,5 +42,17 @@ struct MailData {
     
   var mailtoURL: URL? {
     URL(string: "mailto:\(recipient)?subject=\(encodedSubject)&body=\(encodedBody)")
+  }
+}
+
+var appVersion: String {
+  if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+     let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+  {
+    return "v \(version) (\(build))"
+  } else if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+    return "v \(version)"
+  } else {
+    return "알 수 없음"
   }
 }

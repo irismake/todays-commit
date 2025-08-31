@@ -5,6 +5,7 @@ enum Route: Identifiable {
   case myPlaces
   case user
   case placeDetail
+  case setting
 
   var id: String {
     switch self {
@@ -14,6 +15,7 @@ enum Route: Identifiable {
     case .myPlaces: "myPlaces"
     case .user: "user"
     case .placeDetail: "placeDetail"
+    case .setting: "setting"
     }
   }
 }
