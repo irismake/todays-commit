@@ -29,9 +29,5 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     authorizationStatus = manager.authorizationStatus
-    if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
-      print(authorizationStatus)
-      // .loadInitMapData(currentLocation: Location)
-    }
   }
 }
