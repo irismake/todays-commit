@@ -38,7 +38,11 @@ struct MyPlacesView: View {
                   .aspectRatio(1, contentMode: .fit)
                   .fixedSize(horizontal: true, vertical: false)
                   
-                HistoryItem(onTap: {}, placeName: placeData.name, placeAddress: placeData.address, pnu: placeData.pnu)
+                HistoryItem(
+                  placeName: placeData.name,
+                  placeAddress: placeData.address,
+                  pnu: placeData.pnu
+                )
               }
             }
                     

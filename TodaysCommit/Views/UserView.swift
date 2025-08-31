@@ -2,6 +2,7 @@ import SwiftUI
 
 struct UserView: View {
   @Environment(\.dismiss) private var dismiss
+  @EnvironmentObject var placeManager: PlaceManager
   @State private var myCommitData: CommitResponse?
   @State private var myPlaceData: PlaceResponse?
   @State private var userInfo: UserData?
@@ -67,7 +68,10 @@ struct UserView: View {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
                 ForEach(commitData.commits, id: \.id) { commit in
-                  MyCommitItem(onTap: {}, commitData: commit)
+                  MyCommitItem(onTap: {
+                    await placeManager.fetchPlaceDetail(of: String(commit.pnu ?? 0))
+                    activeSheet = .placeDetail
+                  }, commitData: commit)
                     .frame(width: 300)
                 }
               }
@@ -99,8 +103,13 @@ struct UserView: View {
               HStack {
                 ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in
                   ZStack(alignment: .topLeading) {
-                    MyPlaceItem(onTap: {}, placeData: place)
-                      .frame(width: 300)
+                    MyPlaceItem(
+                      onTap: {
+                        await placeManager.fetchPlaceDetail(of: place.pnu)
+                        activeSheet = .placeDetail
+                      }, placeData: place
+                    )
+                    .frame(width: 300)
                       
                     Image(placeImage[index])
                       .resizable()
@@ -126,6 +135,8 @@ struct UserView: View {
         MyCommitsView(myCommits: myCommitData?.commits ?? [], nextCursor: myCommitData?.nextCursor)
       case .myPlaces:
         MyPlacesView(myPlaces: myPlaceData?.places ?? [], nextCursor: myPlaceData?.nextCursor)
+      case .placeDetail:
+        PlaceDetailView()
       default:
         EmptyView()
       }

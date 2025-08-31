@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct HistoryItem: View {
-  var onTap: () async -> Void
+  @EnvironmentObject var placeManager: PlaceManager
+  @State private var activeSheet: Route?
   let placeName: String
   let placeAddress: String
   let pnu: String
@@ -9,7 +10,8 @@ struct HistoryItem: View {
   var body: some View {
     Button(action: {
       Task {
-        await onTap()
+        await placeManager.fetchPlaceDetail(of: pnu)
+        activeSheet = .placeDetail
       }
     }) {
       HStack {
@@ -36,13 +38,20 @@ struct HistoryItem: View {
       .shadow(color: .primary.opacity(0.1), radius: 6, x: 0, y: 0)
     }
     .buttonStyle(.plain)
+    .fullScreenCover(item: $activeSheet) { sheet in
+      switch sheet {
+      case .placeDetail:
+        PlaceDetailView()
+      default:
+        EmptyView()
+      }
+    }
   }
 }
 
 struct HistoryItem_Previews: PreviewProvider {
   static var previews: some View {
     HistoryItem(
-      onTap: {},
       placeName: "파머스카페",
       placeAddress: "서울특별시 성북동 삼선동 1가 79",
       pnu: "1168010100100010000"

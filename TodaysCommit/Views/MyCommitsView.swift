@@ -68,7 +68,6 @@ struct MyCommitsView: View {
                         .fixedSize(horizontal: true, vertical: false)
                         
                       HistoryItem(
-                        onTap: {},
                         placeName: commit.placeName ?? "N/A",
                         placeAddress: commit.address ?? "N/A",
                         pnu: String(commit.pnu ?? 0)
