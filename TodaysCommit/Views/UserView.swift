@@ -67,8 +67,8 @@ struct UserView: View {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
                 ForEach(commitData.commits, id: \.id) { commit in
-                  CommitItem(onTap: {}, commitData: commit)
-                    .frame(width: 240)
+                  MyCommitItem(onTap: {}, commitData: commit)
+                    .frame(width: 300)
                 }
               }
               .padding()
@@ -99,13 +99,9 @@ struct UserView: View {
               HStack {
                 ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in
                   ZStack(alignment: .topLeading) {
-                    PlaceItem(
-                      placeData: place,
-                      grassColor: placeColor[index],
-                      onTap: {}
-                    )
-                    .frame(width: 240)
-                        
+                    MyPlaceItem(onTap: {}, placeData: place)
+                      .frame(width: 300)
+                      
                     Image(placeImage[index])
                       .resizable()
                       .aspectRatio(contentMode: .fit)

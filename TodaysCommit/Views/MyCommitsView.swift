@@ -6,7 +6,26 @@ struct MyCommitsView: View {
   @State var nextCursor: Int?
     
   @State private var isLoading = false
+    
+  var groupedPlaces: [(key: String, value: [CommitData])] {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
 
+    let groups = Dictionary(grouping: myCommits) { commit in
+      let inputFormatter = DateFormatter()
+      inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS"
+      inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+      inputFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+      if let date = inputFormatter.date(from: commit.createdAt) {
+        return formatter.string(from: date)
+      } else {
+        return "yyyy-MM-dd"
+      }
+    }
+    return groups.sorted { $0.key > $1.key }
+  }
+    
   var body: some View {
     VStack {
       HStack {
@@ -26,14 +45,40 @@ struct MyCommitsView: View {
       
       if !myCommits.isEmpty {
         ScrollView(showsIndicators: false) {
-          LazyVStack(spacing: 20) {
-            ForEach(myCommits, id: \.id) { commit in
-              HStack {
-                CommitItem(onTap: {}, commitData: commit)
+          LazyVStack {
+            VStack(spacing: 20) {
+              ForEach(groupedPlaces, id: \.key) { date, commits in
+                VStack(alignment: .leading) {
+                  HStack(spacing: 8) {
+                    Text(date)
+                      .font(.footnote)
+                      .fontWeight(.semibold)
+                      .foregroundColor(.primary)
+                      .padding(.vertical)
+                                           
+                    Rectangle()
+                      .fill(Color.secondary.opacity(0.3))
+                      .frame(height: 1)
+                  }
+                              
+                  ForEach(commits, id: \.id) { commit in
+                    HStack(alignment: .center, spacing: 12) {
+                      CommitAuthItem(content: commit.createdAt)
+                        .aspectRatio(1, contentMode: .fit)
+                        .fixedSize(horizontal: true, vertical: false)
+                        
+                      HistoryItem(
+                        onTap: {},
+                        placeName: commit.placeName ?? "N/A",
+                        placeAddress: commit.address ?? "N/A",
+                        pnu: String(commit.pnu ?? 0)
+                      )
+                    }
+                    .fixedSize(horizontal: false, vertical: true)
+                  }
+                }
               }
-              .padding(.horizontal)
             }
-                    
             if nextCursor != nil {
               ProgressView()
                 .onAppear {
@@ -45,7 +90,8 @@ struct MyCommitsView: View {
                 .foregroundColor(.secondary.opacity(0.5))
                 .padding()
             }
-          }.padding(.top, 20)
+          }
+          .padding(.horizontal)
         }
       } else {
         EmptyCard(title: "아직 커밋한 내역이 없어요.", subtitle: "오늘의 커밋을 시작해보세요.")
