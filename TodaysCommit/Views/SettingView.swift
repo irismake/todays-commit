@@ -99,7 +99,16 @@ struct SettingView: View {
         message: "로그아웃 하시겠습니까?",
         isPresented: $showLogoutAlert
       ) {
-        Button("확인") {}
+        Button("확인") {
+          Task {
+            do {
+              let userRes = try await UserAPI.logoutUser()
+              UserSessionManager.clearStorgeData()
+            } catch {
+              print("Logout failed: \(error.localizedDescription)")
+            }
+          }
+        }
         Button("취소", role: .cancel) {}
       }
               
