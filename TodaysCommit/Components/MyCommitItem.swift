@@ -40,7 +40,7 @@ struct CommitItem_Previews: PreviewProvider {
           commitId: 2,
           userName: nil,
           createdAt: "2025-08-26T06:07:25.470490",
-          pnu: Optional(1129013300106540034),
+          pnu: Optional("1129013300106540034"),
           placeName: Optional("라미카페"),
           address: Optional("서울 중구 세종대로 110")
         )
@@ -51,7 +51,7 @@ struct CommitItem_Previews: PreviewProvider {
           commitId: 2,
           userName: nil,
           createdAt: "2025-08-26T06:07:25.470490",
-          pnu: Optional(1129013300106540034),
+          pnu: Optional("1129013300106540034"),
           placeName: Optional("라미카페"),
           address: Optional("서울 중구 세종대로 110")
         )

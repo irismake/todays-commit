@@ -70,7 +70,7 @@ struct MyCommitsView: View {
                       HistoryItem(
                         placeName: commit.placeName ?? "N/A",
                         placeAddress: commit.address ?? "N/A",
-                        pnu: String(commit.pnu ?? 0)
+                        pnu: commit.pnu ?? "N/A"
                       )
                     }
                     .fixedSize(horizontal: false, vertical: true)

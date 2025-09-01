@@ -10,7 +10,7 @@ struct CommitData: Decodable, Identifiable {
   let commitId: Int
   let userName: String?
   let createdAt: String
-  let pnu: Int?
+  let pnu: String?
   let placeName: String?
   let address: String?
 }
