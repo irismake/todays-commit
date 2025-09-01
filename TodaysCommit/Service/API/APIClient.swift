@@ -73,7 +73,14 @@ actor APIClient {
     }
     isRefreshing = true
     defer { isRefreshing = false }
-    try await TokenAPI.updateToken()
+    do {
+      try await TokenAPI.updateToken()
+    } catch CustomError.unauthorized {
+      UserSessionManager.clearStorgeData()
+      throw CustomError.unauthorized
+    } catch {
+      throw error
+    }
   }
     
   private func makeURL(path: String, query: [URLQueryItem]) throws -> URL {
