@@ -98,4 +98,12 @@ enum UserAPI {
       authRequired: true
     )
   }
+
+  static func leaveUser() async throws -> PostResponse {
+    try await APIClient.shared.requestJSON(
+      path: "/user/leave",
+      response: PostResponse.self,
+      authRequired: true
+    )
+  }
 }
