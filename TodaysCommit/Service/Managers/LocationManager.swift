@@ -4,8 +4,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
   @Published var currentLocation: LocationBase?
+  @Published var currentAddress: String = "현재 위치 가져오는중.."
   @Published var authorizationStatus: CLAuthorizationStatus?
-  private let defaultLocation = LocationBase(lat: 37.5665, lon: 126.9780)
 
   override init() {
     super.init()
@@ -13,7 +13,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     manager.desiredAccuracy = kCLLocationAccuracyBest
     manager.requestWhenInUseAuthorization()
     manager.startUpdatingLocation()
-    currentLocation = defaultLocation
   }
 
   func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -25,9 +24,13 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       
     currentLocation = LocationBase(lat: location.latitude, lon: location.longitude)
     GlobalStore.shared.currentLocation = currentLocation
+    manager.stopUpdatingLocation()
   }
 
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     authorizationStatus = manager.authorizationStatus
+    if authorizationStatus == .authorizedWhenInUse || authorizationStatus == .authorizedAlways {
+      manager.startUpdatingLocation()
+    }
   }
 }

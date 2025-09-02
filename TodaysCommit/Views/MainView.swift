@@ -14,7 +14,7 @@ struct MainView: View {
           .scaledToFit()
           .frame(width: 20, height: 20)
 
-        Text("장위동 34-5")
+        Text(locationManager.currentAddress)
           .font(.subheadline)
           .foregroundColor(.primary)
           .fontWeight(.semibold)

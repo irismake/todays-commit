@@ -14,17 +14,11 @@ struct RootView: View {
       if isInitializing {
         SplashView()
           .task {
-            guard let currentLocation = locationManager.currentLocation else {
-              return
-            }
-            await fetchInitMapData(currentLocation)
+            handleLocationStatus(status: locationManager.authorizationStatus ?? .notDetermined)
             isInitializing = false
           }
       } else {
         MainView()
-          .onAppear {
-            handleLocationStatus(status: locationManager.authorizationStatus ?? .notDetermined)
-          }
           .onChange(of: locationManager.authorizationStatus ?? .notDetermined) { _, newStatus in
             handleLocationStatus(status: newStatus)
           }
@@ -52,6 +46,7 @@ struct RootView: View {
   func fetchInitMapData(_ currentLocation: LocationBase) async {
     do {
       let locationResponse = try await LocationAPI.getPnu(lat: currentLocation.lat, lon: currentLocation.lon)
+      locationManager.currentAddress = locationResponse.address
       let cells = try await MapAPI.getCell(locationResponse.pnu)
 
       mapManager.gpsCells = []
