@@ -76,7 +76,7 @@ struct UserView: View {
               HStack {
                 ForEach(commitData.commits, id: \.id) { commit in
                   MyCommitItem(onTap: {
-                    await placeManager.fetchPlaceDetail(of: String(commit.pnu ?? 0))
+                    await placeManager.fetchPlaceDetail(of: commit.pnu ?? "N/A")
                     activeSheet = .placeDetail
                   }, commitData: commit)
                     .frame(width: 300)

@@ -99,7 +99,16 @@ struct SettingView: View {
         message: "로그아웃 하시겠습니까?",
         isPresented: $showLogoutAlert
       ) {
-        Button("확인") {}
+        Button("확인") {
+          Task {
+            do {
+              let userRes = try await UserAPI.logoutUser()
+              UserSessionManager.clearStorgeData()
+            } catch {
+              print("Logout failed: \(error.localizedDescription)")
+            }
+          }
+        }
         Button("취소", role: .cancel) {}
       }
               
@@ -108,7 +117,16 @@ struct SettingView: View {
         message: "회원 탈퇴를 진행하시겠어요? 모든 커밋 기록이 삭제되어 되돌릴 수 없어요.",
         isPresented: $showWithdrawalAlert
       ) {
-        Button("확인") {}
+        Button("확인") {
+          Task {
+            do {
+              let userRes = try await UserAPI.leaveUser()
+              UserSessionManager.clearStorgeData()
+            } catch {
+              print("leave failed: \(error.localizedDescription)")
+            }
+          }
+        }
         Button("취소", role: .cancel) {}
       }
     }

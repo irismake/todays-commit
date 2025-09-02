@@ -89,4 +89,22 @@ enum UserAPI {
       authRequired: true
     )
   }
+    
+  static func logoutUser() async throws -> PostResponse {
+    try await APIClient.shared.requestJSON(
+      path: "/user/logout",
+      method: "POST",
+      response: PostResponse.self,
+      authRequired: true
+    )
+  }
+
+  static func leaveUser() async throws -> PostResponse {
+    try await APIClient.shared.requestJSON(
+      path: "/user/leave",
+      method: "POST",
+      response: PostResponse.self,
+      authRequired: true
+    )
+  }
 }
