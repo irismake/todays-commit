@@ -11,4 +11,25 @@ enum LocationAPI {
       response: LocationResponse.self
     )
   }
+
+  static func searchLocation(query: String, x: Double?, y: Double?) async throws -> [SearchLocationData] {
+    var queryItems = [
+      URLQueryItem(name: "query", value: query),
+      URLQueryItem(name: "radius", value: "1000")
+    ]
+
+    if let x {
+      queryItems.append(URLQueryItem(name: "x", value: String(x)))
+    }
+
+    if let y {
+      queryItems.append(URLQueryItem(name: "y", value: String(y)))
+    }
+
+    return try await APIClient.shared.requestJSON(
+      path: "/location/search",
+      query: queryItems,
+      response: [SearchLocationData].self
+    )
+  }
 }
