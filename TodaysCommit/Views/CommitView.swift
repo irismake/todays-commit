@@ -43,7 +43,12 @@ struct CommitView: View {
       ScrollView(showsIndicators: false) {
         VStack(spacing: 20) {
           Group {
-            KakaoMapButton()
+            PlaceMapCard(lat: placeData.x, lon: placeData.y)
+              .frame(maxWidth: .infinity)
+              .frame(height: 200)
+              .clipShape(RoundedRectangle(cornerRadius: 20))
+              .disabled(true)
+              
             Text("커밋 위치")
               .font(.subheadline)
               .fontWeight(.medium)

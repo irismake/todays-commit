@@ -63,6 +63,19 @@ actor APIClient {
       throw errorMappping(error)
     }
   }
+    
+  func requestHTML(path: String, query: [URLQueryItem] = []) async throws -> String {
+    var urlComponents = URLComponents(string: baseURL + path)!
+    urlComponents.queryItems = query
+            
+    let (data, response) = try await URLSession.shared.data(from: urlComponents.url!)
+            
+    guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+      throw URLError(.badServerResponse)
+    }
+            
+    return String(data: data, encoding: .utf8) ?? ""
+  }
 
   private func getRefreshToken() async throws {
     if isRefreshing {
