@@ -78,6 +78,11 @@ struct KakaoMapView: UIViewRepresentable {
 
     func addViewSucceeded(_: String, viewInfoName _: String) {
       print("✅ View added success")
+        
+      DispatchQueue.main.async {
+        Overlay.dismiss()
+      }
+        
       let view = controller?.getView("mapview") as! KakaoMap
       
       view.eventDelegate = self

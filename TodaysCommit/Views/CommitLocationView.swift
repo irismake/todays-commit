@@ -35,7 +35,10 @@ struct CommitLocationView: View {
             
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)
-          .onAppear { draw = true }
+          .onAppear {
+            draw = true
+            Overlay.show(LoadingView())
+          }
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layoutManager)
