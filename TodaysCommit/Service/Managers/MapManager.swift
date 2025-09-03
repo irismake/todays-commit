@@ -1,4 +1,3 @@
-import Combine
 import SwiftUI
 
 final class MapManager: ObservableObject {
@@ -10,7 +9,7 @@ final class MapManager: ObservableObject {
   @Published var selectedGrassColor: Color = .lv_0
 
   var mapName: String {
-    guard let mapCode = getMapCode() else {
+    guard let mapCode = currentMapData?.keys.first else {
       return "오늘의 커밋"
     }
     return nominationData[mapCode] ?? "N/A"
@@ -41,24 +40,7 @@ final class MapManager: ObservableObject {
   }
       
   func changeMapLevel(_ zoomingIn: Bool) {
-    var mapId: Int?
-
-    if zoomingIn {
-      guard let subZoneCode = selectedCell?.zoneCode else {
-        Overlay.show(Notification())
-        return
-      }
-      mapId = mapCodeId[subZoneCode]?.mapId
-          
-    } else {
-      guard let mapCode = getMapCode() else {
-        return
-      }
-      let upperZoneCode = getUpperZoneCode(from: mapCode)
-      mapId = mapCodeId[upperZoneCode]?.mapId
-    }
-        
-    guard let mapId else {
+    guard let mapId = nextMapId(zoomingIn: zoomingIn) else {
       Overlay.show(
         RequestOverlay(requestMapName: selectedZoneName) {
           let overlayVC = Overlay.show(ToastView(message: "요청이 완료되었습니다."))
@@ -70,49 +52,26 @@ final class MapManager: ObservableObject {
       )
       return
     }
-    currentMapId = mapId
+    mapLevel += zoomingIn ? -1 : 1
 
-    if zoomingIn {
-      mapLevel -= 1
-    } else {
-      mapLevel += 1
+    Task {
+      await fetchMapData(of: mapId)
     }
   }
-    
-  private var cancellables = Set<AnyCancellable>()
-    
-  init() {
-    $mapLevel
-      .removeDuplicates()
-      .sink { [weak self] _ in
-        guard let self else {
-          return
-        }
 
-        // UI 상태 업데이트는 메인에서
-        Task { @MainActor in
-          self.resetSelectedCell()
-        }
-
-        // 비동기 fetch는 백그라운드에서
-        Task { [weak self] in
-          guard let self, let currentMapId = self.currentMapId else {
-            return
-          }
-          await self.fetchMapData(of: currentMapId)
-        }
+  private func nextMapId(zoomingIn: Bool) -> Int? {
+    if zoomingIn {
+      guard let subZoneCode = selectedCell?.zoneCode else {
+        return nil
       }
-      .store(in: &cancellables)
-  }
-    
-  @MainActor
-  func resetSelectedCell() {
-    selectedCell = nil
-    selectedGrassColor = .lv_0
-  }
-
-  func getMapCode() -> Int? {
-    currentMapData?.keys.first
+      return mapCodeId[subZoneCode]?.mapId
+    } else {
+      guard let mapCode = currentMapData?.keys.first else {
+        return nil
+      }
+      let upperZoneCode = getUpperZoneCode(from: mapCode)
+      return mapCodeId[upperZoneCode]?.mapId
+    }
   }
     
   func getMapData() -> [CellData]? {
@@ -126,24 +85,7 @@ final class MapManager: ObservableObject {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
     selectedGrassColor = grassColor
-        
-    guard let newCoordId else {
-      // 지도내의 gpsCoordId 가 없을때
-      if let currentCell = gpsCells.first(where: { $0.mapLevel == self.mapLevel }) {
-        let mapId = currentCell.mapId
-        Task {
-          @MainActor in
-          await fetchMapData(of: mapId)
-        
-          selectedCell = currentMapData?
-            .values
-            .flatMap { $0 }
-            .first { $0.coordId == currentCell.cellData.coordId }
-        }
-      }
-      return
-    }
-        
+
     selectedCell = currentMapData?
       .values
       .flatMap { $0 }
@@ -151,16 +93,21 @@ final class MapManager: ObservableObject {
   }
 
   @MainActor
-  func fetchMapData(of mapId: Int) async {
+  func fetchMapData(of mapId: Int? = nil, coordId: Int? = nil) async {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
+    
+    guard let mapId = mapId ?? gpsCells.first(where: { $0.mapLevel == self.mapLevel })?.mapId else {
+      print("❌ fetchMapData: mapId 없음")
+      return
+    }
+      
     do {
-      async let mapRes = MapAPI.getMap(mapId)
-      let mapDataResponse = try await mapRes
-      let mapCode = mapDataResponse.mapCode
-      let mapData = mapDataResponse.mapData
-      currentMapData = [mapCode: mapData]
+      let mapRes = try await MapAPI.getMap(mapId)
+      currentMapData = [mapRes.mapCode: mapRes.mapData]
       currentMapId = mapId
+      let targetCoordId = coordId ?? gpsCoordId
+      await updateCell(newCoordId: targetCoordId, grassColor: targetCoordId != nil ? .primary : .lv_0)
     } catch {
       print("❌ fetchMapData : \(error.localizedDescription)")
     }

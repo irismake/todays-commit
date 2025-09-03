@@ -61,7 +61,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       searchResults = places
     } catch {
       print("searchPlaces:", error.localizedDescription)
-        searchResults = []
+      searchResults = []
     }
   }
 }
