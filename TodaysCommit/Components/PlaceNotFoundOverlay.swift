@@ -28,7 +28,7 @@ struct PlaceNotFoundOverlay: View {
       }, title: "그래도 이 위치로 커밋하기", color: Color.orange)
     }
     .padding(.vertical)
-    .padding(.bottom)
+    .padding(.bottom, 30)
     .padding(.horizontal)
     .background(Color(red: 1.0, green: 0.956, blue: 0.902))
     .clipShape(RoundedRectangle(cornerRadius: 20))

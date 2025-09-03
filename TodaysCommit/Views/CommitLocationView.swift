@@ -43,7 +43,7 @@ struct CommitLocationView: View {
           .environmentObject(layoutManager)
           .environmentObject(placeManager)
                 
-        VStack {
+        Group {
           if layoutManager.isOverlayActive {
             PlaceNotFoundOverlay(
               placeAddress: placeData?.address,
@@ -53,12 +53,14 @@ struct CommitLocationView: View {
               }
             )
           } else {
-            CompleteButton(onComplete: {
-              await handleCommitAction()
-
-            }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
-              .padding(.bottom)
-              .padding(.horizontal)
+            CompleteButton(
+              onComplete: { await handleCommitAction() },
+              title: "커밋하기",
+              color: Color(red: 0.0, green: 0.7, blue: 0.3)
+            )
+            .padding(.vertical)
+            .padding(.bottom, 30)
+            .padding(.horizontal)
           }
         }
         .background(
@@ -75,6 +77,7 @@ struct CommitLocationView: View {
         CommitView(placeData: placeData) { dismiss() }
       }
     }
+    .ignoresSafeArea(edges: .bottom)
   }
 
   private func handleCommitAction() async {
