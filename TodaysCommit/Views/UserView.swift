@@ -71,7 +71,7 @@ struct UserView: View {
           .padding(.top)
           .padding(.horizontal)
                   
-          if let commitData = myCommitData {
+          if let commitData = myCommitData, !commitData.commits.isEmpty {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
                 ForEach(commitData.commits, id: \.id) { commit in
@@ -105,7 +105,7 @@ struct UserView: View {
           }
           .padding(.top)
           .padding(.horizontal)
-          if let placeData = myPlaceData {
+          if let placeData = myPlaceData, !placeData.places.isEmpty {
             ScrollView(.horizontal, showsIndicators: false) {
               HStack {
                 ForEach(Array(placeData.places.enumerated()), id: \.element.id) { index, place in

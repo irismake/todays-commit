@@ -9,19 +9,25 @@ struct MainView: View {
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 10) {
-        Image("center")
-          .resizable()
-          .scaledToFit()
-          .frame(width: 20, height: 20)
+        Button(action: {
+          activeSheet = .searchLocation
+        }) {
+          Group {
+            Image("center")
+              .resizable()
+              .scaledToFit()
+              .frame(width: 20, height: 20)
 
-        Text("장위동 34-5")
-          .font(.subheadline)
-          .foregroundColor(.primary)
-          .fontWeight(.semibold)
+            Text(locationManager.currentAddress)
+              .font(.subheadline)
+              .foregroundColor(.primary)
+              .fontWeight(.semibold)
           
-        Image(systemName: "chevron.right")
-          .imageScale(.small)
-          .foregroundColor(.secondary)
+            Image(systemName: "chevron.right")
+              .imageScale(.small)
+              .foregroundColor(.secondary)
+          }
+        }
           
         Spacer()
         Button(action: {
@@ -43,6 +49,8 @@ struct MainView: View {
             UserView()
           case .login:
             LoginView(isSheet: true)
+          case .searchLocation:
+            SearchLocationView()
           default:
             EmptyView()
           }
