@@ -1,6 +1,17 @@
 import SwiftUI
 
 enum PlaceAPI {
+  static func getPlaceMap(lat: Double, lon: Double) async throws -> String {
+    try await APIClient.shared.requestHTML(
+      path: "/place/map",
+      query: [
+        URLQueryItem(name: "lat", value: String(lat)),
+        URLQueryItem(name: "lon", value: String(lon)),
+        URLQueryItem(name: "zoom", value: "1")
+      ]
+    )
+  }
+    
   static func checkPlace(_ pnu: String) async throws -> PlaceChcek {
     try await APIClient.shared.requestJSON(
       path: "/place/exist",

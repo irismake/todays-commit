@@ -80,7 +80,10 @@ struct PlaceDetailView: View {
               .animation(.easeInOut(duration: 0.1), value: false)
               .padding(.horizontal, 1)
                             
-              KakaoMapButton()
+              PlaceMapCard(lat: placeDetail.x, lon: placeDetail.y)
+                .frame(height: 200)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .disabled(true)
             }
             .padding(.vertical)
                         
