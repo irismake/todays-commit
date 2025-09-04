@@ -114,7 +114,6 @@ struct CommitView: View {
           y: placeData.y
         )
         await fetchPlantingGrass(of: updatedData)
-        // placeManager 에 잔디 심기 후 캐시된 데이터 업데이트
         onFinish()
       }, title: "잔디 심기", color: .green)
     }
@@ -131,6 +130,8 @@ struct CommitView: View {
       await placeManager.addPlace(of: addPlaceData)
     }
     let res = await grassService.addGrassData(of: addPlaceData.pnu)
+    await placeManager.invalidateAndReload(using: res)
+  
     dismiss()
     onFinish()
     try? await Task.sleep(nanoseconds: 1_000_000_000)

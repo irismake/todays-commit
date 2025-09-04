@@ -53,8 +53,24 @@ final class PlaceManager: ObservableObject {
       .store(in: &cancellables)
   }
 
-  private func fetchPlaces() async {
-    if let hit = cache[cacheKey] {
+  @MainActor
+  func invalidateAndReload(using cells: [CellBase]) async {
+    for cell in cells {
+
+      cache.keys
+        .filter { $0.mapId == cell.mapId && $0.coordId == cell.coordId }
+        .forEach { cache.removeValue(forKey: $0) }
+
+      if cacheKey.mapId == cell.mapId,
+         cacheKey.coordId == cell.coordId
+      {
+        await fetchPlaces(force: true)
+      }
+    }
+  }
+
+  private func fetchPlaces(force: Bool = false) async {
+    if !force, let hit = cache[cacheKey] {
       await MainActor.run { cachedPlaces = hit }
       return
     }
@@ -65,22 +81,19 @@ final class PlaceManager: ObservableObject {
         
       switch cacheKey.scope {
       case .main:
-        let res = try await PlaceAPI.getMainPlace(
+        places = try await PlaceAPI.getMainPlace(
           mapId: cacheKey.mapId,
           coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res
-
       case .my:
-        let res = try await PlaceAPI.getMyPlace(
+        places = try await PlaceAPI.getMyPlace(
           mapId: cacheKey.mapId,
           coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res
       }
 
       await MainActor.run {
