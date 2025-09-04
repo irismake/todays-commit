@@ -6,27 +6,30 @@ final class GrassManager: ObservableObject {
 
   func addGrassData(of pnu: String) async -> [CellResponse] {
     do {
-      let res = try await GrassAPI.addGrass(pnu)
+      let cells = try await GrassAPI.addGrass(pnu)
 
-      if let total = cachedTotalGrass {
-        for cell in res {
-          if cell.mapId == total.mapId {
-            await fetchTotalGrassData(of: total.mapId)
-            break
+      for cell in cells {
+        let mapId = cell.mapId
+        let mapLevel = cell.mapLevel
+
+        if mapLevel == 1 {
+          if let total = cachedTotalGrass {
+            if mapId == total.mapId {
+              await fetchTotalGrassData(of: total.mapId)
+              break
+            }
+          }
+
+          if let mine = cachedMyGrass {
+            if mapId == mine.mapId {
+              await fetchMyGrassData(of: mine.mapId)
+              break
+            }
           }
         }
       }
 
-      if let mine = cachedMyGrass {
-        for cell in res {
-          if cell.mapId == mine.mapId {
-            await fetchMyGrassData(of: mine.mapId)
-            break
-          }
-        }
-      }
-
-      return res
+      return cells
     } catch {
       print("❌ addGrassData : \(error.localizedDescription)")
       return []

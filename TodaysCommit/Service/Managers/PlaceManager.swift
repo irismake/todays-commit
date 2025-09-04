@@ -27,7 +27,7 @@ final class PlaceManager: ObservableObject {
   }
 
   private func bindMapChanges() {
-    let cell = mapManager.$selectedCell.removeDuplicates()
+    let cell = mapManager.$selectedCell
     let sort = $placeSort.removeDuplicates()
     let scope = $placeScope.removeDuplicates()
 
@@ -54,27 +54,28 @@ final class PlaceManager: ObservableObject {
   }
 
   @MainActor
-  func invalidateAndReload(using cells: [CellBase]) async {
-    for cell in cells {
+  func invalidateAndReload(using cells: [CellResponse]) async {
+    mapManager.mapLevel = 1
 
+    for cell in cells {
       cache.keys
-        .filter { $0.mapId == cell.mapId && $0.coordId == cell.coordId }
+        .filter { $0.mapId == cell.mapId && $0.coordId == cell.cellData.coordId }
         .forEach { cache.removeValue(forKey: $0) }
 
-      if cacheKey.mapId == cell.mapId,
-         cacheKey.coordId == cell.coordId
-      {
-        await fetchPlaces(force: true)
+      let mapId = cell.mapId
+      let mapLevel = cell.mapLevel
+
+      if mapLevel == 1 {
+        await mapManager.fetchMapData(of: mapId, coordId: cell.cellData.coordId)
       }
     }
   }
 
-  private func fetchPlaces(force: Bool = false) async {
-    if !force, let hit = cache[cacheKey] {
+  private func fetchPlaces() async {
+    if let hit = cache[cacheKey] {
       await MainActor.run { cachedPlaces = hit }
       return
     }
-
     do {
       let sortParam = (cacheKey.sort == .recent) ? "recent" : "popular"
       let places: PlaceResponse
