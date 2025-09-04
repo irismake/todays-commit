@@ -3,6 +3,7 @@ import SwiftUI
 struct CommitView: View {
   @Environment(\.dismiss) private var dismiss
   @EnvironmentObject var placeManager: PlaceManager
+  @EnvironmentObject var grassManager: GrassManager
   var onFinish: () -> Void = {}
   @State private var inputPlaceName: String
   private let isEditable: Bool
@@ -125,11 +126,10 @@ struct CommitView: View {
     let overlayVC = Overlay.show(LoadingView())
     defer { overlayVC.dismiss(animated: true) }
 
-    let grassService = GrassService.shared
     if isEditable {
       await placeManager.addPlace(of: addPlaceData)
     }
-    let res = await grassService.addGrassData(of: addPlaceData.pnu)
+    let res = await grassManager.addGrassData(of: addPlaceData.pnu)
     await placeManager.invalidateAndReload(using: res)
   
     dismiss()
