@@ -20,98 +20,92 @@ struct CommitView: View {
   }
     
   var body: some View {
-    VStack {
-      ZStack {
-        Text("오늘의 커밋 완료")
-          .font(.headline)
-          .fontWeight(.bold)
-          .foregroundColor(.black)
+    ZStack {
+      Text("오늘의 커밋 완료")
+        .font(.headline)
+        .fontWeight(.bold)
+        .foregroundColor(.black)
           
-        HStack {
-          Spacer()
-          Button(action: {
-            dismiss()
-          }) {
-            Image(systemName: "xmark")
-              .foregroundColor(.black)
-              .padding(8)
-          }
+      HStack {
+        Spacer()
+        Button(action: {
+          dismiss()
+        }) {
+          Image(systemName: "xmark")
+            .foregroundColor(.black)
+            .padding(8)
         }
       }
-      .padding(.vertical)
+    }
+    .padding()
 
-      ScrollView(showsIndicators: false) {
-        VStack(spacing: 20) {
-          Group {
-            PlaceMapCard(lat: placeData.x, lon: placeData.y)
-              .frame(maxWidth: .infinity)
-              .frame(height: 200)
-              .clipShape(RoundedRectangle(cornerRadius: 20))
-              .disabled(true)
+    VStack(spacing: 20) {
+      Group {
+        PlaceMapCard(lat: placeData.x, lon: placeData.y)
+          .frame(maxWidth: .infinity)
+          .frame(height: 200)
+          .clipShape(RoundedRectangle(cornerRadius: 20))
+          .disabled(true)
               
-            Text("커밋 위치")
-              .font(.subheadline)
-              .fontWeight(.medium)
-              .foregroundColor(.black)
-              .frame(maxWidth: .infinity, alignment: .leading)
+        Text("커밋 위치")
+          .font(.subheadline)
+          .fontWeight(.medium)
+          .foregroundColor(.black)
+          .frame(maxWidth: .infinity, alignment: .leading)
                 
-            Text(placeData.address)
-              .font(.subheadline)
-              .fontWeight(.semibold)
-              .foregroundColor(.secondary)
-              .padding()
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .background(Color(UIColor.systemGray6))
-              .cornerRadius(12)
+        Text(placeData.address)
+          .font(.subheadline)
+          .fontWeight(.semibold)
+          .foregroundColor(.secondary)
+          .padding()
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .background(Color(UIColor.systemGray6))
+          .cornerRadius(12)
                 
-            Text("장소 이름")
-              .font(.subheadline)
-              .fontWeight(.medium)
-              .foregroundColor(.black)
-              .frame(maxWidth: .infinity, alignment: .leading)
+        Text("장소 이름")
+          .font(.subheadline)
+          .fontWeight(.medium)
+          .foregroundColor(.black)
+          .frame(maxWidth: .infinity, alignment: .leading)
                 
-            // 장소명: 읽기전용 or 입력필드
-            Group {
-              if isEditable {
-                TextField("장소 이름을 입력하세요", text: $inputPlaceName)
-                  .textInputAutocapitalization(.none)
-                  .disableAutocorrection(true)
-                  .submitLabel(.done)
-              } else {
-                Text(finalPlaceName.isEmpty ? "-" : finalPlaceName)
-              }
-            }
-            .font(.subheadline)
-            .fontWeight(.semibold)
-            .foregroundColor(.gray)
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(UIColor.systemGray6))
-            .cornerRadius(12)
-            .disabled(!isEditable)
-                
-            Text("이 장소는 어때요?")
-              .font(.subheadline)
-              .fontWeight(.medium)
-              .foregroundColor(.black)
-              .frame(maxWidth: .infinity, alignment: .leading)
-                
-            Text("많은 사람들이 커밋한 장소예요")
-              .font(.caption)
-              .fontWeight(.medium)
-              .foregroundColor(.secondary)
-              .frame(maxWidth: .infinity, alignment: .leading)
+        Group {
+          if isEditable {
+            TextField("장소 이름을 입력하세요", text: $inputPlaceName)
+              .textInputAutocapitalization(.none)
+              .disableAutocorrection(true)
+              .submitLabel(.done)
+          } else {
+            Text(finalPlaceName.isEmpty ? "-" : finalPlaceName)
           }
-          Spacer(minLength: 80)
         }
+        .font(.subheadline)
+        .fontWeight(.semibold)
+        .foregroundColor(.gray)
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color(UIColor.systemGray6))
+        .cornerRadius(12)
+        .disabled(!isEditable)
+                
+        // Text("이 장소는 어때요?")
+        //   .font(.subheadline)
+        //   .fontWeight(.medium)
+        //   .foregroundColor(.black)
+        //   .frame(maxWidth: .infinity, alignment: .leading)
+                
+        // Text("많은 사람들이 커밋한 장소예요")
+        //   .font(.caption)
+        //   .fontWeight(.medium)
+        //   .foregroundColor(.secondary)
+        //   .frame(maxWidth: .infinity, alignment: .leading)
       }
+
+      Spacer()
 
       CompleteButton(onComplete: {
         guard !inputPlaceName.isEmpty else {
-          // 경고 팝업
           return
         }
-          
         let updatedData = PlaceBase(
           pnu: placeData.pnu,
           name: inputPlaceName,
@@ -119,15 +113,12 @@ struct CommitView: View {
           x: placeData.x,
           y: placeData.y
         )
-      
         await fetchPlantingGrass(of: updatedData)
         onFinish()
-        
-      }, title: "잔디 심기", color: Color.green)
+      }, title: "잔디 심기", color: .green)
     }
-    .padding(.horizontal)
     .padding(.bottom)
-    .background(Color.white)
+    .padding(.horizontal)
   }
 
   func fetchPlantingGrass(of addPlaceData: PlaceBase) async {
