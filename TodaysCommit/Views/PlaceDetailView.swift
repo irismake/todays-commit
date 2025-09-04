@@ -106,6 +106,7 @@ struct PlaceDetailView: View {
       .padding(.horizontal)
       .sheet(item: $placeData) { data in
         CommitView(placeData: data) {
+          Overlay.show(Toast(message: "잔디가 성공적으로 심어졌어요."), autoDismissAfter: 2)
           dismiss()
         }
       }

@@ -74,7 +74,10 @@ struct CommitLocationView: View {
     }
     .sheet(isPresented: $showSheet) {
       if let placeData {
-        CommitView(placeData: placeData) { dismiss() }
+        CommitView(placeData: placeData) {
+          Overlay.show(Toast(message: "잔디가 성공적으로 심어졌어요."), autoDismissAfter: 2)
+          dismiss()
+        }
       }
     }
     .ignoresSafeArea(edges: .bottom)
