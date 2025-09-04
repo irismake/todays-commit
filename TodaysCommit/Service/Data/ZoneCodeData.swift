@@ -16,9 +16,9 @@ let mapCodeId: [Int: MapBase] = [
   52: MapBase(mapId: 15, mapLevel: 1),
   50: MapBase(mapId: 16, mapLevel: 1),
   44: MapBase(mapId: 17, mapLevel: 1),
-  43: MapBase(mapId: 18, mapLevel: 1),
-  11305: MapBase(mapId: 19, mapLevel: 0),
-  11290: MapBase(mapId: 20, mapLevel: 0)
+  43: MapBase(mapId: 18, mapLevel: 1)
+//  11305: MapBase(mapId: 19, mapLevel: 0),
+//  11290: MapBase(mapId: 20, mapLevel: 0)
 ]
 
 let nominationData: [Int: String] = [

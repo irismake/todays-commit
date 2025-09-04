@@ -6,10 +6,9 @@ struct CommitLocationView: View {
   @Environment(\.colorScheme) var colorScheme
   @EnvironmentObject var layoutManager: LayoutManager
   @EnvironmentObject var placeManager: PlaceManager
-  @State var placeAddress: String?
-  @State var placePnu: String?
   @State private var placeData: PlaceBase?
-    
+  @State private var showSheet = false
+
   var body: some View {
     VStack {
       ZStack {
@@ -35,40 +34,33 @@ struct CommitLocationView: View {
             
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)
-          .onAppear { draw = true }
+          .onAppear {
+            draw = true
+            Overlay.show(LoadingView())
+          }
           .onDisappear { draw = false }
           .ignoresSafeArea(edges: .bottom)
           .environmentObject(layoutManager)
           .environmentObject(placeManager)
                 
-        VStack {
+        Group {
           if layoutManager.isOverlayActive {
             PlaceNotFoundOverlay(
-              placeAddress: placeAddress,
+              placeAddress: placeData?.address,
               onCommit: {
-                guard let placePnu,
-                      let placeAddress,
-                      let placeLocation = placeManager.placeLocation
-                else {
-                  return
-                }
-                placeData = PlaceBase(
-                  pnu: placePnu,
-                  name: "",
-                  address: placeAddress,
-                  x: placeLocation.lat,
-                  y: placeLocation.lon
-                )
+                showSheet = true
+                // layoutManager.deactivateOverlay()
               }
             )
-                        
           } else {
-            CompleteButton(onComplete: {
-              await handleCommitAction()
-
-            }, title: "커밋하기", color: Color(red: 0.0, green: 0.7, blue: 0.3))
-              .padding(.bottom)
-              .padding(.horizontal)
+            CompleteButton(
+              onComplete: { await handleCommitAction() },
+              title: "커밋하기",
+              color: Color(red: 0.0, green: 0.7, blue: 0.3)
+            )
+            .padding(.vertical)
+            .padding(.bottom, 30)
+            .padding(.horizontal)
           }
         }
         .background(
@@ -78,36 +70,34 @@ struct CommitLocationView: View {
             }
           }
         )
-        .sheet(item: $placeData) { data in
-          CommitView(placeData: data) {
-            dismiss()
-          }
+      }
+    }
+    .sheet(isPresented: $showSheet) {
+      if let placeData {
+        CommitView(placeData: placeData) {
+          Overlay.show(Toast(message: "잔디가 성공적으로 심어졌어요."), autoDismissAfter: 2)
+          dismiss()
         }
       }
     }
+    .ignoresSafeArea(edges: .bottom)
   }
-    
+
   private func handleCommitAction() async {
     let placeCheck = await checkPlace()
-    
-    if placeCheck.exists {
-      guard let placePnu,
-            let placeAddress,
-            let placeLocation = placeManager.placeLocation
-      else {
-        return
-      }
-            
-      let placeName = placeCheck.name ?? ""
-   
-      placeData = PlaceBase(
-        pnu: placePnu,
-        name: placeName,
-        address: placeAddress,
-        x: placeLocation.lat,
-        y: placeLocation.lon
-      )
 
+    if let current = placeData {
+      placeData = PlaceBase(
+        pnu: current.pnu,
+        name: placeCheck.name ?? "",
+        address: current.address,
+        x: current.x,
+        y: current.y
+      )
+    }
+
+    if placeCheck.exists {
+      showSheet = true
     } else {
       layoutManager.activateOverlay()
     }
@@ -118,22 +108,22 @@ struct CommitLocationView: View {
     defer { overlayVC.dismiss(animated: true) }
         
     do {
-      let placeLocation = placeManager.placeLocation
-      let locationRes = try await getLocationData(placeLocation)
-      let address = locationRes.address
-      placePnu = locationRes.pnu
-      placeAddress = address
+      guard let location = placeManager.placeLocation else {
+        throw URLError(.badURL)
+      }
+      let locationRes = try await LocationAPI.getPnu(lat: location.lat, lon: location.lon)
+
+      placeData = PlaceBase(
+        pnu: locationRes.pnu,
+        name: "",
+        address: locationRes.address,
+        x: location.lat,
+        y: location.lon
+      )
       return try await PlaceAPI.checkPlace(locationRes.pnu)
     } catch {
-      print("❌ handleCommitAction : \(error.localizedDescription)")
+      print("❌ checkPlace: \(error.localizedDescription)")
       return PlaceChcek(exists: false, name: nil)
     }
   }
-}
-
-func getLocationData(_ location: LocationBase?) async throws -> LocationResponse {
-  guard let location else {
-    throw URLError(.badURL)
-  }
-  return try await LocationAPI.getPnu(lat: location.lat, lon: location.lon)
 }

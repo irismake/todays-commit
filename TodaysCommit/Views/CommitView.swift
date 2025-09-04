@@ -119,9 +119,9 @@ struct CommitView: View {
           x: placeData.x,
           y: placeData.y
         )
-        print(updatedData)
       
         await fetchPlantingGrass(of: updatedData)
+        onFinish()
         
       }, title: "잔디 심기", color: Color.green)
     }
