@@ -1,27 +1,36 @@
 import SwiftUI
 
-struct RequestOverlay: View {
-  @Environment(\.dismiss) private var dismiss
-  let requestMapName: String
-  let onRequest: () -> Void
+struct ConfirmOverlay: View {
+  let title: String
+  let content: String
+  let showToast: Bool
 
-  @State private var shouldRunAfterDismiss = false
-
+  init(title: String, content: String, showToast: Bool = false) {
+    self.title = title
+    self.content = content
+    self.showToast = showToast
+  }
+    
   var body: some View {
     VStack(spacing: 16) {
-      Text("\(requestMapName) 지도 요청")
+      Text(title)
         .font(.system(size: 20, weight: .bold))
         .foregroundColor(.primary)
 
-      Text("요청하신 지역은 서비스 개선에 참고할게요.\n함께 지도를 더 넓혀볼까요?")
+      Text(content)
         .font(.system(size: 14))
         .foregroundColor(.secondary)
         .multilineTextAlignment(.center)
         .padding(.horizontal, 8)
 
       Button("확인") {
-        shouldRunAfterDismiss = true
-        dismiss()
+        if showToast {
+          Overlay.dismiss(animated: true) {
+            Overlay.show(Toast(message: "요청이 완료되었습니다."), autoDismissAfter: 2)
+          }
+        } else {
+          Overlay.dismiss(animated: true)
+        }
       }
       .buttonStyle(.borderedProminent)
       .padding(.top, 8)
@@ -33,10 +42,5 @@ struct RequestOverlay: View {
         .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 4)
     )
     .frame(maxWidth: 300)
-    .onDisappear {
-      if shouldRunAfterDismiss {
-        onRequest()
-      }
-    }
   }
 }

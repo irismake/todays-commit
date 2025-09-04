@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ToastView: View {
+struct Toast: View {
   let message: String
     
   var body: some View {

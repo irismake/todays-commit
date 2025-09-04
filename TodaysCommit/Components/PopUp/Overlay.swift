@@ -8,7 +8,10 @@ enum Overlay {
   private static var window: BlockingWindow?
 
   @discardableResult
-  static func show(_ swiftUIView: some View) -> OverlayViewController {
+  static func show(
+    _ swiftUIView: some View,
+    autoDismissAfter seconds: Double? = nil
+  ) -> OverlayViewController {
     guard
       let scene = UIApplication.shared.connectedScenes
       .compactMap({ $0 as? UIWindowScene })
@@ -32,6 +35,14 @@ enum Overlay {
     w.makeKeyAndVisible()
 
     window = w
+
+    if let seconds {
+      Task { @MainActor in
+        try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
+        dismiss(animated: true)
+      }
+    }
+
     return popupVC
   }
 

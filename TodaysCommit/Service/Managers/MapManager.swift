@@ -42,13 +42,7 @@ final class MapManager: ObservableObject {
   func changeMapLevel(_ zoomingIn: Bool) {
     guard let mapId = nextMapId(zoomingIn: zoomingIn) else {
       Overlay.show(
-        RequestOverlay(requestMapName: selectedZoneName) {
-          let overlayVC = Overlay.show(ToastView(message: "요청이 완료되었습니다."))
-          Task { @MainActor in
-            defer { overlayVC.dismiss(animated: true) }
-            try await Task.sleep(nanoseconds: 3_000_000_000)
-          }
-        }
+        ConfirmOverlay(title: "\(selectedZoneName) 지도 요청", content: "요청하신 지역은 서비스 개선에 참고할게요.\n함께 지도를 더 넓혀볼까요?", showToast: true)
       )
       return
     }
@@ -62,11 +56,18 @@ final class MapManager: ObservableObject {
   private func nextMapId(zoomingIn: Bool) -> Int? {
     if zoomingIn {
       guard let subZoneCode = selectedCell?.zoneCode else {
+        Overlay.show(
+          ConfirmOverlay(title: "잔디를 클릭해주세요", content: "확대하려면 먼저 잔디를 선택해 주세요.")
+        )
         return nil
       }
       return mapCodeId[subZoneCode]?.mapId
     } else {
       guard let mapCode = currentMapData?.keys.first else {
+//        Overlay.show(
+//          ConfirmOverlay(title: "잔디를 클릭해주세요", content: "확대하려면 먼저 잔디를 선택해 주세요.")
+//        )
+
         return nil
       }
       let upperZoneCode = getUpperZoneCode(from: mapCode)
