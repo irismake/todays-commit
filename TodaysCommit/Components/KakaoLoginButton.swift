@@ -27,10 +27,10 @@ struct KakaoLoginButton: View {
           .frame(height: 18)
           .foregroundColor(.black)
                 
-        Text("카카오 로그인")
+        Text("Login with Kakao")
           .font(.subheadline)
-          .foregroundColor(Color.black.opacity(0.85))
           .fontWeight(.medium)
+          .foregroundColor(Color.black.opacity(0.85))
       }
       .frame(height: UIScreen.main.bounds.height * 0.06)
       .frame(maxWidth: .infinity)
