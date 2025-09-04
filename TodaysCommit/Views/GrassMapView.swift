@@ -3,11 +3,25 @@ import SwiftUI
 struct GrassMapView: View {
   var showMyMap: Bool
   @EnvironmentObject var mapManager: MapManager
-  private let grassService = GrassService.shared
-  @State private var grassData: [GrassData] = []
+  @EnvironmentObject var grassManager: GrassManager
   @State private var errorMessage: String?
   let gridSize = GlobalStore.shared.gridSize
 
+  var grassData: [GrassData] {
+    guard let mapId = mapManager.currentMapId else {
+      return []
+    }
+    if showMyMap {
+      return grassManager.cachedMyGrass?.mapId == mapId
+        ? grassManager.cachedMyGrass?.grassData ?? []
+        : []
+    } else {
+      return grassManager.cachedTotalGrass?.mapId == mapId
+        ? grassManager.cachedTotalGrass?.grassData ?? []
+        : []
+    }
+  }
+    
   init(showMyMap: Bool) {
     self.showMyMap = showMyMap
   }
@@ -111,28 +125,13 @@ struct GrassMapView: View {
       guard let mapId = mapManager.currentMapId else {
         return
       }
-            
       if showMyMap {
-        if let cachedMyData = grassService.getMyCachedGrass() {
-          if cachedMyData.mapId == mapId {
-            grassData = cachedMyData.grassData
-            return
-          }
-        }
-        let myGrassData = await grassService.fetchMyGrassData(of: mapId)
-        if mapManager.currentMapId == mapId {
-          grassData = myGrassData
+        if grassManager.cachedMyGrass?.mapId != mapId {
+          await grassManager.fetchMyGrassData(of: mapId)
         }
       } else {
-        if let cachedTotalData = grassService.getTotalCachedGrass() {
-          if cachedTotalData.mapId == mapId {
-            grassData = cachedTotalData.grassData
-            return
-          }
-        }
-        let totalGrassData = await grassService.fetchTotalGrassData(of: mapId)
-        if mapManager.currentMapId == mapId {
-          grassData = totalGrassData
+        if grassManager.cachedTotalGrass?.mapId != mapId {
+          await grassManager.fetchTotalGrassData(of: mapId)
         }
       }
     }

@@ -115,8 +115,10 @@ final class MapManager: ObservableObject {
     }
       
     do {
-      let mapRes = try await MapAPI.getMap(mapId)
-      currentMapData = [mapRes.mapCode: mapRes.mapData]
+      if currentMapId != mapId {
+        let mapRes = try await MapAPI.getMap(mapId)
+        currentMapData = [mapRes.mapCode: mapRes.mapData]
+      }
       currentMapId = mapId
       let targetCoordId = coordId ?? gpsCoordId
       await updateCell(newCoordId: targetCoordId, grassColor: targetCoordId != nil ? .primary : .lv_0)

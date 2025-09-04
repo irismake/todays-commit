@@ -19,6 +19,12 @@ struct MapBase: Decodable {
   let mapLevel: Int
 }
 
+struct CellBase: Decodable {
+  let mapId: Int
+  let coordId: Int
+  let zoneCode: Int
+}
+
 enum MapIdResult {
   case success(Int)
   case noSelectedCell

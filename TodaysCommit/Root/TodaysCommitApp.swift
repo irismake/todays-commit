@@ -8,6 +8,7 @@ struct TodaysCommitApp: App {
   @StateObject private var mapManager: MapManager
   @StateObject private var placeManager: PlaceManager
   @StateObject private var layoutManager: LayoutManager
+  @StateObject private var grassManager: GrassManager
   @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
   init() {
@@ -16,11 +17,13 @@ struct TodaysCommitApp: App {
     let loc = LocationManager()
     let map = MapManager()
     let layout = LayoutManager()
+    let grass = GrassManager()
       
     _locationManager = StateObject(wrappedValue: loc)
     _mapManager = StateObject(wrappedValue: map)
     _placeManager = StateObject(wrappedValue: PlaceManager(mapManager: map))
     _layoutManager = StateObject(wrappedValue: layout)
+    _grassManager = StateObject(wrappedValue: grass)
   }
 
   var body: some Scene {
@@ -30,6 +33,7 @@ struct TodaysCommitApp: App {
         .environmentObject(mapManager)
         .environmentObject(placeManager)
         .environmentObject(layoutManager)
+        .environmentObject(grassManager)
     }
   }
 

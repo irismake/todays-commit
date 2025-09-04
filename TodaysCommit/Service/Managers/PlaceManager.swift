@@ -27,7 +27,7 @@ final class PlaceManager: ObservableObject {
   }
 
   private func bindMapChanges() {
-    let cell = mapManager.$selectedCell.removeDuplicates()
+    let cell = mapManager.$selectedCell
     let sort = $placeSort.removeDuplicates()
     let scope = $placeScope.removeDuplicates()
 
@@ -53,34 +53,48 @@ final class PlaceManager: ObservableObject {
       .store(in: &cancellables)
   }
 
+  @MainActor
+  func invalidateAndReload(using cells: [CellResponse]) async {
+    mapManager.mapLevel = 1
+
+    for cell in cells {
+      cache.keys
+        .filter { $0.mapId == cell.mapId && $0.coordId == cell.cellData.coordId }
+        .forEach { cache.removeValue(forKey: $0) }
+
+      let mapId = cell.mapId
+      let mapLevel = cell.mapLevel
+
+      if mapLevel == 1 {
+        await mapManager.fetchMapData(of: mapId, coordId: cell.cellData.coordId)
+      }
+    }
+  }
+
   private func fetchPlaces() async {
     if let hit = cache[cacheKey] {
       await MainActor.run { cachedPlaces = hit }
       return
     }
-
     do {
       let sortParam = (cacheKey.sort == .recent) ? "recent" : "popular"
       let places: PlaceResponse
         
       switch cacheKey.scope {
       case .main:
-        let res = try await PlaceAPI.getMainPlace(
+        places = try await PlaceAPI.getMainPlace(
           mapId: cacheKey.mapId,
           coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res
-
       case .my:
-        let res = try await PlaceAPI.getMyPlace(
+        places = try await PlaceAPI.getMyPlace(
           mapId: cacheKey.mapId,
           coordId: cacheKey.coordId,
           sort: sortParam,
           cursor: nil
         )
-        places = res
       }
 
       await MainActor.run {
