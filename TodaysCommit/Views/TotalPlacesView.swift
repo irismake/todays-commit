@@ -16,7 +16,7 @@ struct TotalPlacesView: View {
       ZStack {
         Text(mapManager.selectedZoneName)
           .font(.headline)
-          .fontWeight(.semibold)
+          .fontWeight(.bold)
           .foregroundColor(.primary)
                
         if !myPlaces.isEmpty {

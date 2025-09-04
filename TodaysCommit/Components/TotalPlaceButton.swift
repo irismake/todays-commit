@@ -25,7 +25,7 @@ struct TotalPlaceButton: View {
       RoundedRectangle(cornerRadius: 8)
         .fill(Color(hex: "333333"))
     }
-    .fullScreenCover(isPresented: $isShowingTotalList) {
+    .sheet(isPresented: $isShowingTotalList) {
       TotalPlacesView()
     }
   }
