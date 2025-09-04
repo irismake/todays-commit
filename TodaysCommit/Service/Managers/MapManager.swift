@@ -40,38 +40,49 @@ final class MapManager: ObservableObject {
   }
       
   func changeMapLevel(_ zoomingIn: Bool) {
-    guard let mapId = nextMapId(zoomingIn: zoomingIn) else {
+    switch nextMapId(zoomingIn: zoomingIn) {
+    case let .success(mapId):
+      mapLevel += zoomingIn ? -1 : 1
+      Task {
+        await fetchMapData(of: mapId)
+      }
+
+    case .noSelectedCell:
       Overlay.show(
-        ConfirmOverlay(title: "\(selectedZoneName) 지도 요청", content: "요청하신 지역은 서비스 개선에 참고할게요.\n함께 지도를 더 넓혀볼까요?", showToast: true)
+        ConfirmOverlay(title: "잔디를 클릭해주세요", content: "확대하려면 먼저 잔디를 선택해 주세요.")
+      )
+      return
+
+    case .noNextMapId:
+      Overlay.show(
+        ConfirmOverlay(
+          title: "\(selectedZoneName) 지도 요청",
+          content: "요청하신 지역은 서비스 개선에 참고할게요.\n함께 지도를 더 넓혀볼까요?",
+          showToast: true
+        )
       )
       return
     }
-    mapLevel += zoomingIn ? -1 : 1
-
-    Task {
-      await fetchMapData(of: mapId)
-    }
   }
 
-  private func nextMapId(zoomingIn: Bool) -> Int? {
+  private func nextMapId(zoomingIn: Bool) -> MapIdResult {
     if zoomingIn {
       guard let subZoneCode = selectedCell?.zoneCode else {
-        Overlay.show(
-          ConfirmOverlay(title: "잔디를 클릭해주세요", content: "확대하려면 먼저 잔디를 선택해 주세요.")
-        )
-        return nil
+        return .noSelectedCell
       }
-      return mapCodeId[subZoneCode]?.mapId
+      if let mapId = mapCodeId[subZoneCode]?.mapId {
+        return .success(mapId)
+      }
+      return .noNextMapId
     } else {
       guard let mapCode = currentMapData?.keys.first else {
-//        Overlay.show(
-//          ConfirmOverlay(title: "잔디를 클릭해주세요", content: "확대하려면 먼저 잔디를 선택해 주세요.")
-//        )
-
-        return nil
+        return .noSelectedCell
       }
       let upperZoneCode = getUpperZoneCode(from: mapCode)
-      return mapCodeId[upperZoneCode]?.mapId
+      if let mapId = mapCodeId[upperZoneCode]?.mapId {
+        return .success(mapId)
+      }
+      return .noNextMapId
     }
   }
     
