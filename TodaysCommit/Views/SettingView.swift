@@ -157,7 +157,7 @@ struct SettingView: View {
       print("앱 버전")
         
     case 4:
-      if let url = URL(string: "https://palm-push-2c6.notion.site/260867b638c0804fab76f0b10388be1d?pvs=73") {
+      if let url = URL(string: GlobalStore.shared.termsOfUseUrl) {
         UIApplication.shared.open(url)
       }
         

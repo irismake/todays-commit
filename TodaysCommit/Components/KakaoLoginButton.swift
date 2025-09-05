@@ -1,19 +1,20 @@
-import KakaoSDKAuth
-import KakaoSDKCommon
-import KakaoSDKUser
-
 import SwiftUI
 
 struct KakaoLoginButton: View {
   @Environment(\.dismiss) private var dismiss
+  @State private var tempUserData: UserResponse? = nil
 
   var body: some View {
     Button(action: {
       AuthService.shared.kakaoAuth { result in
         switch result {
         case let .success(user):
-          UserSessionManager.saveUserSession(user)
-          dismiss()
+          if user.isFirstLogin {
+            tempUserData = user
+          } else {
+            UserSessionManager.saveUserSession(user)
+            dismiss()
+          }
         case let .failure(error):
           print("❌ 로그인 실패: \(error.localizedDescription)")
         }
@@ -36,6 +37,12 @@ struct KakaoLoginButton: View {
       .frame(maxWidth: .infinity)
       .background(Color(hex: "#FEE500"))
       .cornerRadius(12)
+    }
+    .sheet(item: $tempUserData) { user in
+      TermsOfUseSheet {
+        UserSessionManager.saveUserSession(user)
+        dismiss()
+      }
     }
   }
 }

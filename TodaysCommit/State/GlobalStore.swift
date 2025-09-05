@@ -12,6 +12,8 @@ final class GlobalStore {
   var screenWidth: CGFloat
   var screenHeight: CGFloat
   var currentLocation: LocationBase?
+  let termsOfUseUrl: String = "https://palm-push-2c6.notion.site/260867b638c0804fab76f0b10388be1d"
+  let marketingAgreeUrl: String = "https://palm-push-2c6.notion.site/265867b638c08027853bebb1570b4d8f"
 
   func getDistance(lat: Double, lon: Double,) -> String {
     guard let myLoc = currentLocation else {

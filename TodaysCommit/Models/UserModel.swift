@@ -3,7 +3,12 @@ struct UserData: Codable {
   let provider: String
 }
 
-struct UserResponse: Codable {
-  let accessToken: String
+struct UserResponse: Codable, Identifiable {
+  var id: String { accessToken }
   let userName: String
+  let email: String?
+  let provider: String
+  let createdAt: String
+  let accessToken: String
+  let isFirstLogin: Bool
 }
