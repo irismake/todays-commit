@@ -103,6 +103,9 @@ final class PlaceManager: ObservableObject {
       }
     } catch {
       print("❌ [API ERROR] \(error.localizedDescription)")
+      await MainActor.run {
+        cachedPlaces = PlaceResponse(nextCursor: nil, places: [])
+      }
     }
   }
 
