@@ -3,16 +3,6 @@
     {
       "filename" : "gps.svg",
       "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "gps_dark.svg",
-      "idiom" : "universal"
     }
   ],
   "info" : {
