@@ -16,9 +16,32 @@ let mapCodeId: [Int: MapBase] = [
   52: MapBase(mapId: 15, mapLevel: 1),
   50: MapBase(mapId: 16, mapLevel: 1),
   44: MapBase(mapId: 17, mapLevel: 1),
-  43: MapBase(mapId: 18, mapLevel: 1)
-//  11305: MapBase(mapId: 19, mapLevel: 0),
-//  11290: MapBase(mapId: 20, mapLevel: 0)
+  43: MapBase(mapId: 18, mapLevel: 1),
+  11110: MapBase(mapId: 19, mapLevel: 0),
+  11140: MapBase(mapId: 20, mapLevel: 0),
+  11170: MapBase(mapId: 21, mapLevel: 0),
+  11200: MapBase(mapId: 22, mapLevel: 0),
+  11215: MapBase(mapId: 23, mapLevel: 0),
+  11230: MapBase(mapId: 24, mapLevel: 0),
+  11260: MapBase(mapId: 25, mapLevel: 0),
+  11290: MapBase(mapId: 26, mapLevel: 0),
+  11305: MapBase(mapId: 27, mapLevel: 0),
+  11320: MapBase(mapId: 28, mapLevel: 0),
+  11350: MapBase(mapId: 29, mapLevel: 0),
+  11380: MapBase(mapId: 30, mapLevel: 0),
+  11410: MapBase(mapId: 31, mapLevel: 0),
+  11440: MapBase(mapId: 32, mapLevel: 0),
+  11470: MapBase(mapId: 33, mapLevel: 0),
+  11500: MapBase(mapId: 34, mapLevel: 0),
+  11530: MapBase(mapId: 35, mapLevel: 0),
+  11545: MapBase(mapId: 36, mapLevel: 0),
+  11560: MapBase(mapId: 37, mapLevel: 0),
+  11590: MapBase(mapId: 38, mapLevel: 0),
+  11620: MapBase(mapId: 39, mapLevel: 0),
+  11650: MapBase(mapId: 40, mapLevel: 0),
+  11680: MapBase(mapId: 41, mapLevel: 0),
+  11710: MapBase(mapId: 42, mapLevel: 0),
+  11740: MapBase(mapId: 43, mapLevel: 0)
 ]
 
 let nominationData: [Int: String] = [
