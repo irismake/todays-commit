@@ -1,3 +1,4 @@
+import GoogleMobileAds
 import KakaoMapsSDK
 import KakaoSDKCommon
 import SwiftUI
@@ -49,6 +50,7 @@ struct TodaysCommitApp: App {
         assertionFailure("❌ KAKAO_APP_KEY is missing in Info.plist")
         return false
       }
+      MobileAds.shared.start(completionHandler: nil)
       return true
     }
   }
