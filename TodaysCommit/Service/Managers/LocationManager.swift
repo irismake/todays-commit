@@ -5,6 +5,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
   private let manager = CLLocationManager()
    
   @Published var currentLocation: LocationBase?
+  @Published var defaultLocation: LocationBase = .init(lat: 37.5665, lon: 126.9780)
   @Published var currentAddress: String = "현재 위치 가져오는중.."
   @Published var authorizationStatus: CLAuthorizationStatus?
 
@@ -42,7 +43,12 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     let location = loc.coordinate
       
-    currentLocation = LocationBase(lat: location.latitude, lon: location.longitude)
+    if checkNation(lat: location.latitude, lon: location.longitude) {
+      currentLocation = LocationBase(lat: location.latitude, lon: location.longitude)
+    } else {
+      currentLocation = defaultLocation
+    }
+      
     GlobalStore.shared.currentLocation = currentLocation
     manager.stopUpdatingLocation()
   }
@@ -53,7 +59,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
       manager.startUpdatingLocation()
     }
   }
-
+    
+  private func checkNation(lat: Double, lon: Double) -> Bool {
+    (33.0 ... 39.0).contains(lat) && (124.0 ... 132.0).contains(lon)
+  }
+     
   @MainActor
   func searchPlaces(query: String) async {
     do {

@@ -15,13 +15,8 @@ struct GpsButton: View {
     } label: {
       Image("gps")
         .resizable()
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 24, height: 24)
-        .padding(4)
-        .background(
-          RoundedRectangle(cornerRadius: 600, style: .continuous)
-            .stroke(.secondary, lineWidth: 0.5)
-        )
+        .scaledToFit()
+        .frame(height: 30)
     }
     .buttonStyle(.plain)
   }
