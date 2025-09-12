@@ -33,7 +33,7 @@ struct CommitLocationView: View {
       })
       AdBanner()
         .frame(height: 50)
-        .padding(.vertical, 8)
+        .padding(.bottom, 8)
             
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)

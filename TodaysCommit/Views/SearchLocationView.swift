@@ -35,10 +35,6 @@ struct SearchLocationView: View {
         )
         .padding(.horizontal)
 
-      AdBanner()
-        .frame(height: 50)
-        .padding(.vertical, 8)
-
       if locationManager.searchResults.isEmpty {
         Spacer()
         Text("검색 결과가 없습니다.")
@@ -69,7 +65,12 @@ struct SearchLocationView: View {
           }
         }
       }
+      AdBanner()
+        .frame(height: 50)
+        .background(Color(UIColor.systemBackground))
+        .padding(.top, 8)
     }
+    .ignoresSafeArea(.keyboard)
   }
 
   func fetchMapDataForQuery(lat: Double, lon: Double) async {
