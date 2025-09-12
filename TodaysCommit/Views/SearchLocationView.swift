@@ -33,7 +33,10 @@ struct SearchLocationView: View {
           RoundedRectangle(cornerRadius: 8)
             .stroke(.secondary, lineWidth: 1)
         )
-        .padding()
+        .padding(.horizontal)
+
+      AdBanner(adUnitID: Bundle.main.infoDictionary?["SDK_ID"] as! String)
+        .frame(height: 50)
 
       if locationManager.searchResults.isEmpty {
         Spacer()
