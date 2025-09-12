@@ -35,8 +35,9 @@ struct SearchLocationView: View {
         )
         .padding(.horizontal)
 
-      AdBanner(adUnitID: Bundle.main.infoDictionary?["SDK_ID"] as! String)
+      AdBanner()
         .frame(height: 50)
+        .padding(.vertical, 8)
 
       if locationManager.searchResults.isEmpty {
         Spacer()

@@ -2,13 +2,21 @@ import GoogleMobileAds
 import SwiftUI
 
 struct AdBanner: UIViewRepresentable {
-  let adUnitID: String
+  private let adUnitID: String
+
+  init() {
+    #if DEBUG
+      adUnitID = "ca-app-pub-3940256099942544/2934735716"
+    #else
+      adUnitID = Bundle.main.infoDictionary?["SDK_ID"] as? String ?? ""
+    #endif
+  }
     
   func makeUIView(context _: Context) -> UIView {
     let containerView = UIView()
     let screenWidth = UIScreen.main.bounds.width
-        
-    let adSize = adSizeFor(cgSize: CGSize(width: screenWidth, height: 50))
+
+    let adSize = portraitAnchoredAdaptiveBanner(width: screenWidth)
     let bannerView = BannerView(adSize: adSize)
         
     bannerView.adUnitID = adUnitID
