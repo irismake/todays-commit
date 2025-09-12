@@ -25,7 +25,7 @@ struct CommitView: View {
       Text("오늘의 커밋 완료")
         .font(.headline)
         .fontWeight(.bold)
-        .foregroundColor(.black)
+        .foregroundColor(.primary)
           
       HStack {
         Spacer()
@@ -33,7 +33,7 @@ struct CommitView: View {
           dismiss()
         }) {
           Image(systemName: "xmark")
-            .foregroundColor(.black)
+            .foregroundColor(.primary)
             .padding(8)
         }
       }
@@ -51,7 +51,7 @@ struct CommitView: View {
         Text("커밋 위치")
           .font(.subheadline)
           .fontWeight(.medium)
-          .foregroundColor(.black)
+          .foregroundColor(.primary)
           .frame(maxWidth: .infinity, alignment: .leading)
                 
         Text(placeData.address)
@@ -60,13 +60,13 @@ struct CommitView: View {
           .foregroundColor(.secondary)
           .padding()
           .frame(maxWidth: .infinity, alignment: .leading)
-          .background(Color(UIColor.systemGray6))
+          .background(.secondary.opacity(0.1))
           .cornerRadius(12)
                 
         Text("장소 이름")
           .font(.subheadline)
           .fontWeight(.medium)
-          .foregroundColor(.black)
+          .foregroundColor(.primary)
           .frame(maxWidth: .infinity, alignment: .leading)
                 
         Group {
@@ -81,10 +81,10 @@ struct CommitView: View {
         }
         .font(.subheadline)
         .fontWeight(.semibold)
-        .foregroundColor(.gray)
+        .foregroundColor(.secondary)
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color(UIColor.systemGray6))
+        .background(.secondary.opacity(0.1))
         .cornerRadius(12)
         .disabled(!isEditable)
                 
