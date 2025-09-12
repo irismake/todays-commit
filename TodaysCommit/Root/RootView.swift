@@ -1,4 +1,3 @@
-import AppTrackingTransparency
 import CoreLocation
 import SwiftUI
 
@@ -17,13 +16,6 @@ struct RootView: View {
           .task {
             handleLocationStatus(status: locationManager.authorizationStatus ?? .notDetermined)
             isInitializing = false
-          }
-          .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
-              ATTrackingManager.requestTrackingAuthorization { status in
-                print("ATT status: \(status.rawValue)")
-              }
-            }
           }
       } else {
         MainView()

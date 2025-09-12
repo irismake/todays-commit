@@ -1,3 +1,4 @@
+import AppTrackingTransparency
 import GoogleMobileAds
 import KakaoMapsSDK
 import KakaoSDKCommon
@@ -35,6 +36,13 @@ struct TodaysCommitApp: App {
         .environmentObject(placeManager)
         .environmentObject(layoutManager)
         .environmentObject(grassManager)
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+          if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+            ATTrackingManager.requestTrackingAuthorization { status in
+              print("ATT status: \(status.rawValue)")
+            }
+          }
+        }
     }
   }
 
