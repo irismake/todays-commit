@@ -1,14 +1,19 @@
-import Foundation
 import GoogleMobileAds
 import SwiftUI
 
 struct AdBanner: UIViewRepresentable {
   let adUnitID: String
-
-  func makeUIView(context _: Context) -> BannerView {
-    let bannerView = BannerView(adSize: adSizeFor(cgSize: CGSize(width: 320, height: 50)))
-    bannerView.adUnitID = adUnitID
     
+  func makeUIView(context _: Context) -> UIView {
+    let containerView = UIView()
+    let screenWidth = UIScreen.main.bounds.width
+        
+    let adSize = adSizeFor(cgSize: CGSize(width: screenWidth, height: 50))
+    let bannerView = BannerView(adSize: adSize)
+        
+    bannerView.adUnitID = adUnitID
+    bannerView.translatesAutoresizingMaskIntoConstraints = false
+        
     if let rootViewController = UIApplication.shared.connectedScenes
       .compactMap({ $0 as? UIWindowScene })
       .flatMap(\.windows)
@@ -16,10 +21,22 @@ struct AdBanner: UIViewRepresentable {
     {
       bannerView.rootViewController = rootViewController
     }
-    
-    bannerView.load(Request())
-    return bannerView
+        
+    containerView.addSubview(bannerView)
+    containerView.frame = CGRect(x: 0, y: 0, width: screenWidth, height: 50)
+        
+    NSLayoutConstraint.activate([
+      bannerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+      bannerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+      bannerView.widthAnchor.constraint(equalToConstant: screenWidth),
+      bannerView.heightAnchor.constraint(equalToConstant: 50)
+    ])
+        
+    let request = Request()
+    bannerView.load(request)
+        
+    return containerView
   }
-
-  func updateUIView(_: BannerView, context _: Context) {}
+    
+  func updateUIView(_: UIView, context _: Context) {}
 }
