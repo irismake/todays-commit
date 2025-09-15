@@ -31,6 +31,9 @@ struct CommitLocationView: View {
           layoutManager.appBarHeight = proxy.frame(in: .global).minY
         }
       })
+      AdBanner()
+        .frame(height: 50)
+        .padding(.bottom, 8)
             
       ZStack(alignment: .bottom) {
         KakaoMapView(draw: $draw)

@@ -33,7 +33,7 @@ struct SearchLocationView: View {
           RoundedRectangle(cornerRadius: 8)
             .stroke(.secondary, lineWidth: 1)
         )
-        .padding()
+        .padding(.horizontal)
 
       if locationManager.searchResults.isEmpty {
         Spacer()
@@ -65,7 +65,12 @@ struct SearchLocationView: View {
           }
         }
       }
+      AdBanner()
+        .frame(height: 50)
+        .background(Color(UIColor.systemBackground))
+        .padding(.top, 8)
     }
+    .ignoresSafeArea(.keyboard)
   }
 
   func fetchMapDataForQuery(lat: Double, lon: Double) async {

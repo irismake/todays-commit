@@ -1,3 +1,5 @@
+import AppTrackingTransparency
+import GoogleMobileAds
 import KakaoMapsSDK
 import KakaoSDKCommon
 import SwiftUI
@@ -34,6 +36,13 @@ struct TodaysCommitApp: App {
         .environmentObject(placeManager)
         .environmentObject(layoutManager)
         .environmentObject(grassManager)
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+          if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+            ATTrackingManager.requestTrackingAuthorization { status in
+              print("ATT status: \(status.rawValue)")
+            }
+          }
+        }
     }
   }
 
@@ -49,6 +58,7 @@ struct TodaysCommitApp: App {
         assertionFailure("❌ KAKAO_APP_KEY is missing in Info.plist")
         return false
       }
+      MobileAds.shared.start(completionHandler: nil)
       return true
     }
   }

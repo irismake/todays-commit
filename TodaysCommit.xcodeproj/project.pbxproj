@@ -12,6 +12,7 @@
 		1735D40D2E38F3D5008D2406 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 1735D40C2E38F3D5008D2406 /* KakaoSDKCommon */; };
 		1735D40F2E38F3D5008D2406 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 1735D40E2E38F3D5008D2406 /* KakaoSDKUser */; };
 		175338232E4375C300CE3633 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 175338222E4375C300CE3633 /* Lottie */; };
+		17DFCFAF2E731B0700A2DC9F /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 17DFCFAE2E731B0700A2DC9F /* GoogleMobileAds */; };
 		1F6A168D9978C8B4372FFBD8 /* Pods_TodaysCommit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C77F7055994185AE4DCF39CA /* Pods_TodaysCommit.framework */; };
 		CEBDE82D450180F0BE0D0920 /* Pods_TodaysCommit_TodaysCommitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B053A76EFC18361B3CBA81 /* Pods_TodaysCommit_TodaysCommitUITests.framework */; };
 /* End PBXBuildFile section */
@@ -84,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17DFCFAF2E731B0700A2DC9F /* GoogleMobileAds in Frameworks */,
 				175338232E4375C300CE3633 /* Lottie in Frameworks */,
 				1735D40F2E38F3D5008D2406 /* KakaoSDKUser in Frameworks */,
 				1F6A168D9978C8B4372FFBD8 /* Pods_TodaysCommit.framework in Frameworks */,
@@ -265,6 +267,7 @@
 			packageReferences = (
 				1735D4092E38F3D5008D2406 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				175338212E4375C200CE3633 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				17DFCFAD2E731B0700A2DC9F /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 17762F602E30A957003F2E53 /* Products */;
@@ -657,7 +660,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TodaysCommit/TodaysCommit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"TodaysCommit/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AW4DY5F93;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -685,7 +688,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -706,7 +709,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TodaysCommit/TodaysCommitRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"TodaysCommit/Preview Content\"";
 				DEVELOPMENT_TEAM = 6AW4DY5F93;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -728,7 +731,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.todayscommit.TodaysCommit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -893,6 +896,14 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		17DFCFAD2E731B0700A2DC9F /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -915,6 +926,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 175338212E4375C200CE3633 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		17DFCFAE2E731B0700A2DC9F /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17DFCFAD2E731B0700A2DC9F /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
