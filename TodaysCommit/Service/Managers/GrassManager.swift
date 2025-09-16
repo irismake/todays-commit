@@ -16,14 +16,12 @@ final class GrassManager: ObservableObject {
           if let total = cachedTotalGrass {
             if mapId == total.mapId {
               await fetchTotalGrassData(of: total.mapId)
-              break
             }
           }
 
           if let mine = cachedMyGrass {
             if mapId == mine.mapId {
               await fetchMyGrassData(of: mine.mapId)
-              break
             }
           }
         }
