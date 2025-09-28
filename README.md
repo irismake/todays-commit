@@ -36,6 +36,9 @@ SwiftUI 기반으로 제작된 iOS 애플리케이션으로, 사용자의 방문
 
 &nbsp;
 
+
+## **How to Clone and Run**
+
 ### **Clone the Repository**
 ```bash
 git clone https://github.com/todayscommit/todayscommit-ios.git
@@ -77,14 +80,14 @@ Xcode에서 **Run ▶︎ iPhone Simulator** 실행
 앱은 Info.plist 및 Build Settings 기반 환경변수를 사용합니다.
 
 - `KAKAO_APP_KEY` : Kakao SDK 인증 키  
-- `ADSMOB_ID` : AdMob ID  
-- `BACKEND_API_URL` : 서버 API 주소 (테스트/배포용 분리 가능)
+- `SDK_ID` : AdMob Test ID
+- `ADSMOB_ID` : AdMob 앱 ID  
+- `BASE_URL` : 서버 API 주소 (테스트/배포용 분리 가능)
 
 &nbsp;
 
 ## **Branching Strategy**
-- `main` : 배포용 안정화 브랜치  
-- `dev` : 주요 개발 브랜치  
+- `main` : 주요 개발 브랜치 
 - `feature/*` : 기능 단위 브랜치  
 
 &nbsp;
