@@ -64,14 +64,26 @@ Xcode에서 **Run ▶︎ iPhone Simulator** 실행
 ## **Project File Structure**
 ```bash
 .
-├── Assets.xcassets        # 앱 아이콘 및 색상/이미지 에셋
-├── Components             # 공용 UI 컴포넌트 (Toast, Overlay 등)
-├── Managers               # 상태 관리 (MapManager, PlaceManager 등)
-├── Models                 # 데이터 모델 (Place, Commit, Grass 등)
-├── Views                  # SwiftUI View 계층 (CommitMapView 등)
-├── AppDelegate.swift
-├── TodaysCommitApp.swift  # 앱 진입점
-└── README.md
+└──TodaysCommit
+    ├── Components               # 공용 UI 컴포넌트 (Toast, Overlay 등)
+    │    └── PopUp/
+    ├── Extentions               # extension 모음
+    ├── Models                   # 데이터 모델 (Place, Commit, Grass 등)
+    ├── Resources              
+    │    └── Assets/             # 앱 아이콘 및 색상/이미지 에셋
+    ├── Root                   
+    │    ├── RootView            # 상황에 따라 보여줄 앱 루트 정하기
+    │    └── TodaysCommitApp     # 앱 진입점
+    ├── Service                
+    │    ├── API/                # API 호출
+    │    ├── Auth/               # 인증 관리
+    │    ├── Data
+    │    │    ├── ZoneCodeData   # 지역 매핑
+    │    │    └── Config/        # 환경변수 Debug/ Release 나눠서 관리
+    │    └── Managers/           # 상태 관리 (MapManager, PlaceManager 등)
+    ├── State                  
+    │    └── GlobalStore         # 전역 변수 관리
+    └── Views                    # SwiftUI View 계층 (CommitMapView 등)
 ```
 
 &nbsp;
